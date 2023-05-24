@@ -391,7 +391,16 @@
 
 </div>
 
-<script>
+<form action='@Url.Action("EliminarPyme", "Usuario")' method="post" class="mx-1 mx-md-4 mb-4" id="registration-form55">
+
+    <input id="elimina" name="id" type="text" class="form-control" />
+
+</form>
+
+
+@section scripts{
+
+    <script>
 
 
         function abrirModal() {
@@ -710,32 +719,10 @@
     }
 
     //metodo para borrar
-     function eliminar() {
+        function eliminar() {
+            document.getElementById("registration-form55").submit();
+        }
 
-                jQuery.ajax({
-                    url: '@Url.Action("EliminarPyme", "Usuario")',
-                    type: "POST",
-                    data: JSON.stringify({ objeto: datas }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-
-                        if (data.resultado) {
-                            datas.Estado = 1;
-                            tabladata.row(filaSeleccionada).remove().draw(false);
-
-                        } else {
-                            alert(data.mensaje);
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error)
-                    },
-                    beforeSend: function () {
-
-                    },
-                })
-    }
 
     //abre modal de eliminar pyme
        document.getElementById("eliminar-pyme").onclick = function () {
@@ -761,7 +748,8 @@
 
                 filaSeleccionadaEliminar = $(this).closest("tr");
 
-                datas = tabladata.row(filaSeleccionada).data();
+                datas = tabladata.row(filaSeleccionadaEliminar).data();
+                $("#elimina").val(datas.Id);
                 abirModalDeConfirmacion()
 
 
@@ -806,35 +794,8 @@
 
         }
 
-        document.getElementById("eliminar-pyme").onclick = function () {
-  eliminar();
-  cerrarModalDeConfirmacion();
-};
 
-function eliminar() {
-  // Realizar la solicitud POST al servidor
-  jQuery.ajax({
-    url: '@Url.Action("EliminarPyme", "Usuario")',
-    type: "POST",
-    data: JSON.stringify({ objeto: datas }),
-    dataType: "json",
-    contentType: "application/json; charset=utf-8",
-    success: function (data) {
-        if (data.resultado) {
-        datas.Estado = 1;
-        tabladata.row(fila).remove().draw(false);
-      } else {
-        alert(response.mensaje);
-      }
-    },
-    error: function (error) {
-      console.log(error);
-    },
-    beforeSend: function () {
-      // Antes de enviar la solicitud
-    }
-  });
-        }
+
 
 
 
@@ -847,14 +808,15 @@ function eliminar() {
         $("#editar-modal").modal("show");
     }
 
-</script>
-
-
-
-<script src="https://maps.googleapis.com/maps/api/js?key=&callback=iniciarMapa"></script>
-@if (ViewData["Mensaje"] != null)
-{
-    <script>
-        alert("@ViewData["Mensaje"]");
     </script>
+
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=iniciarMapa"></script>
+    @if (ViewData["Mensaje"] != null)
+    {
+        <script>
+        alert("@ViewData["Mensaje"]");
+        </script>
+    }
 }

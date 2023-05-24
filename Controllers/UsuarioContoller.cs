@@ -83,13 +83,13 @@ namespace SIPYME.Controllers
 
         //}
         [HttpPost]
-        public JsonResult EliminarPyme(Pyme objeto)
+        public ActionResult EliminarPyme(Pyme objeto)
         {
             object resultado;
             string mensaje = string.Empty;
             resultado = Service.Service.UsuarioEliminaPyme(objeto);
 
-            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+             return View("ListarPymes", lalista());
 
         }
 
