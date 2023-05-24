@@ -806,7 +806,35 @@
 
         }
 
+        document.getElementById("eliminar-pyme").onclick = function () {
+  eliminar();
+  cerrarModalDeConfirmacion();
+};
 
+function eliminar() {
+  // Realizar la solicitud POST al servidor
+  jQuery.ajax({
+    url: '@Url.Action("EliminarPyme", "Usuario")',
+    type: "POST",
+    data: JSON.stringify({ objeto: datas }),
+    dataType: "json",
+    contentType: "application/json; charset=utf-8",
+    success: function (data) {
+        if (data.resultado) {
+        datas.Estado = 1;
+        tabladata.row(fila).remove().draw(false);
+      } else {
+        alert(response.mensaje);
+      }
+    },
+    error: function (error) {
+      console.log(error);
+    },
+    beforeSend: function () {
+      // Antes de enviar la solicitud
+    }
+  });
+        }
 
 
 
