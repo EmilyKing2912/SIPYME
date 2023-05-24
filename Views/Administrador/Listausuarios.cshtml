@@ -1,0 +1,685 @@
+﻿
+@{
+    ViewBag.Title = "Listausuarios";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Scripts.Render("~/bundles/Register")
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a >Resumen</a></li>
+    <li class="breadcrumb-item active">Usuarios</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i> Lista de Usuarios
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+
+
+            <div class="col-12">
+
+                <button type="button" class="btn btn-success mb-2" onclick="abrirModal()">Crear Nuevo</button>
+            </div>
+
+
+
+
+            <hr />
+            <table id="tabla" class="display cell-border" style="width: 100%">
+                <thead>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Tipo</th>
+                <th>Activo</th>
+                <th>Mantenimiento</th>
+
+                </thead>
+                <tbody>
+                </tbody>
+
+
+            </table>
+        </div>
+
+
+    </div>
+</div>
+<div class="modal" id="confirm-modal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de que desea eliminar este usuario? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button"id="eliminar-usuario" onclick="cerrarModadDeConfirmacion()" class="btn btn-primary">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Creacion de Usuarios</h5>
+                <button type="button" onclick="cerrarModal()" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body g-2">
+
+                <input id="editsave" type="hidden" value="0" />
+
+                <div class="row">
+
+
+
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="text" name="nombre" id="name" class="form-control" placeholder="Nombre " required />
+                        <label class="form-label" for="name">Nombre</label>
+                        <div class="invalid-feedback">
+                            Por favor ingresa tu nombre.
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="text" name="apellido1" id="firstLastName" class="form-control" placeholder="Primer Apellido" required />
+                        <label class="form-label" for="firstLastName">Primer Apellido</label>
+                        <div class="invalid-feedback">
+                            Por favor Ingresa tu primer apellido.
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="text" name="apellido2" id="secondLastName" class="form-control" placeholder="Segundo Apellido" required />
+                        <label class="form-label" for="secondLastName">Segundo Apellido</label>
+                        <div class="invalid-feedback">
+                            Por favor Ingresa tu segundo apellido.
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="tel" required title="Sin guiones ni espacios." name="numeroTelefono" id="phone" class="form-control" placeholder="Teléfono" required />
+                        <label class="form-label" for="phone">Teléfono</label>
+
+
+                        <div class="invalid-feedback" id="invalid-numerl-tel">
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="email" id="email" name="correo" class="form-control" placeholder="Correo Electrónico" required />
+                        <label class="form-label" for="email">Correo Electrónico</label>
+                        <div class="invalid-feedback" id="invalid-email">
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="number" required title="Sin guiones ni espacios, mínimo 9 carácteres." id="ced" name="cedula" class="form-control" placeholder="Cédula de identidad" required />
+                        <label class="form-label" for="ced">Cédula de identidad</label>
+
+                        <div class="invalid-feedback" id="invalid-ced">
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="password" id="password" name="contrasena" class="form-control" placeholder="Contraseña" required title="La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número" />
+                        <label class="form-label" for="password">Contraseña</label>
+
+                        <div class="invalid-feedback" id="invalid-password">
+                            Por favor ingresa tu contraseña
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="password" id="confirm-password" class="form-control" placeholder="Confirmar Contraseña" required />
+                        <label class="form-label" for="confirm-password">Confirmar Contraseña</label>
+                        <div class="invalid-feedback" id="invalid-password2">
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 mb-2 ">
+                        <label for="cboactivo" class="form-label"></label>
+                        <select id="cboactivo" class="form-select" name="Estado">
+                            <option value="1">Activo</option>
+                            <option value="2">Inactivo</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-sm-6 mb-2">
+                        <label for="cbtipo" class="form-label"></label>
+                        <select id="cbtipo" class="form-select" name="Estado">
+                            <option value="2">Externo</option>
+                            <option value="3">Plataformista</option>
+                        </select>
+
+                    </div>
+                </div>
+
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModal()" id="btn_cerrar_modal" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="registration-btn" class="btn btn-primary">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @section scripts{
+
+        <script>
+            var filaSeleccionada;
+            var tabladata;
+            var filaSeleccionadaEliminar;
+            var datas;
+    jQuery.ajax({
+        url: '@Url.Action("ListarUsuarios", "Administrador")',
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            console.log(data)
+        }
+    })
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarUsuarios", "Administrador")',
+                    type: "GET",
+                    dataType: "json",
+                },
+                "columns": [
+                    { "data": "Cedula" },
+                    { "data": "Nombre" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            return row.Apellido1 + ' ' + row.Apellido2;
+                        }
+                    },
+
+                    { "data": "Correo" },
+                    { "data": "NumeroTelefono" },
+                    {
+                        "data": "Tipo", "render": function (valor) {
+                            if (valor === 3) {
+                                return 'Plataformista'
+                            } else {
+                                return 'Externo'
+                            }
+                        }
+                    },
+                    {
+                        "data": "Estado", "render": function (valor) {
+                            if (valor === 1) {
+                                return '<span class= "badge bg-success">Si</span>'
+                            } else {
+                                return '<span class= "badge bg-danger">No</span>'
+                            }
+                        },
+
+                        "width": "50px"
+                    },
+                    {
+
+                        "defaultContent": "Estado",
+                        "render": function (data, type, row, meta) {
+                            if (row.Estado === 1) {
+                                return '<button type="button" title="Editar Usuario"class="btn btn-primary btn-sm btn-editar " ><i class="fas fa-pen " ></i></button>' +
+                                    '<button type="button" title="Borrar usuario" class="btn btn-secondary btn-sm ms-2 btn-borrar"><i class="fas fa-trash"></i></button>' + '<button type="button" title="Desactivar Usuario" class="btn btn-danger btn-sm ms-2 btn-desactivar"><i class="fas fa-solid fa-ban"></i></button>'
+                            } else {
+                                return '<button type="button" title="Editar Usuario" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
+                                    '<button type="button" title="Borrar usuario" class="btn btn-secondary btn-sm ms-2 btn-borrar"><i class="fas fa-trash"></i></button>' + '<button type="button" title="Activar Usuario" class="btn btn-success btn-sm ms-2 btn-activar"><i class="fas fa-solid fa-check"></i></button>'
+                            }
+                        },
+
+
+
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "90px"
+                    }
+
+
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"
+                }
+            });
+
+                function abrirModal(json) {
+
+                    $("#editsave").val(0);
+                    $("#name").val("");
+                    $("#firstLastName").val("");
+                    $("#secondLastName").val("");
+                    $("#phone").val("");
+                    $("#email").val("");
+                    $("#password").val("");
+                    $("#confirm-password").val("");
+                    $("#ced").val("");
+                    $("#cboactivo").val(1);
+                    $("#cbtipo").val(3);
+
+                    if (json != null) {
+
+                        $("#editsave").val(1);
+                        $("#name").val(json.Nombre);
+                        $("#firstLastName").val(json.Apellido1);
+                        $("#secondLastName").val(json.Apellido2);
+                        $("#phone").val(json.NumeroTelefono);
+                        $("#email").val(json.Correo);
+                        $("#password").val(json.Contrasena);
+                        $("#confirm-password").val(json.Contrasena);
+                        $("#ced").val(json.Cedula);
+                        $("#cboactivo").val(json.Estado == 1 ? 1 : 2);
+                        $("#cbtipo").val(json.Tipo == 2 ? 2 : 3);
+                    }
+
+
+                        $("#form-modal").modal("show");
+                }
+
+                function cerrarModal() {
+                    $("#form-modal").modal("hide");
+            }
+            function cerrarModadDeConfirmacion() {
+
+
+                $("#confirm-modal").modal("hide");
+            }
+            function abirModalDeConfirmacion() {
+
+
+                $("#confirm-modal").modal("show");
+            }
+           
+            function eliminar() {
+             
+                jQuery.ajax({
+                    url: '@Url.Action("EliminarUsuario", "Administrador")',
+                    type: "POST",
+                    data: JSON.stringify({ objeto: datas }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.resultado) {
+                            datas.Estado = 1;
+                            tabladata.row(filaSeleccionada).remove().draw(false);
+
+                        } else {
+                            alert(data.mensaje);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                    beforeSend: function () {
+
+                    },
+                })
+            }
+            document.getElementById("eliminar-usuario").onclick = function () {
+                eliminar();
+                cerrarModadDeConfirmacion();
+            }
+                function Guardar() {
+                    var Usuario = {
+                        Nombre:$("#name").val(),
+                        Apellido1:$("#firstLastName").val(),
+                        Apellido2:$("#secondLastName").val(),
+                        NumeroTelefono:$("#phone").val(),
+                        Correo:$("#email").val(),
+                        Contrasena:$("#password").val(),
+                        Cedula:$("#ced").val(),
+                        Estado: parseInt($("#cboactivo").val()),
+                        Tipo:parseInt($("#cbtipo").val())
+                    }
+                    if ($("#editsave").val() == 0) { //esto hace que vaya a registrar o editar
+
+                        jQuery.ajax({
+                            url: '@Url.Action("RegistraUsuario", "Administrador")',
+                            type: "POST",
+                            data: JSON.stringify({ objeto: Usuario }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+
+                                if (data.resultado) {
+                                    tabladata.row.add(Usuario).draw(false);
+                                    cerrarModal();
+                                } else {
+                                    alert(data.mensaje);
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error)
+                            },
+                            beforeSend: function () {
+
+                            },
+                        })
+
+
+
+
+                    } else {
+
+                        jQuery.ajax({
+                            url: '@Url.Action("EditaUsuario", "Administrador")',
+                            type: "POST",
+                            data: JSON.stringify({ objeto: Usuario }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+
+                                if (data.resultado) {
+                                    tabladata.row(filaSeleccionada).data(Usuario).draw(false);
+                                    cerrarModal();
+                                } else {
+                                    alert(data.mensaje);
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error)
+                            },
+                            beforeSend: function () {
+
+                            },
+                        })
+                    }
+
+            }
+
+
+
+            document.getElementById("registration-btn").onclick = function () {
+                 /*Obtener los valores de los campos del formulario*/
+
+
+                    var name = document.getElementById("name").value;
+                    var firstLastName = document.getElementById("firstLastName").value;
+                    var secondLastName = document.getElementById("secondLastName").value;
+                    var phone = document.getElementById("phone").value;
+                    var email = document.getElementById("email").value;
+                    var ced = document.getElementById("ced").value;
+                    var password = document.getElementById("password").value;
+                    var confirmPassword = document.getElementById("confirm-password").value;
+
+                    // Validar los campos requeridos
+                    var errorMessage = "";
+                    if (name == "") {
+                        errorMessage += "Debe ingresar su nombre.\n";
+                    }
+                    if (firstLastName == "") {
+                        errorMessage += "Debe ingresar su primer apellido.\n";
+                    }
+                    if (secondLastName == "") {
+                        errorMessage += "Debe ingresar su segundo apellido.\n";
+                    }
+                    if (phone == "") {
+                        errorMessage += "Debe ingresar su número de teléfono.\n";
+                    } else if (!esNumeroTelefonico(phone)) {
+                        errorMessage += "Debe ingresar un número de teléfono valido.\n";
+                    }
+                    if (email == "") {
+                        errorMessage += "Debe ingresar su correo electrónico.\n";
+                    } else if (!esCorreo(email)) {
+                        errorMessage += "Debe ingresar una dirección de correo valida.\n";
+                    }
+                    if (ced == "") {
+                        errorMessage += "Debe ingresar su número de cédula.\n";
+                    } else if (!esCedula(ced)) {
+                        errorMessage += "Debe ingresar un cédula valida.\n";
+                    }
+                    if (password == "") {
+                        errorMessage += "Debe ingresar una contraseña.\n";
+                    } else if (!esContrasena(password)) {
+                        errorMessage += "Debe ingresar una contraseña valida que contenga :.\n al menos 8 caracteres \n al menos 1 letra minúscula \n al menos 1 letra mayúscula \n al menos 1 número";
+                    } else if (confirmPassword == "") {
+                        errorMessage += "Debe confirmar su contraseña.\n";
+                    } else if (confirmPassword !== password) {
+                        errorMessage += "La contraseñas no coinciden.\n";
+                    }
+
+                    // Mostrar el mensaje de error o enviar el formulario
+                    if (errorMessage != "") {
+                        alert(errorMessage);
+                    } else {
+                        Guardar();
+                    }
+
+            };
+
+
+        const name = document.getElementById("name");
+        name.addEventListener("blur", function () {
+            if (!name.value) {
+                name.classList.add("is-invalid");
+            } else {
+                name.classList.remove("is-invalid");
+            }
+        });
+        const firstLastName = document.getElementById("firstLastName");
+        firstLastName.addEventListener("blur", function () {
+            if (!firstLastName.value) {
+                firstLastName.classList.add("is-invalid");
+            } else {
+                firstLastName.classList.remove("is-invalid");
+            }
+        });
+        const secondLastName = document.getElementById("secondLastName");
+                secondLastName.addEventListener("blur", function () {
+                    if (!secondLastName.value) {
+                        secondLastName.classList.add("is-invalid");
+                    } else {
+                        secondLastName.classList.remove("is-invalid");
+                    }
+                });
+
+
+
+                function esNumeroTelefonico(numero) {
+                    const regex = /^\d{8}$/;
+                    return regex.test(numero);
+                }
+
+                const phone = document.getElementById("phone");
+                const errorTelefono = document.getElementById("invalid-numerl-tel");
+                phone.addEventListener("blur", function () {
+                    if (!phone.value) {
+                        phone.classList.add("is-invalid");
+                        errorTelefono.textContent = "Por favor ingrese un número de teléfono"
+                    } else if (!esNumeroTelefonico(phone.value)) {
+                        phone.classList.add("is-invalid");
+                        errorTelefono.textContent = "Por favor ingrese un número de teléfono valido, formato: XXXXXXX)"
+                    } else {
+                        phone.classList.remove("is-invalid");
+                    }
+                });
+
+        const email = document.getElementById("email");
+        const errorCorreo = document.getElementById("invalid-email");
+        email.addEventListener("blur", function () {
+            if (!email.value) {
+                email.classList.add("is-invalid");
+                errorCorreo.textContent = "Por favor ingrese un correo electrónico valido"
+            } else if (!esCorreo(email.value)) {
+                email.classList.add("is-invalid");
+                errorCorreo.textContent = "Por favor ingrese un correo electrónico valido"
+            } else {
+                email.classList.remove("is-invalid");
+            }
+        });
+
+                const ced = document.getElementById("ced");
+                const errorCed = document.getElementById("invalid-ced");
+                ced.addEventListener("blur", function () {
+                    if (!ced.value) {
+                        ced.classList.add("is-invalid");
+                        errorCed.textContent = "Por favor su cedula de identidad"
+                    } else if (!esCedula(ced.value)) {
+                        ced.classList.add("is-invalid");
+                        errorCed.textContent = "Por favor ingrese una cedula de identidad valida, sin espacios ni guiones"
+                    } else {
+                        ced.classList.remove("is-invalid");
+                    }
+                });
+
+        const password = document.getElementById("password");
+        const errorPassword = document.getElementById("invalid-password");
+        password.addEventListener("blur", function () {
+            if (!password.value) {
+                errorPassword.textContent = "Por favor digite su contraseña"
+                password.classList.add("is-invalid");
+            } else if (!esContrasena(password.value)) {
+                password.classList.add("is-invalid");
+                errorPassword.textContent = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número"
+            } else {
+                password.classList.remove("is-invalid");
+            }
+        });
+
+        const confirmPassword = document.getElementById("confirm-password");
+        const errorPassword2 = document.getElementById("invalid-password2");
+                confirmPassword.addEventListener("blur", function () {
+                    if (!confirmPassword.value) {
+                        confirmPassword.classList.add("is-invalid");
+                        errorPassword2.textContent = "Por favor confirme la contraseña"
+                    } else if (confirmPassword.value !== password.value) {
+                        confirmPassword.classList.add("is-invalid");
+                        errorPassword2.textContent = "Las contraseñas no coinciden"
+                    } else {
+                        confirmPassword.classList.remove("is-invalid");
+                    }
+                });
+
+                $("#tabla tbody").on("click", '.btn-editar',function () {
+
+
+                    filaSeleccionada = $(this).closest("tr");
+
+                    var data = tabladata.row(filaSeleccionada).data();
+
+                    abrirModal(data)
+
+                })
+            $("#tabla tbody").on("click", '.btn-desactivar', function () {
+
+
+                filaSeleccionada = $(this).closest("tr");
+
+                var datas = tabladata.row(filaSeleccionada).data();
+
+                jQuery.ajax({
+                            url: '@Url.Action("DesactivaUsuario", "Administrador")',
+                            type: "POST",
+                            data: JSON.stringify({ objeto: datas }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+
+                                if (data.resultado) {
+                                    datas.Estado = 2;
+                                    tabladata.row(filaSeleccionada).data(datas).draw(false);
+
+                                } else {
+                                    alert(data.mensaje);
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error)
+                            },
+                            beforeSend: function () {
+
+                            },
+                        })
+
+            })
+
+            $("#tabla tbody").on("click", '.btn-activar', function () {
+
+
+                filaSeleccionada = $(this).closest("tr");
+
+                var datas = tabladata.row(filaSeleccionada).data();
+
+                jQuery.ajax({
+                    url: '@Url.Action("ActivarUsuario", "Administrador")',
+                    type: "POST",
+                    data: JSON.stringify({ objeto: datas }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.resultado) {
+                            datas.Estado = 1;
+                            tabladata.row(filaSeleccionada).data(datas).draw(false);
+
+                        } else {
+                            alert(data.mensaje);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                    beforeSend: function () {
+
+                    },
+                })
+
+            })
+
+
+
+            $("#tabla tbody").on("click", '.btn-borrar', function () {
+
+
+                filaSeleccionadaEliminar = $(this).closest("tr");
+
+                datas = tabladata.row(filaSeleccionada).data();
+                abirModalDeConfirmacion()
+
+
+
+            })
+
+
+
+
+        </script>
+
+
+
+    }

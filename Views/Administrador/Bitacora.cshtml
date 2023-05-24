@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Bitacora";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@Scripts.Render("~/bundles/Register")
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a>Resumen</a></li>
+    <li class="breadcrumb-item active">Historial de cambios</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i> Historial de cambios
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <hr />
+            <table id="tabla" class="display cell-border" style="width: 100%">
+                <thead>
+                <th>Fecha del cambio</th>
+                <th>Descripcion</th>
+                <th>Cedula del editor</th>
+
+
+                </thead>
+                <tbody>
+                </tbody>
+
+
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+            var filaSeleccionada;
+            var tabladata;
+            var filaSeleccionadaEliminar;
+            var datas;
+  
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarBitacora", "Administrador")',
+                    type: "GET",
+                    dataType: "json",
+                },
+                "columns": [
+                    { "data": "Fecha" },
+                    { "data": "Descripcion" },
+                    { "data": "CedulaEditor" }
+                  
+
+
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json"
+                }
+            });
+    </script>
+
+    }

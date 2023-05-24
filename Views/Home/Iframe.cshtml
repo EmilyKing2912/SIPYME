@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Iframe";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<body>
+    <div id="linkiframe" class="container">
+        <div class="row">
+            <div class="col text-end">
+                <button type="button" onclick="abrirModalIframe()" class="btn btn-primary btn-lg mb-2 mt-1">Copiar Iframe</button>
+            </div>
+        </div>
+    </div>
+    <div id="map" style="height: 600px; width: 100% "></div>
+    <script src="script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
+</body>
+<div class="modal" tabindex="-1" id="form-modal">
+    <div class="modal-dialog modal-xl ">
+        <div class="modal-content d-flex align-items-center">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="iframe-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Iframe de mapa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <h5 class="modal-title" id="exampleModalLabel">Link:</h5>
+                        <textarea class="form-control" id="message-text"><iframe src="https://localhost:44335/Home/IframeLimpio" width="100%" height="500" frameborder="0" allowfullscreen></iframe></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <p><iframe src="https://localhost:44335/Home/IframeLimpio" width="100%" height="500" frameborder="0" allowfullscreen></iframe></p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+
+            function iniciarMap() {
+                var coord = { lat: 9.9946788, lng: -84.100938 };
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 16,
+                    center: coord
+                });
+                var marker = new google.maps.Marker({
+                    position: coord,
+                    map: map
+
+            });
+            marker.addListener('click', function () {
+                // Crear y mostrar modal
+                $("#form-modal").modal("show");
+            });
+
+        };
+
+        window.onload = function () {
+            iniciarMap();
+
+        };
+
+        function abrirModalIframe() {
+            $("#iframe-modal").modal("show");
+        }
+
+
+    </script>
+
+
+}
