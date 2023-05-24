@@ -65,13 +65,17 @@ namespace SIPYME.Controllers
         }
 
         [HttpPost]
-        public JsonResult EditaPyme(Pyme objeto)
+        public ActionResult EditaPyme(Pyme objeto)
         {
             object resultado;
             string mensaje = string.Empty;
-
+            objeto.Estado_pyme = "Pendiente";
             resultado = Service.Service.usuarioEditaPyme(objeto, out mensaje);
-            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+
+            ViewData["Mensaje"] = mensaje;
+            return View("ListarPymes", lalista());
+
+
 
         }
         //private int registrarPyme(Pyme objeto) { 

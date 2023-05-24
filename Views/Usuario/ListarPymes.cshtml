@@ -52,6 +52,7 @@
 
 
             </table>
+
         </div>
 
 
@@ -247,17 +248,17 @@
                     <div class="row">
                         <input id="latitud2" name="Latitud" type="text" class="form-control" />
                         <input id="longitud2" name="Longitud" type="text" class="form-control" />
-                        
+
 
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input id="id_usuario" name="Id_usuario" type="text" class="form-control" />
+                            <input id="id_usuario" name="Id_usuario" type="text" class="form-control" readonly />
                             <label class="form-label" for="id">ID Usuario</label>
                         </div>
 
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input type="number" name="Id" id="id2" class="form-control" placeholder="id " disabled />
+                            <input type="text" name="id" id="id2" class="form-control" placeholder="id " readonly />
                             <label class="form-label" for="id">ID</label>
                         </div>
                         <div class="col-sm-6 mt-2 form-floating">
@@ -385,6 +386,9 @@
             </div>
         </div>
     </div>
+
+
+
 </div>
 
 <script>
@@ -406,7 +410,7 @@
     function cerrarModalEditar() {
         $("#form-modalEdit").modal("hide");
     }
-      
+
 
         function Guardar() {
             //pasar a binario
@@ -768,7 +772,7 @@
 
         if (json != null) {
 
-            
+
             //$("#name").val(json.Nombre);
             //$("#firstLastName").val(json.Apellido1);
             //$("#secondLastName").val(json.Apellido2);
@@ -790,8 +794,8 @@
             $("#sitioWeb2").val(json.SitioWeb);
             $("#webSocial2").val(json.WebSocial);
             $("#id_usuario").val(json.Id_usuario);
-            
-            
+
+
             latitudDB = json.Latitud
             longitudDB = json.Longitud
             cordenadas = {
@@ -799,7 +803,7 @@
                 lat: new Decimal(json.Latitud)
             }
             generarMapa(cordenadas,"mapa2")
-            
+
         }
 
 
@@ -820,11 +824,9 @@
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=&callback=iniciarMapa"></script>
-
 @if (ViewData["Mensaje"] != null)
 {
     <script>
         alert("@ViewData["Mensaje"]");
     </script>
 }
-
