@@ -10,7 +10,7 @@ namespace SIPYME.Data
 {
     public class Conection
     {
-        public static string cn = ConfigurationManager.ConnectionStrings["cadena"].ToString();
+        public static string cn = /*ConfigurationManager.ConnectionStrings["cadena"].ToString();*/"server=localhost;user=root;database=db_sipyme;port=3306;password=root";
 
     }
 }

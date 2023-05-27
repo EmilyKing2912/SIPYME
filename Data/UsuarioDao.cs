@@ -55,6 +55,20 @@ namespace SIPYME.Data
             }
             // trg_after_delete_usuarios(); //lama al trigger de delete
         }
+        //public static void eliminarPymesSegunIdUsuario(String id)
+        //{
+        //    using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+        //    {
+        //        string sql = "DELETE FROM Pyme WHERE id = @id";
+        //        using (MySqlCommand command = new MySqlCommand(sql, cn))
+        //        {
+        //            command.Parameters.AddWithValue("@id", pyme.Id);
+        //            cn.Open();
+        //            command.ExecuteNonQuery();
+        //        }
+        //    }
+        //    // trg_after_delete_usuarios(); //lama al trigger de delete
+        //}
 
         public static Usuario read(Usuario usuario)
         {

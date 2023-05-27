@@ -25,16 +25,11 @@ namespace SIPYME.Data
                 cmd.Parameters.AddWithValue("numeroTelefono", u.NumeroTelefono);
                 cmd.Parameters.AddWithValue("correo1", u.Correo);
                 cmd.Parameters.AddWithValue("contraseña", u.Contrasena);
-
-
                 cmd.Parameters.Add("registrado", MySqlDbType.Bit).Direction = ParameterDirection.Output;
                 cmd.Parameters.Add("mensaje", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
-
                 cn.Open();
-
                 cmd.ExecuteNonQuery();
-
                 bool registrado = Convert.ToBoolean(cmd.Parameters["registrado"].Value);
                 string mensaje = cmd.Parameters["mensaje"].Value.ToString();
                 if (registrado)

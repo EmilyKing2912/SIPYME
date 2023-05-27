@@ -1,15 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\Controllers",
-    "\\Data",
-    "\\Logic",
-    "\\Service",
-    "\\Views",
-    "\\Views\\Administrador",
-    "\\Views\\Home",
-    "\\Views\\Pymes",
-    "\\Views\\Shared"
+    ""
   ],
   "SelectedNode": "\\SIPYME.sln",
   "PreviewInSolutionExplorer": false
