@@ -790,23 +790,54 @@
                 imgElement.classList.add("d-none");
             }
 
-       
+
             if (json.fotosProducto != null) {
                 const divFotosProducto = document.getElementById('fotosProducto');
 
                 divFotosProducto.innerHTML = '';
                 json.fotosProducto.forEach(function (foto) {
-                    
+
                     divFotosProducto.innerHTML += `
                    <div class="col-sm-4 text-center justify-content-center">
                          <img id="foto-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
                          <button type="button" id="elimina-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
                  </div>
                     `;
-                 
-                 
+
+
                     let imgElement12 = document.getElementById("foto-" + foto.ID)
                     let botonEliminar = document.getElementById("elimina-" + foto.ID)
+
+
+                    botonEliminar.onclick = function () {
+                        const idFoto = foto.ID
+
+                        // Realizar llamada AJAX al backend
+                        // Ajusta la URL y los parámetros según tu configuración del backend
+     
+                        const parametros = { id: idFoto };
+
+                        // Ejemplo de uso de AJAX con jQuery
+                        $.ajax({
+                            url: '@Url.Action("EliminarFoto", "Usuario")',
+                            method: 'POST',
+                            data: parametros,
+                            success: function (response) {
+                                // Procesar la respuesta del backend si es necesario
+                                console.log(response);
+                            },
+                            error: function (xhr, status, error) {
+                                // Manejar el error de la llamada AJAX si es necesario
+                                console.error(error);
+                            }
+                        });
+                    };
+
+
+
+
+
+
                     let arrayBuffer = new Uint8Array(foto.CantidadByte);
                     let blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
                     let imageUrl = URL.createObjectURL(blob);
@@ -819,7 +850,7 @@
 
 
             } else {
-               
+
             }
 
         }
