@@ -353,7 +353,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+<div class="modal fade modal-xl" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -361,25 +361,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <img id="img-producto-1" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                <div class="row" id="fotosProducto">
+   
 
-                    </div>
 
-                    <div class="col-sm-6">
-                        <img id="img-foto-2" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
-                    </div>
-
-                    <div class="col-lg-4 mb-4 mb-lg-0">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(18).webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Waves at Sea" />
-
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain3.webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Yosemite National Park" />
-                    </div>
                 </div>
                 <!-- Gallery -->
             </div>
@@ -807,20 +792,29 @@
 
        
             if (json.fotosProducto != null) {
+                const divFotosProducto = document.getElementById('fotosProducto');
 
-                json.fotosProducto
+                divFotosProducto.innerHTML = '';
+                json.fotosProducto.forEach(function (foto) {
+                    
+                    divFotosProducto.innerHTML += `
+                   <div class="col-sm-4 text-center justify-content-center">
+                         <img id="foto-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                         <button type="button" id="elimina-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
+                 </div>
+                    `;
+                 
+                 
+                    let imgElement12 = document.getElementById("foto-" + foto.ID)
+                    let botonEliminar = document.getElementById("elimina-" + foto.ID)
+                    let arrayBuffer = new Uint8Array(foto.CantidadByte);
+                    let blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                    let imageUrl = URL.createObjectURL(blob);
+                    imgElement12.src = imageUrl;
 
-                let imgElement1 = document.getElementById("img-producto-1")
-
-                let arrayBuffer = new Uint8Array(json.fotosProducto[0].CantidadByte);
-
-                let blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
-
-                let imageUrl = URL.createObjectURL(blob);
 
 
-                imgElement1.classList.remove("d-none");
-                imgElement1.src = imageUrl;
+                })
 
 
 
