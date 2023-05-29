@@ -301,6 +301,7 @@
     </Compile>
     <Compile Include="Logic\AreaTrabajo.cs" />
     <Compile Include="Logic\Bitacora.cs" />
+    <Compile Include="Logic\Estado_pyme.cs" />
     <Compile Include="Logic\Foto.cs" />
     <Compile Include="Logic\Pyme.cs" />
     <Compile Include="Logic\Usuario.cs" />

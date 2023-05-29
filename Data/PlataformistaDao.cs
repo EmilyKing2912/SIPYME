@@ -160,10 +160,47 @@ namespace SIPYME.Data
 
             }
 
+        public static bool guardaRazonRechazo(Estado_pyme ep)
+        {
+            bool registrado = false;
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("registrarEstadoPyme", cn);
+
+                cmd.Parameters.AddWithValue("p_id_pyme", ep.IdPyme);
+                cmd.Parameters.AddWithValue("p_razon_rechazo", ep.Razon_rechazo);
+               
+                cmd.Parameters.Add("resultado", MySqlDbType.Bit).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("mensaje", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cn.Open();
+                cmd.ExecuteNonQuery();
+
+
+                registrado = Convert.ToBoolean(cmd.Parameters["resultado"].Value);
 
 
 
-            public static int MantenimientoRegistraPyme(Logic.Pyme u, out String Mensaje)
+            }
+            if (registrado)
+                return true;
+            return false;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public static int MantenimientoRegistraPyme(Logic.Pyme u, out String Mensaje)
             {
                 int idautogenerado = 0;
                 Mensaje = string.Empty;

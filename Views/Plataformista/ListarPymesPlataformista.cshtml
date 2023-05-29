@@ -405,6 +405,63 @@
 </form>
 
 
+<div class="modal" id="rechazopyme-modal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action='@Url.Action("RegistraPyme", "Plataformista")' method="post" class="mx-1 mx-md-4 mb-4" id="estadopyme-form">
+
+                    <div class="row">
+
+                        <div class="col-sm-6 mt-2 form-floating">
+                            <input id="id_usuario3" name="Id_usuario" type="text" class="form-control" readonly />
+                            <label class="form-label" for="id">ID Usuario</label>
+                        </div>
+
+
+                        <div class="col-sm-6 mt-2 form-floating">
+                            <input type="text" name="id" id="id3" class="form-control" placeholder="id " readonly />
+                            <label class="form-label" for="id">ID</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Motivo del rechazo:</label>
+                            <textarea class="form-control" id="rechazo-text"></textarea>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="eliminar-usuario" onclick="cerrarModadDeConfirmacion()" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 @section scripts{
 
     <script>
@@ -772,21 +829,21 @@
         $("#tabla tbody").on("click", '.btn-rechazar', function () {
 
 
-                filaSeleccionada = $(this).closest("tr");
+                filaSeleccionadaRechazar = $(this).closest("tr");
 
-                var datas = tabladata.row(filaSeleccionada).data();
+            var datas = tabladata.row(filaSeleccionadaRechazar).data();
 
                 jQuery.ajax({
                             url: '@Url.Action("RechazaPyme", "Plataformista")',
                             type: "POST",
-                            data: JSON.stringify({ objeto: datas }),
+                            data: JSON.stringify({ objeto: datas.pyme }),
                             dataType: "json",
                             contentType: "application/json; charset=utf-8",
                             success: function (data) {
 
                                 if (data.resultado) {
-                                   // datas.Estado_pyme = "Rechazada";
-                                    tabladata.row(filaSeleccionada).data(datas).draw(false);
+                                    datas.pyme.Estado_pyme = "Rechazada";
+                                    tabladata.row(filaSeleccionadaRechazar).data(datas).draw(false);
 
                                 } else {
                                     alert(data.mensaje);
@@ -805,21 +862,21 @@
             $("#tabla tbody").on("click", '.btn-activar', function () {
 
 
-                filaSeleccionada = $(this).closest("tr");
+                filaSeleccionadaActivar = $(this).closest("tr");
 
-                var datas = tabladata.row(filaSeleccionada).data();
+                var datas = tabladata.row(filaSeleccionadaActivar).data();
 
                 jQuery.ajax({
                     url: '@Url.Action("ActivaPyme", "Plataformista")',
                     type: "POST",
-                    data: JSON.stringify({ objeto: datas }),
+                    data: JSON.stringify({ objeto: datas.pyme }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
 
                         if (data.resultado) {
-                            //datas.Estado_pyme = "Aprobada";
-                            tabladata.row(filaSeleccionada).data(datas).draw(false);
+                            datas.pyme.Estado_pyme = "Aprobada";
+                            tabladata.row(filaSeleccionadaActivar).data(datas).draw(false);
 
                         } else {
                             alert(data.mensaje);
