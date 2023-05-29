@@ -12,6 +12,28 @@ namespace SIPYME.Data
 {
     public class AdminDao
     {
+        public static void eliminarPymesUsuario(Usuario usuario)
+        {
+
+
+            List<Pyme> pymes = UsuarioDao.listarPymesUsuario(usuario.Cedula);
+            for (int i = 0; i < pymes.Count; i++)
+            {
+                UsuarioDao.eliminarPyme(pymes[i]);
+            }
+
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM Usuario WHERE cedula = @cedula";
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    command.Parameters.AddWithValue("@cedula", usuario.Cedula);
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            // trg_after_delete_usuarios(); //lama al trigger de delete
+        }
 
         public static bool AdminregistraUsuarioExterno(Logic.Usuario u)
         {

@@ -119,8 +119,8 @@
 
 
                 <div class="row">
-                    <input id="latitud" name="Latitud" type="text" class="form-control" />
-                    <input id="longitud" name="Longitud" type="text" class="form-control" />
+                    <input id="latitud" name="Latitud" type="hidden" class="form-control" />
+                    <input id="longitud" name="Longitud" type="hidden" class="form-control" />
 
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="number" name="id" id="id" class="form-control" placeholder="id " required title="Se asigna automaticamente luego de registrar la Pyme" disabled />
@@ -247,8 +247,8 @@
 
                     <div class="row">
 
-                        <input id="latitud2" name="Latitud" type="text" class="form-control" />
-                        <input id="longitud2" name="Longitud" type="text" class="form-control" />
+                        <input id="latitud2" name="Latitud" type="hidden" class="form-control" />
+                        <input id="longitud2" name="Longitud" type="hidden" class="form-control" />
 
 
 
@@ -362,24 +362,13 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                        <img id="img1" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Boat on Calm Water" />
+                    <div class="col-sm-6">
+                        <img id="img-producto-1" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
 
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Wintry Mountain Landscape" />
                     </div>
 
-                    <div class="col-lg-4 mb-4 mb-lg-0">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain2.webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Mountains in the Clouds" />
-
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Boat on Calm Water" />
+                    <div class="col-sm-6">
+                        <img id="img-foto-2" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
                     </div>
 
                     <div class="col-lg-4 mb-4 mb-lg-0">
@@ -406,7 +395,7 @@
 
 <form action='@Url.Action("EliminarPyme", "Usuario")' method="post" class="mx-1 mx-md-4 mb-4" id="registration-form55">
 
-    <input id="elimina" name="id" type="text" class="form-control" />
+    <input id="elimina" name="id" type="hidden" class="form-control" />
 
 </form>
 
@@ -806,9 +795,9 @@
             generarMapa(cordenadas, "mapa2")
             var imgElement = document.getElementById("img-logo")
             if (json.pyme.Logo != null) {
-                var arrayBuffer = new Uint8Array(json.pyme.Logo);
-                var blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
-                var imageUrl = URL.createObjectURL(blob);
+                let arrayBuffer = new Uint8Array(json.pyme.Logo);
+                let blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
+                let imageUrl = URL.createObjectURL(blob);
 
                 imgElement.classList.remove("d-none");
                 imgElement.src = imageUrl;
@@ -816,6 +805,28 @@
                 imgElement.classList.add("d-none");
             }
 
+       
+            if (json.fotosProducto != null) {
+
+                json.fotosProducto
+
+                let imgElement1 = document.getElementById("img-producto-1")
+
+                let arrayBuffer = new Uint8Array(json.fotosProducto[0].CantidadByte);
+
+                let blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
+
+                let imageUrl = URL.createObjectURL(blob);
+
+
+                imgElement1.classList.remove("d-none");
+                imgElement1.src = imageUrl;
+
+
+
+            } else {
+               
+            }
 
         }
 

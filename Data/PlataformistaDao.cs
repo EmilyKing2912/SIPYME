@@ -376,21 +376,21 @@ namespace SIPYME.Data
                 return pymes;
             }
 
-        public static void desactivarPyme(Pyme p)
-        {
+        //public static void desactivarPyme(Pyme p)
+        //{
 
-            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
-            {
-                string sql = "UPDATE Pyme SET  estado=2 WHERE cedula=@cedula";
-                using (MySqlCommand command = new MySqlCommand(sql, cn))
-                {
-                    command.Parameters.AddWithValue("@cedula", p.Cedula);
-                    command.Parameters.AddWithValue("@estado_usuario", p.Estado);
-                    cn.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
+        //    using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+        //    {
+        //        string sql = "UPDATE Pyme SET  estado=2 WHERE cedula=@cedula";
+        //        using (MySqlCommand command = new MySqlCommand(sql, cn))
+        //        {
+        //            command.Parameters.AddWithValue("@cedula", p.Cedula);
+        //            command.Parameters.AddWithValue("@estado_usuario", p.Estado);
+        //            cn.Open();
+        //            command.ExecuteNonQuery();
+        //        }
+        //    }
+        //}
         public static void activarPyme(Usuario usuario)
         {
 

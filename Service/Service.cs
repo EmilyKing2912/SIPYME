@@ -99,6 +99,7 @@ namespace Service
         {
             try
             {
+                AdminDao.eliminarPymesUsuario(u);
                 AdminDao.eliminarUsuario(u);
                 AdminDao.trg_after_delete_usuarios();
                 return true;
@@ -305,6 +306,7 @@ namespace Service
             }
 
         }
+
 
 
 
