@@ -9,6 +9,10 @@ using SIPYME.Logic;
 using System.Web.Mvc;
 using System.IO;
 using System.Collections;
+using SIPYME.Models;
+
+
+
 namespace SIPYME.Controllers
 {
     public class PlataformistaController : Controller
@@ -56,12 +60,21 @@ namespace SIPYME.Controllers
         public JsonResult MostrarTodasLasPymes()
         {
             //PARA mostrar pymes
-            List<Pyme> pLista = new List<Pyme>();
-            pLista = Service.Service.ListaTodasLasPymes();
+            List<PymeModel> pLista = new List<PymeModel>();
+            List<Pyme> pymes = Service.Service.ListaTodasLasPymes();
+
+            foreach (Pyme pyme in pymes)
+            {
+                PymeModel unitmodelo = new PymeModel();
+                unitmodelo.pyme = pyme;
+                unitmodelo.fotosProducto = Service.Service.listaFotosProductoPorPyme(pyme.Id);
+                unitmodelo.fotosPyme = Service.Service.listaFotosPymePorPyme(pyme.Id);
+                pLista.Add(unitmodelo);
+            }
+
             return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
             ////
         }
-
 
 
 
@@ -210,7 +223,26 @@ namespace SIPYME.Controllers
         }
 
 
+        [HttpPost]
+        public JsonResult RechazaPyme(Pyme objeto)
+        {
+            object resultado;
+            string mensaje = string.Empty;
 
+            resultado = Service.Service.RechazaPyme(objeto);
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+
+        }
+        [HttpPost]
+        public JsonResult ActivaPyme(Pyme objeto)
+        {
+            object resultado;
+            string mensaje = string.Empty;
+
+            resultado = Service.Service.ApruebaPyme(objeto);
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+
+        }
 
 
     }
