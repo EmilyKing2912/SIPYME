@@ -226,9 +226,6 @@ namespace SIPYME.Data
                     MySqlCommand cmd = new MySqlCommand("editarPyme", cn);
 
                     cmd.Parameters.AddWithValue("p_id", u.Id);
-
-                    cmd.Parameters.AddWithValue("p_id_usuario", u.Id_usuario);
-
                     cmd.Parameters.AddWithValue("p_nombre", u.Nombre);
                     cmd.Parameters.AddWithValue("p_numeroTelefono", u.NumeroTelefono);
                     cmd.Parameters.AddWithValue("p_correo", u.Correo);
@@ -333,9 +330,48 @@ namespace SIPYME.Data
             return pymes;
         }
 
-            
 
+        public static List<Pyme> listarTodasLasPymes()
+        {
+            MySqlConnection cn = new MySqlConnection(Conection.cn);
+            MySqlCommand cmd = new MySqlCommand();
+            MySqlDataReader reader;
+            cn.Open();
+            cmd.Connection = cn;
+            cmd.CommandText = "SELECT * FROM Pyme";
+            reader = cmd.ExecuteReader();
+            List<Pyme> pymes = new List<Pyme>();
+            while (reader.Read())
+            {
+                Pyme pyme = new Pyme();
+                pyme.Id = int.Parse(reader.GetString("id"));
+                pyme.Id_usuario = reader.GetString("id_Usuario");
+                pyme.Nombre = reader.GetString("nombre");
+                pyme.NumeroTelefono = int.Parse(reader.GetString("numeroTelefono"));
+                pyme.Correo = reader.GetString("correo");
+                pyme.Descripcion = reader.GetString("descripcion");
+                pyme.AreaTrabajo = reader.GetString("area_trabajo");
+                pyme.Longitud = reader.GetString("Longitud");
+                pyme.Latitud = reader.GetString("Latitud");
+                pyme.Estado_pyme = reader.GetString("estado");
+                if (!reader.IsDBNull(reader.GetOrdinal("logo")))
+                {
+                    byte[] longblobData = (byte[])reader["logo"];
+                    pyme.Logo = longblobData;
+                }
+                else
+                {
+                    pyme.Logo = null;
+                }
+                pyme.SitioWeb = reader.IsDBNull(reader.GetOrdinal("sitioWeb")) ? null : reader.GetString("sitioWeb");
+                pyme.WebSocial = reader.IsDBNull(reader.GetOrdinal("webSocial")) ? null : reader.GetString("webSocial");
 
-
+                pymes.Add(pyme);
+            }
+            cn.Close();
+            return pymes;
         }
+
+
+    }
 }

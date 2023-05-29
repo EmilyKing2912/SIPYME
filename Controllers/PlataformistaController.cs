@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,23 +11,22 @@ using System.IO;
 using System.Collections;
 namespace SIPYME.Controllers
 {
-    public class UsuarioController : Controller
+    public class PlataformistaController : Controller
     {
-
-        public ActionResult ViewUsuario()
+        // GET: Plataformista
+        public ActionResult ViewPlataformista()
         {
-
             return View();
-
         }
 
 
-        public ActionResult ListarPymes()
+        public ActionResult ListarPymesPlataformista()
         {
-            return View("ListarPymes", lalista());
+            return View("ListarPymesPlataformista", lalista());
         }
 
-        private List<SelectListItem> lalista() {
+        private List<SelectListItem> lalista()
+        {
 
 
             List<AreaTrabajo> Lista = Service.Service.listaAreaTrabajos();
@@ -52,20 +51,16 @@ namespace SIPYME.Controllers
             return lst;
         }
 
+
         [HttpGet]
-        public JsonResult MostrarPymes()
+        public JsonResult MostrarTodasLasPymes()
         {
             //PARA mostrar pymes
             List<Pyme> pLista = new List<Pyme>();
-            Usuario sessionValue = Session["usuario"] as Usuario;
-            string cedSession = sessionValue.Cedula;
-            pLista = Service.Service.usuarioListaPyme(cedSession);
+            pLista = Service.Service.ListaTodasLasPymes();
             return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
             ////
         }
-
-
-       
 
 
 
@@ -79,7 +74,7 @@ namespace SIPYME.Controllers
             resultado = Service.Service.usuarioEditaPyme(objeto, out mensaje);
 
             ViewData["Mensaje"] = mensaje;
-            return View("ListarPymes", lalista());
+            return View("ListarPymesPlataformista", lalista());
 
 
 
@@ -95,7 +90,7 @@ namespace SIPYME.Controllers
             string mensaje = string.Empty;
             resultado = Service.Service.UsuarioEliminaPyme(objeto);
 
-             return View("ListarPymes", lalista());
+            return View("ListarPymes", lalista());
 
         }
 
@@ -116,9 +111,7 @@ namespace SIPYME.Controllers
                     }
                     objeto.Logo = imagenData;
                 }
-                Usuario sessionValue = Session["usuario"] as Usuario;
-                string cedSession = sessionValue.Cedula;
-                objeto.Id_usuario = cedSession;
+               
 
 
             }
@@ -130,19 +123,21 @@ namespace SIPYME.Controllers
 
 
             objeto.Estado_pyme = "Pendiente";
-            int id = Service.Service.usuarioIngresaPyme(objeto, out mensaje);
-            if (id == 0) {
+            int id = Service.Service.MantenimientoIngresaPyme(objeto, out mensaje);
+            if (id == 0)
+            {
                 ViewData["Mensaje"] = mensaje;
-                return View("ListarPymes",lalista());
+                return View("ListarPymesPlataformista", lalista());
             }
-              
 
-    
 
-            try {
+
+
+            try
+            {
                 if (producto != null && producto.Length > 0)
                 {
-                    
+
 
                     foreach (var archivo in producto)
                     {
@@ -162,7 +157,7 @@ namespace SIPYME.Controllers
                         }
                     }
 
-                    // Ahora puedes asignar la lista "fotosproducto" a tu objeto o hacer cualquier otra operación necesaria
+                    // Ahora puedes asignar la lista "fotosproducto" a tu objeto o hacer cualquier otra operaciÃ³n necesaria
                 }
 
                 if (fotosproducto.Count != 0)
@@ -170,8 +165,9 @@ namespace SIPYME.Controllers
 
 
             }
-            catch (Exception e) { 
-            
+            catch (Exception e)
+            {
+
             }
             try
             {
@@ -196,7 +192,7 @@ namespace SIPYME.Controllers
                         }
                     }
 
-                    // Ahora puedes asignar la lista "fotosproducto" a tu objeto o hacer cualquier otra operación necesaria
+                    // Ahora puedes asignar la lista "fotosproducto" a tu objeto o hacer cualquier otra operaciÃ³n necesaria
                 }
                 if (fotospyme.Count != 0)
                     Service.Service.registrarFotosPyme(fotospyme);
@@ -209,11 +205,12 @@ namespace SIPYME.Controllers
             }
 
             ViewData["Mensaje"] = mensaje;
-            return View("ListarPymes", lalista());
+            return View("ListarPymesPlataformista", lalista());
 
         }
 
-     
+
+
 
 
     }

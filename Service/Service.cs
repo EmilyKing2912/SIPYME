@@ -176,6 +176,21 @@ namespace Service
 
 
         }
+
+
+        public static int MantenimientoIngresaPyme(Pyme u, out string mensaje)
+        {
+            mensaje = string.Empty;
+            return PlataformistaDao.MantenimientoRegistraPyme(u, out mensaje);
+
+
+        }
+
+
+
+
+
+
         public static bool registrarFotosPyme(List<Foto> lista) {
 
             try
@@ -245,8 +260,20 @@ namespace Service
             }
 
         }
-        
 
+        public static List<Pyme> ListaTodasLasPymes()
+        {
+            try
+            {
+                return PlataformistaDao.listarTodasLasPymes();
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
 
 
 

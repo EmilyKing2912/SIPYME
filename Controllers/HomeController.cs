@@ -90,7 +90,7 @@ namespace SIPYME.Controllers
                 
                 if (uFinal.Tipo.Equals(3)) // plataformista
                 {
-                    return RedirectToAction("Contact", "Home");
+                    return RedirectToAction("ViewPlataformista", "Plataformista");
                 }
                 return View("index");
             }
