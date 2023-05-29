@@ -329,7 +329,13 @@
                             <label class="form-label" for="sitioWeb">Sitio Web</label>
                         </div>
 
-
+                        <div class="col-sm-12">
+                            <img id="img-logo" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                        </div>
+                        <div class="col-sm-12 ">
+                            <label for="logo" class="form-label">Editar Logo:</label>
+                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
+                        </div>
 
                     </div>
                 </form>
@@ -657,20 +663,20 @@
             dataType: "json",
         },
         "columns": [
-            { "data": "Id" },
-            { "data": "Nombre" },
-            { "data": "Correo" },
-            { "data": "AreaTrabajo" },
-            { "data": "NumeroTelefono" },
+            { "data": "pyme.Id" },
+            { "data": "pyme.Nombre" },
+            { "data": "pyme.Correo" },
+            { "data": "pyme.AreaTrabajo" },
+            { "data": "pyme.NumeroTelefono" },
             {
-                "data": "Estado_pyme", "render": function (valor) {
+                "data": "pyme.Estado_pyme", "render": function (valor) {
                     if (valor === "Pendiente") {
 
                         return '<button type="button" class="btn btn-warning">Pendiente</button>'
-                    } else if (valor === "Aprobado") {
-                        return '<button type="button" class="btn btn-success">Aprobado</button>'
+                    } else if (valor === "Aprobada") {
+                        return '<button type="button" class="btn btn-success">Aprobada</button>'
                     } else {
-                        return '<button type="button" class="btn btn-danger">Rechazado</button>'
+                        return '<button type="button" class="btn btn-danger">Rechazada</button>'
                     }
                 },
 
@@ -680,17 +686,22 @@
 
             {
 
-                "defaultContent": "Estado_pyme",
+                "defaultContent": "pyme.Estado_pyme",
                 "render": function (data, type, row, meta) {
-                    if (row.Estado_pyme === "Pendiente") {
+                    if (row.pyme.Estado_pyme === "Pendiente") {
                         return '<button type="button" title="Editar Pyme" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
-                            '<button type="button" title="Borrar Pyme" class="btn btn-secondary btn-sm ms-2 btn-borrar"><i class="fas fa-trash"></i></button>'
-                    } else if (row.Estado === "Aprobado") {
+                            '<button type="button" title="Borrar Pyme" class="btn btn-secondary btn-sm ms-2 btn-borrar"><i class="fas fa-trash"></i></button>' +
+                            '<button type="button" title="Rechazar Pyme" class="btn btn-danger btn-sm ms-2 btn-rechazar"><i class="fas fa-solid fa-ban"></i></button>' +
+                            '<button type="button" title="Aprobar Pyme" class="btn btn-success btn-sm ms-2 btn-activar"><i class="fas fa-solid fa-check"></i></button>'
+
+                    } else if (row.pyme.Estado_pyme === "Aprobada") {
                         return '<button type="button" title="Editar Pyme" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
-                            '<button type="button" title="Borrar Pyme" class="btn btn-secondary btn-sm ms-2 btn-borrar"><i class="fas fa-trash"></i></button>'
+                            '<button type="button" title="Borrar Pyme" class="btn btn-secondary btn-sm ms-2 btn-borrar"><i class="fas fa-trash"></i></button>' +
+                            '<button type="button" title="Rechazar Pyme" class="btn btn-danger btn-sm ms-2 btn-rechazar"><i class="fas fa-solid fa-ban"></i></button>'
                     } else {
                         return '<button type="button" title="Editar Pyme" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
-                            '<button type="button" title="Borrar Pyme" class="btn btn-secondary btn-sm ms-2 btn-borrar "><i class="fas fa-trash"></i></button>'
+                            '<button type="button" title="Borrar Pyme" class="btn btn-secondary btn-sm ms-2 btn-borrar "><i class="fas fa-trash"></i></button>' +
+                            '<button type="button" title="Aprobar Pyme" class="btn btn-success btn-sm ms-2 btn-activar"><i class="fas fa-solid fa-check"></i></button>'
                     }
                 },
 
@@ -698,7 +709,7 @@
 
                 "orderable": false,
                 "searchable": false,
-                "width": "90px"
+                "width": "140px"
             }
 
 
@@ -756,65 +767,144 @@
 
 
             })
-    function AbrirModalEditar(json) {
 
 
-        if (json != null) {
+        $("#tabla tbody").on("click", '.btn-rechazar', function () {
 
 
-            //$("#name").val(json.Nombre);
-            //$("#firstLastName").val(json.Apellido1);
-            //$("#secondLastName").val(json.Apellido2);
-            //$("#phone").val(json.NumeroTelefono);
-            //$("#email").val(json.Correo);
-            //$("#password").val(json.Contrasena);
-            //$("#confirm-password").val(json.Contrasena);
-            //$("#ced").val(json.Cedula);
-            //$("#cboactivo").val(json.Estado == 1 ? 1 : 2);
-            //$("#cbtipo").val(json.Tipo == 2 ? 2 : 3);\
+                filaSeleccionada = $(this).closest("tr");
 
-            $("#id2").val(json.Id);
-            $("#id_usuario2").val(json.Id_usuario);
-            $("#estado2").val();
-            $("#name2").val(json.Nombre);
-            $("#phone2").val(json.NumeroTelefono);
-            $("#email2").val(json.Correo);
-            $("#comboboxAreaTrabajo2").val(json.AreaTrabajo);
-            $("#descripcion2").val(json.Descripcion);
-            $("#sitioWeb2").val(json.SitioWeb);
-            $("#webSocial2").val(json.WebSocial);
-            $("#id_usuario").val(json.Id_usuario);
+                var datas = tabladata.row(filaSeleccionada).data();
+
+                jQuery.ajax({
+                            url: '@Url.Action("RechazaPyme", "Plataformista")',
+                            type: "POST",
+                            data: JSON.stringify({ objeto: datas }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+
+                                if (data.resultado) {
+                                   // datas.Estado_pyme = "Rechazada";
+                                    tabladata.row(filaSeleccionada).data(datas).draw(false);
+
+                                } else {
+                                    alert(data.mensaje);
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error)
+                            },
+                            beforeSend: function () {
+
+                            },
+                        })
+
+            })
+
+            $("#tabla tbody").on("click", '.btn-activar', function () {
 
 
-            latitudDB = json.Latitud
-            longitudDB = json.Longitud
-            cordenadas = {
-                lng: new Decimal(json.Longitud),
-                lat: new Decimal(json.Latitud)
+                filaSeleccionada = $(this).closest("tr");
+
+                var datas = tabladata.row(filaSeleccionada).data();
+
+                jQuery.ajax({
+                    url: '@Url.Action("ActivaPyme", "Plataformista")',
+                    type: "POST",
+                    data: JSON.stringify({ objeto: datas }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.resultado) {
+                            //datas.Estado_pyme = "Aprobada";
+                            tabladata.row(filaSeleccionada).data(datas).draw(false);
+
+                        } else {
+                            alert(data.mensaje);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                    beforeSend: function () {
+
+                    },
+                })
+
+            })
+
+
+
+
+
+
+
+
+
+
+
+        function AbrirModalEditar(json) {
+
+
+            if (json != null) {
+
+
+                //$("#name").val(json.Nombre);
+                //$("#firstLastName").val(json.Apellido1);
+                //$("#secondLastName").val(json.Apellido2);
+                //$("#phone").val(json.NumeroTelefono);
+                //$("#email").val(json.Correo);
+                //$("#password").val(json.Contrasena);
+                //$("#confirm-password").val(json.Contrasena);
+                //$("#ced").val(json.Cedula);
+                //$("#cboactivo").val(json.Estado == 1 ? 1 : 2);
+                //$("#cbtipo").val(json.Tipo == 2 ? 2 : 3);\
+
+                $("#id2").val(json.pyme.Id);
+                $("#id_usuario2").val(json.pyme.Id_usuario);
+                $("#estado2").val();
+                $("#name2").val(json.pyme.Nombre);
+                $("#phone2").val(json.pyme.NumeroTelefono);
+                $("#email2").val(json.pyme.Correo);
+                $("#comboboxAreaTrabajo2").val(json.pyme.AreaTrabajo);
+                $("#descripcion2").val(json.pyme.Descripcion);
+                $("#sitioWeb2").val(json.pyme.SitioWeb);
+                $("#webSocial2").val(json.pyme.WebSocial);
+        
+
+                latitudDB = json.pyme.Latitud
+                longitudDB = json.pyme.Longitud
+                cordenadas = {
+                    lng: new Decimal(json.pyme.Longitud),
+                    lat: new Decimal(json.pyme.Latitud)
+                }
+                generarMapa(cordenadas, "mapa2")
+                var imgElement = document.getElementById("img-logo")
+                if (json.pyme.Logo != null) {
+                    var arrayBuffer = new Uint8Array(json.pyme.Logo);
+                    var blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
+                    var imageUrl = URL.createObjectURL(blob);
+
+                    imgElement.classList.remove("d-none");
+                    imgElement.src = imageUrl;
+                } else {
+                    imgElement.classList.add("d-none");
+                }
+
+
             }
-            generarMapa(cordenadas,"mapa2")
 
+            $("#editar-modal").modal("show");
         }
 
-
-
-
-
-
-
-
-
-
-
-
-        $("#editar-modal").modal("show");
-    }
 
     </script>
 
 
-
     <script src="https://maps.googleapis.com/maps/api/js?key=&callback=iniciarMapa"></script>
+
     @if (ViewData["Mensaje"] != null)
     {
         <script>

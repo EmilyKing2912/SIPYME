@@ -307,6 +307,41 @@ namespace Service
 
         }
 
+        public static bool RechazaPyme(Pyme u)
+        {
+            try
+            {
+                PlataformistaDao.rechazarPyme(u);
+                //AdminDao.trg_after_update_usuarios();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public static bool ApruebaPyme(Pyme u)
+        {
+            try
+            {
+
+                PlataformistaDao.aprobarPyme(u);
+                //AdminDao.trg_after_update_usuarios();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+
+
+
+
 
 
 

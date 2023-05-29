@@ -376,31 +376,31 @@ namespace SIPYME.Data
                 return pymes;
             }
 
-        //public static void desactivarPyme(Pyme p)
-        //{
-
-        //    using (MySqlConnection cn = new MySqlConnection(Conection.cn))
-        //    {
-        //        string sql = "UPDATE Pyme SET  estado=2 WHERE cedula=@cedula";
-        //        using (MySqlCommand command = new MySqlCommand(sql, cn))
-        //        {
-        //            command.Parameters.AddWithValue("@cedula", p.Cedula);
-        //            command.Parameters.AddWithValue("@estado_usuario", p.Estado);
-        //            cn.Open();
-        //            command.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-        public static void activarPyme(Usuario usuario)
+        public static void rechazarPyme(Pyme p)
         {
 
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
             {
-                string sql = "UPDATE Usuario SET  estado_usuario=1 WHERE cedula=@cedula";
+                string sql = "UPDATE Pyme SET  estado = 'Rechazada'  WHERE id=@id";
                 using (MySqlCommand command = new MySqlCommand(sql, cn))
                 {
-                    command.Parameters.AddWithValue("@cedula", usuario.Cedula);
-                    command.Parameters.AddWithValue("@estado_usuario", usuario.Estado);
+                    command.Parameters.AddWithValue("@id", p.Id);
+                    command.Parameters.AddWithValue("@estado", p.Estado_pyme);
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public static void aprobarPyme(Pyme p)
+        {
+
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "UPDATE Pyme SET  estado = 'Aprobada'  WHERE id=@id";
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    command.Parameters.AddWithValue("@id", p.Id);
+                    command.Parameters.AddWithValue("@estado", p.Estado_pyme);
                     cn.Open();
                     command.ExecuteNonQuery();
                 }
