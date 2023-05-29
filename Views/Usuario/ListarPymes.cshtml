@@ -246,6 +246,7 @@
 
 
                     <div class="row">
+
                         <input id="latitud2" name="Latitud" type="text" class="form-control" />
                         <input id="longitud2" name="Longitud" type="text" class="form-control" />
 
@@ -328,9 +329,21 @@
                             <label class="form-label" for="sitioWeb">Sitio Web</label>
                         </div>
 
+                        <div class="col-sm-12">
+                            <img id="img-logo" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                        </div>
+                        <div class="col-sm-12 ">
+                            <label for="logo" class="form-label">Editar Logo:</label>
+                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
+                        </div>
+
+
 
 
                     </div>
+
+
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -350,7 +363,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
+                        <img id="img1" src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
                              class="w-100 shadow-1-strong rounded mb-4"
                              alt="Boat on Calm Water" />
 
@@ -656,13 +669,13 @@
             dataType: "json",
         },
         "columns": [
-            { "data": "Id" },
-            { "data": "Nombre" },
-            { "data": "Correo" },
-            { "data": "AreaTrabajo" },
-            { "data": "NumeroTelefono" },
+            { "data": "pyme.Id" },
+            { "data": "pyme.Nombre" },
+            { "data": "pyme.Correo" },
+            { "data": "pyme.AreaTrabajo" },
+            { "data": "pyme.NumeroTelefono" },
             {
-                "data": "Estado_pyme", "render": function (valor) {
+                "data": "pyme.Estado_pyme", "render": function (valor) {
                     if (valor === "Pendiente") {
 
                         return '<button type="button" class="btn btn-warning">Pendiente</button>'
@@ -679,7 +692,7 @@
 
             {
 
-                "defaultContent": "Estado_pyme",
+                "defaultContent": "Pyme.Estado_pyme",
                 "render": function (data, type, row, meta) {
                     if (row.Estado_pyme === "Pendiente") {
                         return '<button type="button" title="Editar Pyme" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
@@ -772,25 +785,37 @@
             //$("#cboactivo").val(json.Estado == 1 ? 1 : 2);
             //$("#cbtipo").val(json.Tipo == 2 ? 2 : 3);\
 
-            $("#id2").val(json.Id);
+            $("#id2").val(json.pyme.Id);
             $("#estado2").val();
-            $("#name2").val(json.Nombre);
-            $("#phone2").val(json.NumeroTelefono);
-            $("#email2").val(json.Correo);
-            $("#comboboxAreaTrabajo2").val(json.AreaTrabajo);
-            $("#descripcion2").val(json.Descripcion);
-            $("#sitioWeb2").val(json.SitioWeb);
-            $("#webSocial2").val(json.WebSocial);
-            $("#id_usuario").val(json.Id_usuario);
+            $("#name2").val(json.pyme.Nombre);
+            $("#phone2").val(json.pyme.NumeroTelefono);
+            $("#email2").val(json.pyme.Correo);
+            $("#comboboxAreaTrabajo2").val(json.pyme.AreaTrabajo);
+            $("#descripcion2").val(json.pyme.Descripcion);
+            $("#sitioWeb2").val(json.pyme.SitioWeb);
+            $("#webSocial2").val(json.pyme.WebSocial);
+            $("#id_usuario").val(json.pyme.Id_usuario);
 
 
-            latitudDB = json.Latitud
-            longitudDB = json.Longitud
+            latitudDB = json.pyme.Latitud
+            longitudDB = json.pyme.Longitud
             cordenadas = {
-                lng: new Decimal(json.Longitud),
-                lat: new Decimal(json.Latitud)
+                lng: new Decimal(json.pyme.Longitud),
+                lat: new Decimal(json.pyme.Latitud)
             }
-            generarMapa(cordenadas,"mapa2")
+            generarMapa(cordenadas, "mapa2")
+            var imgElement = document.getElementById("img-logo")
+            if (json.pyme.Logo != null) {
+                var arrayBuffer = new Uint8Array(json.pyme.Logo);
+                var blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
+                var imageUrl = URL.createObjectURL(blob);
+
+                imgElement.classList.remove("d-none");
+                imgElement.src = imageUrl;
+            } else {
+                imgElement.classList.add("d-none");
+            }
+
 
         }
 

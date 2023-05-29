@@ -217,6 +217,37 @@ namespace Service
             return UsuarioDao.edit(u, out Mensaje);
 
         }
+        public static List<Foto> listaFotosProductoPorPyme(int idpyme)
+        { 
+        
+                    try
+            {
+                return UsuarioDao.listarFotosProducto(idpyme);
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+}
+        public static List<Foto> listaFotosPymePorPyme(int idpyme)
+        {
+
+            try
+            {
+                return UsuarioDao.listarFotosPyme(idpyme);
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+
+
 
 
         public static List<AreaTrabajo> listaAreaTrabajos()

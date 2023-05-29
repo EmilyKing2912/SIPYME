@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using SIPYME.Logic;
+using SIPYME.Models;
 using System.Web.Mvc;
 using System.IO;
 using System.Collections;
@@ -56,21 +57,53 @@ namespace SIPYME.Controllers
         public JsonResult MostrarPymes()
         {
             //PARA mostrar pymes
-            List<Pyme> pLista = new List<Pyme>();
+            List<PymeModel> pLista = new List<PymeModel>();
             Usuario sessionValue = Session["usuario"] as Usuario;
             string cedSession = sessionValue.Cedula;
-            pLista = Service.Service.usuarioListaPyme(cedSession);
-            return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
-            ////
+
+            List<Pyme> pymes = Service.Service.usuarioListaPyme(cedSession);
+
+            foreach (Pyme pyme in pymes)
+            {
+                PymeModel unitmodelo = new PymeModel();
+                unitmodelo.pyme = pyme;
+                unitmodelo.fotosProducto = Service.Service.listaFotosProductoPorPyme(pyme.Id);
+                unitmodelo.fotosPyme = Service.Service.listaFotosPymePorPyme(pyme.Id);
+                pLista.Add(unitmodelo);
+            }
+
+                return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpPost]
-        public ActionResult EditaPyme(Pyme objeto)
+        public ActionResult EditaPyme(Pyme objeto, HttpPostedFileBase upload)
         {
             object resultado;
             string mensaje = string.Empty;
+
+
+
             objeto.Estado_pyme = "Pendiente";
+
+            if (upload != null && upload.ContentLength > 0)
+            {
+                byte[] imagenData = null;
+                using (var imagen = new BinaryReader(upload.InputStream))
+                {
+                    imagenData = imagen.ReadBytes(upload.ContentLength);
+                }
+                objeto.Logo = imagenData;
+            }
+ 
+
+
+
             resultado = Service.Service.usuarioEditaPyme(objeto, out mensaje);
+
+
+
+
 
             ViewData["Mensaje"] = mensaje;
             return View("ListarPymes", lalista());

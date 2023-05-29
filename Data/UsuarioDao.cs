@@ -55,20 +55,6 @@ namespace SIPYME.Data
             }
             // trg_after_delete_usuarios(); //lama al trigger de delete
         }
-        //public static void eliminarPymesSegunIdUsuario(String id)
-        //{
-        //    using (MySqlConnection cn = new MySqlConnection(Conection.cn))
-        //    {
-        //        string sql = "DELETE FROM Pyme WHERE id = @id";
-        //        using (MySqlCommand command = new MySqlCommand(sql, cn))
-        //        {
-        //            command.Parameters.AddWithValue("@id", pyme.Id);
-        //            cn.Open();
-        //            command.ExecuteNonQuery();
-        //        }
-        //    }
-        //    // trg_after_delete_usuarios(); //lama al trigger de delete
-        //}
 
         public static Usuario read(Usuario usuario)
         {
@@ -291,7 +277,7 @@ namespace SIPYME.Data
             return areastrabajo;
         }
 
-        
+
         public static List<Pyme> listarPymesUsuario(string usuarioCed)
         {
             MySqlConnection cn = new MySqlConnection(Conection.cn);
@@ -333,9 +319,70 @@ namespace SIPYME.Data
             return pymes;
         }
 
-            
+        public static List<Foto> listarFotosProducto(int pymeCed)
+        {
+            MySqlConnection cn = new MySqlConnection(Conection.cn);
+            MySqlCommand cmd = new MySqlCommand();
+            MySqlDataReader reader;
+            cn.Open();
+            cmd.Connection = cn;
+            cmd.CommandText = "SELECT * FROM fotos_producto WHERE id_pyme = " + pymeCed;
+            reader = cmd.ExecuteReader();
+            List<Foto> fotos = new List<Foto>();
+            while (reader.Read())
+            {
+                Foto foto = new Foto();
+
+                foto.ID= int.Parse(reader.GetString("id"));
+                foto.PymeId= int.Parse(reader.GetString("id_pyme"));
+
+                byte[] longblobData = (byte[])reader["foto"];
+                foto.CantidadByte = longblobData;
 
 
 
+
+
+                fotos.Add(foto);
+            }
+            cn.Close();
+            return fotos;
         }
+
+        public static List<Foto> listarFotosPyme(int pymeCed)
+        {
+            MySqlConnection cn = new MySqlConnection(Conection.cn);
+            MySqlCommand cmd = new MySqlCommand();
+            MySqlDataReader reader;
+            cn.Open();
+            cmd.Connection = cn;
+            cmd.CommandText = "SELECT * FROM fotos_pyme WHERE id_Pyme = " + pymeCed;
+            reader = cmd.ExecuteReader();
+            List<Foto> fotos = new List<Foto>();
+            while (reader.Read())
+            {
+                Foto foto = new Foto();
+
+                foto.ID = int.Parse(reader.GetString("idfotos_Pyme"));
+                foto.PymeId = int.Parse(reader.GetString("id_Pyme"));
+
+                byte[] longblobData = (byte[])reader["foto"];
+                foto.CantidadByte = longblobData;
+
+
+
+
+
+                fotos.Add(foto);
+            }
+            cn.Close();
+            return fotos;
+        }
+
+
+
+
+
+
+    }
 }
