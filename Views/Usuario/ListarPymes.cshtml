@@ -713,13 +713,13 @@
                 jQuery.ajax({
                     url: '@Url.Action("EliminarPyme", "Usuario")',
                     type: "POST",
-                    data: JSON.stringify({ objeto: datas }),
+                    data: JSON.stringify({ objeto: datas}),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
 
                         if (data.resultado) {
-                            tabladata.row(filaSeleccionada).remove().draw(false);
+                            tabladata.row(filaSeleccionadaEliminar).remove().draw(false);
 
                         } else {
                             alert(data.mensaje);
@@ -753,6 +753,8 @@
                 filaSeleccionadaEliminar = $(this).closest("tr");
 
                 datas = tabladata.row(filaSeleccionadaEliminar).data().pyme;
+                datas.Logo = null;
+                console.log(datas)
                 abirModalDeConfirmacion()
 
 
