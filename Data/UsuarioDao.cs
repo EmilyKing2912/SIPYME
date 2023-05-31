@@ -362,14 +362,8 @@ namespace SIPYME.Data
 
                 foto.ID = int.Parse(reader.GetString("idfotos_Pyme"));
                 foto.PymeId = int.Parse(reader.GetString("id_Pyme"));
-
                 byte[] longblobData = (byte[])reader["foto"];
                 foto.CantidadByte = longblobData;
-
-
-
-
-
                 fotos.Add(foto);
             }
             cn.Close();
