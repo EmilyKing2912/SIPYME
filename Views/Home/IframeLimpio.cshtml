@@ -219,19 +219,39 @@
 
 
             let coord = { lat: new Decimal(json.pyme.Latitud), lng: new Decimal(json.pyme.Longitud) };
+            let marker;
+            if (json.pyme.WebSocial != null && json.pyme.SitioWeb != null && json.fotosProducto.length > 0 && json.fotosPyme.length > 0) {
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(coord.lat, coord.lng),
+                    map: map,
+                    label: {
+                        text: '\u2605 ' + json.pyme.Nombre,
+                        color: '#333333',
+                        fontSize: '15px',
+                        fontWeight: 'bold',
+
+                    }
+
+                });
 
 
-            let marker = new google.maps.Marker({
-                position: new google.maps.LatLng(coord.lat, coord.lng),
-                map: map,
-                label: {
-                    text: json.pyme.Nombre,
-                    color: '#333333',
-                    fontSize: '15px',
-                    fontWeight: 'bold'
-                }
 
-            });
+            } else {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(coord.lat, coord.lng),
+                    map: map,
+                    label: {
+                        text: json.pyme.Nombre,
+                        color: '#333333',
+                        fontSize: '15px',
+                        fontWeight: 'bold',
+
+                    }
+
+                });
+
+            }
 
 
 
