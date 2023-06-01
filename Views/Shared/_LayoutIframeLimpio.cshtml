@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - SIPYME</title>
-    @Styles.Render("~/Content/css")
+    
+    @Styles.Render("~/Content/Admin")
 
-    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -16,7 +16,7 @@
                 <img src="https://www.sanpablo.go.cr/wp-content/uploads/2019/09/logoHeader.jpg" alt="Sistema de Patentes San Pablo" style="width: 300px; height: auto;">
             </div>
 
-           
+
         </div>
     </div>
     <div class="container body-content">
@@ -29,7 +29,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/Home")
+    @Scripts.Render("~/bundles/AdminScript")
     @RenderSection("scripts", required: false)
 </body>
 </html>
