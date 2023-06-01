@@ -368,6 +368,7 @@
                 </div>
                 <!-- Gallery -->
             </div>
+
             <div class="modal-footer">
                 <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
             </div>
@@ -378,11 +379,6 @@
 
 </div>
 
-<form action='@Url.Action("EliminarPyme", "Usuario")' method="post" class="mx-1 mx-md-4 mb-4" id="registration-form55">
-
-    <input id="elimina" name="id" type="hidden" class="form-control" />
-
-</form>
 
 
 @section scripts{
@@ -705,17 +701,38 @@
         $("#confirm-modal").modal("show");
     }
 
-    //metodo para borrar
-        function eliminar() {
-            document.getElementById("registration-form55").submit();
-        }
 
 
     //abre modal de eliminar pyme
        document.getElementById("eliminar-pyme").onclick = function () {
                 eliminar();
                 cerrarModadDeConfirmacion();
-    }
+        }
+        function eliminar() {
+
+                jQuery.ajax({
+                    url: '@Url.Action("EliminarPyme", "Usuario")',
+                    type: "POST",
+                    data: JSON.stringify({ objeto: datas}),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.resultado) {
+                            tabladata.row(filaSeleccionadaEliminar).remove().draw(false);
+
+                        } else {
+                            alert(data.mensaje);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                    beforeSend: function () {
+
+                    },
+                })
+            }
 
 
     $("#tabla tbody").on("click", '.btn-editar',function () {
@@ -735,8 +752,9 @@
 
                 filaSeleccionadaEliminar = $(this).closest("tr");
 
-                datas = tabladata.row(filaSeleccionadaEliminar).data();
-                $("#elimina").val(datas.Id);
+                datas = tabladata.row(filaSeleccionadaEliminar).data().pyme;
+                datas.Logo = null;
+                console.log(datas)
                 abirModalDeConfirmacion()
 
 
@@ -814,7 +832,7 @@
 
                         // Realizar llamada AJAX al backend
                         // Ajusta la URL y los parámetros según tu configuración del backend
-     
+
                         const parametros = { id: idFoto };
 
                         // Ejemplo de uso de AJAX con jQuery

@@ -71,7 +71,6 @@ namespace SIPYME.Controllers
                 unitmodelo.fotosPyme = Service.Service.listaFotosPymePorPyme(pyme.Id);
                 pLista.Add(unitmodelo);
             }
-
                 return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
 
         }
@@ -144,13 +143,13 @@ namespace SIPYME.Controllers
 
         //}
         [HttpPost]
-        public ActionResult EliminarPyme(Pyme objeto)
+        public JsonResult EliminarPyme(Pyme objeto)
         {
             object resultado;
             string mensaje = string.Empty;
             resultado = Service.Service.UsuarioEliminaPyme(objeto);
 
-             return View("ListarPymes", lalista());
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
         }
 

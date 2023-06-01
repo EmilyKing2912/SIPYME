@@ -115,6 +115,8 @@ namespace Service
         {
             try
             {
+                UsuarioDao.eliminarFotosProducto(p.Id);
+                UsuarioDao.eliminarFotosPyme(p.Id);
                 UsuarioDao.eliminarPyme(p);
                
                 return true;
