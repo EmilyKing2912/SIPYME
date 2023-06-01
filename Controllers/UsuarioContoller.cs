@@ -76,8 +76,30 @@ namespace SIPYME.Controllers
 
         }
 
+        [HttpGet]
+        public JsonResult MostrarTodasLasPymes()
+        {
+            //PARA mostrar pymes
+            List<PymeModel> pLista = new List<PymeModel>();
 
-       
+
+            List<Pyme> pymes = Service.Service.ListaPyme();
+
+            foreach (Pyme pyme in pymes)
+            {
+                PymeModel unitmodelo = new PymeModel();
+                unitmodelo.pyme = pyme;
+                unitmodelo.fotosProducto = Service.Service.listaFotosProductoPorPyme(pyme.Id);
+                unitmodelo.fotosPyme = Service.Service.listaFotosPymePorPyme(pyme.Id);
+                pLista.Add(unitmodelo);
+            }
+
+            return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
 
 
 

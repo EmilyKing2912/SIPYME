@@ -293,6 +293,20 @@ namespace Service
 
         }
 
+        public static List<Pyme> ListaPyme()
+        {
+            try
+            {
+                return UsuarioDao.listarPymes();
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
         public static List<Pyme> ListaTodasLasPymes()
         {
             try

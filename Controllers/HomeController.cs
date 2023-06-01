@@ -15,9 +15,34 @@ namespace SIPYME.Controllers
             return View();
         }
         public ActionResult Iframe() {
+        
+            return View("Iframe", lalista());
+        }
 
-            return View();
+        private List<SelectListItem> lalista()
+        {
 
+
+            List<AreaTrabajo> Lista = Service.Service.listaAreaTrabajos();
+            List<SelectListItem> lst = new List<SelectListItem>();
+            lst.Add(new SelectListItem
+            {
+                Value = "",
+                Text = "Seleccionar...",
+            });
+
+            foreach (AreaTrabajo d in Lista)
+            {
+                lst.Add(new SelectListItem
+                {
+                    Value = d.Nombre_area,
+                    Text = d.Nombre_area
+                });
+            }
+
+            ViewBag.ComboBoxData = lst;
+
+            return lst;
         }
         public ActionResult IframeLimpio()
         {
