@@ -13,7 +13,7 @@
             </div>
             <div class="col-md-4">
                 @Html.DropDownList("areaTrabajo", lst, new { @class = "form-control input_user", id = "filtro-area-trabajo" })
-                
+
             </div>
             <div class="col-md-4">
                 <button id="btn-filtrar" class="btn btn-primary">Filtrar</button>
@@ -29,9 +29,10 @@
     </div>
     <div id="map" style="height: 600px; width: 100% "></div>
     <script src="script.js"></script>
-    <script src="
-    https://cdn.jsdelivr.net/npm/markerwithlabel@2.0.2/index.min.js
-    "></script>
+    <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/infobox/1.1.13/src/infobox.js"></script>
+    <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/infobox/1.1.13/examples/markerclusterer/markerclusterer.js"></script>
+    <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/infobox/1.1.13/examples/markerwithlabel/markerwithlabel.js"></script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.3.1/decimal.min.js"></script>
 </body>
@@ -206,7 +207,7 @@
 
 </div>
 
-            @section scripts{
+@section scripts{
 
 <script>
     var map; // el mapa
@@ -219,21 +220,39 @@
 
 
             let coord = { lat: new Decimal(json.pyme.Latitud), lng: new Decimal(json.pyme.Longitud)};
+            let marker;
+            if (json.pyme.WebSocial != null && json.pyme.SitioWeb != null && json.fotosProducto.length > 0 && json.fotosPyme.length > 0) {
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(coord.lat, coord.lng),
+                    map: map,
+                    label: {
+                        text: '\u2605 '+ json.pyme.Nombre,
+                        color: '#333333',
+                        fontSize: '15px',
+                        fontWeight: 'bold',
+ 
+                    }
+
+                });
 
 
-            let marker = new google.maps.Marker({
-                position: new google.maps.LatLng(coord.lat, coord.lng),
-                map: map,
-                label: {
-                    text: json.pyme.Nombre,
-                    color: '#333333',
-                    fontSize: '15px',
-                    fontWeight: 'bold'
-                }
 
-            });
+            } else {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(coord.lat, coord.lng),
+                    map: map,
+                    label: {
+                        text: json.pyme.Nombre,
+                        color: '#333333',
+                        fontSize: '15px',
+                        fontWeight: 'bold',
 
+                    }
 
+                });
+
+            }
 
 
             markers.push(marker);
