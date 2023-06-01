@@ -780,6 +780,8 @@
     <Content Include="Views\Shared\_LayoutUsuario.cshtml" />
     <Content Include="Views\Plataformista\ViewPlataformista.cshtml" />
     <Content Include="Views\Plataformista\ListarPymesPlataformista.cshtml" />
+    <Content Include="Views\Home\IframeLimpio.cshtml" />
+    <Content Include="Views\Shared\_LayoutIframeLimpio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

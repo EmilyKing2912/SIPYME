@@ -47,7 +47,7 @@ namespace SIPYME.Controllers
         public ActionResult IframeLimpio()
         {
 
-            return View();
+            return View("IframeLimpio", lalista());
 
         }
 

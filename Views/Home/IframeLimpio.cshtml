@@ -1,94 +1,418 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Iframe";
     Layout = "~/Views/Shared/_LayoutIframeLimpio.cshtml";
-}
+    List<SelectListItem>
+    lst = ViewBag.ComboBoxData;
+    }
 
-<body>
- 
-    <div id="map" style="height: 600px; width: 100% "></div>
-    <script src="script.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
-</body>
-<div class="modal" tabindex="-1" id="form-modal">
-    <div class="modal-dialog modal-xl ">
-        <div class="modal-content d-flex align-items-center">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <body>
+        <div id="linkiframe" class="container">
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <input id="filtro-nombre" class="form-control" type="text" placeholder="Filtrar por nombre">
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownList("areaTrabajo", lst, new { @class = "form-control input_user", id = "filtro-area-trabajo" })
+
+                </div>
+                <div class="col-md-4">
+                    <button id="btn-filtrar" class="btn btn-primary">Filtrar</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
+
+
+            <div class="row">
+                <div class="col text-end">
+                    <button type="button" onclick="abrirModalIframe()" class="btn btn-primary btn-lg mb-2 mt-1">Copiar Iframe</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        <div id="map" style="height: 600px; width: 100% "></div>
+        <script src="script.js"></script>
+        <script src="
+    https://cdn.jsdelivr.net/npm/markerwithlabel@2.0.2/index.min.js
+    "></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.3.1/decimal.min.js"></script>
+    </body>
+    <div class="modal fade" id="iframe-modal-copy" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Iframe de mapa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <h5 class="modal-title" id="exampleModalLabel">Link:</h5>
+                            <textarea class="form-control" id="message-text"><iframe src="https://localhost:44335/Home/IframeLimpio" width="100%" height="500" frameborder="0" allowfullscreen></iframe></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <p><iframe src="https://localhost:44335/Home/IframeLimpio" width="100%" height="500" frameborder="0" allowfullscreen></iframe></p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="modal fade modal-xl" id="iframe-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
 
+                    <div class="col-sm-12">
+                        <h5 class="modal-title"> Ver Informacion de PYME</h5>
 
-
-<div class="modal fade" id="iframe-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Iframe de mapa</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Link:</h5>
-                        <textarea class="form-control" id="message-text"><iframe src="https://localhost:44335/Home/IframeLimpio" width="100%" height="500" frameborder="0" allowfullscreen></iframe></textarea>
                     </div>
-                    <div class="mb-3">
-                        <p><iframe src="https://localhost:44335/Home/IframeLimpio" width="100%" height="500" frameborder="0" allowfullscreen></iframe></p>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+
+
+
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h5 id="nombre"> </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <img id="img-logo" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mt-4">
+                                <div class="rounded p-4 border shadow-sm" style="background-color: #f8f9fa;">
+                                    <h5 class="text-primary"><i class="fas fa-phone-alt"></i> Teléfono de la PYME:</h5>
+                                    <p id="phone" class="py-2 border rounded bg-light"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-4">
+                                <div class="rounded p-4 border shadow-sm" style="background-color: #f8f9fa;">
+                                    <h5 class="text-primary"><i class="fas fa-envelope"></i> Correo electrónico de la PYME:</h5>
+                                    <p id="email" class="py-2 border rounded bg-light"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mt-4">
+                                <div class="rounded p-4 border shadow-sm" style="background-color: #f8f9fa;">
+                                    <h5 class="text-primary"><i class="fas fa-id-card"></i> Cédula del dueño:</h5>
+                                    <p id="id_usuario" name="Id_usuario" class="py-2 border rounded bg-light"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-4">
+                                <div class="rounded p-4 border shadow-sm" style="background-color: #f8f9fa;">
+                                    <h5 class="text-primary"><i class="fas fa-briefcase"></i> Área de trabajo de la PYME:</h5>
+                                    <p id="area_trabajo" class="py-2 border rounded bg-light"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-4">
+                                <div class="rounded p-4 border shadow-sm" style="background-color: #f8f9fa;">
+                                    <h5 class="text-primary"><i class="fas fa-info-circle"></i> Descripción:</h5>
+                                    <p id="descripcion" class="py-2 border rounded bg-light"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-4 text-center">
+                                <h2 class="form-label">Información Adicional</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mt-4">
+                                <div class="rounded p-4 border shadow-sm" style="background-color: #f8f9fa;">
+                                    <h5 class="text-primary"><i class="fab fa-facebook"></i> Web Social:</h5>
+                                    <p id="web-social" class="py-2 border rounded bg-light"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-4">
+                                <div class="rounded p-4 border shadow-sm" style="background-color: #f8f9fa;">
+                                    <h5 class="text-primary"><i class="fas fa-globe"></i> Sitio Web:</h5>
+                                    <p id="sitio-web" class="py-2 border rounded bg-light"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-producto">Ver Fotos Producto</button>
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-pyme">Ver Fotos Pyme</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section scripts{
+
+    <div class="modal fade modal-xl" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel2">Fotos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="fotosProducto">
+
+
+
+                    </div>
+                    <!-- Gallery -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#iframe-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="modal fade modal-xl" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel3">Fotos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="fotosPyme">
+
+
+
+                    </div>
+                    <!-- Gallery -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#iframe-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    @section scripts{
 
     <script>
+        var map; // el mapa
+        var markers = []; // marcadores del mapa
+        var datacomplete; // todas las pymes del mapa
 
-        function iniciarMap() {
-            var coord = { lat: 9.9946788, lng: -84.100938 };
-            var map = new google.maps.Map(document.getElementById('map'), {
+        // Carga los marcadores de las pymes en el iframe
+        function cargarMarker(json) {
+
+
+
+            let coord = { lat: new Decimal(json.pyme.Latitud), lng: new Decimal(json.pyme.Longitud) };
+
+
+            let marker = new google.maps.Marker({
+                position: new google.maps.LatLng(coord.lat, coord.lng),
+                map: map,
+                label: {
+                    text: json.pyme.Nombre,
+                    color: '#333333',
+                    fontSize: '15px',
+                    fontWeight: 'bold'
+                }
+
+            });
+
+
+
+
+            markers.push(marker);
+            marker.addListener('click', function () {
+
+                $("#phone").text(json.pyme.NumeroTelefono);
+                $("#nombre").html(json.pyme.Nombre);
+                $("#email").text(json.pyme.Correo);
+                $("#area_trabajo").text(json.pyme.AreaTrabajo);
+                $("#descripcion").text(json.pyme.Descripcion);
+
+                if (json.pyme.SitioWeb)
+                    $("#sitio-web").text(json.pyme.SitioWeb);
+                else
+                    $("#sitio-web").text("N/A");
+                if (json.pyme.WebSocial)
+                    $("#web-social").text(json.pyme.WebSocial);
+                else
+                    $("#web-social").text("N/A");
+
+                $("#id_usuario").text(json.pyme.Id_usuario);
+
+                var imgElement = document.getElementById("img-logo")
+                if (json.pyme.Logo != null) {
+                    let arrayBuffer = new Uint8Array(json.pyme.Logo);
+                    let blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
+                    let imageUrl = URL.createObjectURL(blob);
+
+                    imgElement.classList.remove("d-none");
+                    imgElement.src = imageUrl;
+                } else {
+                    imgElement.classList.add("d-none");
+                }
+
+
+                if (json.fotosProducto != null && json.fotosProducto.length > 0) {
+                    let divFotosProducto = document.getElementById('fotosProducto');
+
+                    divFotosProducto.innerHTML = '';
+                    json.fotosProducto.forEach(function (foto) {
+
+                        divFotosProducto.innerHTML += `
+                           <div class="col-sm-4 text-center justify-content-center">
+                                 <img id="fotoproducto-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+
+                         </div>
+                            `;
+
+
+                        let imgElement12 = document.getElementById("fotoproducto-" + foto.ID)
+
+
+
+                        let arrayBuffer = new Uint8Array(foto.CantidadByte);
+                        let blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                        let imageUrl = URL.createObjectURL(blob);
+                        imgElement12.src = imageUrl;
+
+
+
+                    })
+
+                    document.getElementById("btn-fotos-producto").classList.remove("d-none");
+
+                } else {
+                    document.getElementById("btn-fotos-producto").classList.add("d-none");
+                }
+
+                if (json.fotosPyme != null && json.fotosPyme.length > 0) {
+                    let divFotosPyme = document.getElementById('fotosPyme');
+
+                    divFotosPyme.innerHTML = '';
+                    json.fotosPyme.forEach(function (foto) {
+
+                        divFotosPyme.innerHTML += `
+                           <div class="col-sm-4 text-center justify-content-center">
+                                 <img id="fotopyme-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+
+                         </div>
+                            `;
+
+
+                        let imgElement12 = document.getElementById("fotopyme-" + foto.ID)
+
+
+
+                        let arrayBuffer = new Uint8Array(foto.CantidadByte);
+                        let blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                        let imageUrl = URL.createObjectURL(blob);
+                        imgElement12.src = imageUrl;
+
+
+
+                    })
+
+                    document.getElementById("btn-fotos-pyme").classList.remove("d-none");
+
+                } else {
+                    document.getElementById("btn-fotos-pyme").classList.add("d-none");
+                }
+
+                $("#iframe-modal").modal("show");
+            });
+
+        }
+
+        function limpiarMarkers() {
+
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+
+            markers = []; // Limpiar el array de marcadores
+
+        }
+        window.onload = function () {
+
+
+
+            let coord = { lat: 9.9946788, lng: -84.100938 };
+            map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 16,
                 center: coord
             });
-            var marker = new google.maps.Marker({
-                position: coord,
-                map: map
 
+            jQuery.ajax({
+                url: '@Url.Action("MostrarTodasLasPymes", "Usuario")',
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    datacomplete = data.data;
+                    data.data.forEach(function (modelpyme) {
+                        cargarMarker(modelpyme);
+                    });
+                }
             });
-            marker.addListener('click', function () {
-                // Crear y mostrar modal
-                $("#form-modal").modal("show");
-            });
-
-        };
-
-        window.onload = function () {
-            iniciarMap();
 
         };
 
         function abrirModalIframe() {
-            $("#iframe-modal").modal("show");
+            $("#iframe-modal-copy").modal("show");
         }
+
+        // metodo para filtrar las pymes por nombre y por area de trabajo
+        document.getElementById("btn-filtrar").addEventListener("click", function () {
+            var filtroNombre = document.getElementById("filtro-nombre").value.toLowerCase();
+            var filtroAreaTrabajo = document.getElementById("filtro-area-trabajo").value.toLowerCase();
+
+
+
+            var resultados = [];
+            var conjuntoResultados = new Set();
+
+            datacomplete.forEach(function (item) {
+                var cumpleFiltroNombre = item.pyme.Nombre.toLowerCase().startsWith(filtroNombre);
+                var cumpleFiltroArea = item.pyme.AreaTrabajo.toLowerCase().startsWith(filtroAreaTrabajo);
+
+                if (cumpleFiltroNombre && cumpleFiltroArea) {
+                    // Verificar si el elemento ya existe en el conjunto de resultados
+                    var clave = item.pyme.Id;
+                    if (!conjuntoResultados.has(clave)) {
+                        resultados.push(item);
+                        conjuntoResultados.add(clave);
+                    }
+                }
+            });
+            limpiarMarkers();
+            resultados.forEach(function (modelpyme) {
+                cargarMarker(modelpyme);
+            });
+
+
+        });
+
+
 
 
     </script>
 
 
-}
+    }
