@@ -7,17 +7,19 @@
 
 @Scripts.Render("~/bundles/Register")
 
-<ol class="breadcrumb mb-4 mt-4">
-    <li class="breadcrumb-item"><a>Resumen</a></li>
-    <li class="breadcrumb-item active">Pymes</li>
-</ol>
+<div style="margin-left:15px">
+    <ol class="breadcrumb mb-4 mt-4">
+        <li class="breadcrumb-item"><a> Resumen</a></li>
+        <li class="breadcrumb-item active">Pymes</li>
+    </ol>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.3.1/decimal.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
 
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-users me-1"></i> Mis Pymes
+        <i class="fas fa-users me-1"></i> Pymes
     </div>
     <div class="card-body">
         <div class="row">
@@ -94,19 +96,13 @@
 
 
                 <div class="row">
-                    <input id="latitud" name="Latitud" type="text" class="form-control" />
-                    <input id="longitud" name="Longitud" type="text" class="form-control" />
+                    <input id="latitud" name="Latitud" type="hidden" class="form-control" />
+                    <input id="longitud" name="Longitud" type="hidden" class="form-control" />
 
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="number" name="id" id="id" class="form-control" placeholder="id " required title="Se asigna automaticamente luego de registrar la Pyme" disabled />
                         <label class="form-label" for="id">ID</label>
                     </div>
-
-                    <div class="col-sm-6 mt-2 form-floating">
-                        <input type="text" name="id_usuario" id="id_usuario" class="form-control" placeholder="Cedula del usuario" required />
-                        <label class="form-label" for="id">ID Usuario Externo</label>
-                    </div>
-
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="text" name="estado_pyme" id="estado" class="form-control" placeholder="estado " value="Pendiente" disabled />
                         <label class="form-label" for="estado">Estado</label>
@@ -227,13 +223,14 @@
 
 
                     <div class="row">
-                        <input id="latitud2" name="Latitud" type="text" class="form-control" />
-                        <input id="longitud2" name="Longitud" type="text" class="form-control" />
+
+                        <input id="latitud2" name="Latitud" type="hidden" class="form-control" />
+                        <input id="longitud2" name="Longitud" type="hidden" class="form-control" />
 
 
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input id="id_usuario2" name="Id_usuario" type="text" class="form-control" readonly />
+                            <input id="id_usuario" name="Id_usuario" type="text" class="form-control" readonly />
                             <label class="form-label" for="id">ID Usuario</label>
                         </div>
 
@@ -317,7 +314,13 @@
                             <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
                         </div>
 
+
+
+
                     </div>
+
+
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -327,8 +330,7 @@
         </div>
     </div>
 </div>
-<!-- Modal fotos-->
-<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+<div class="modal fade modal-xl" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -336,39 +338,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Boat on Calm Water" />
+                <div class="row" id="fotosProducto">
 
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Wintry Mountain Landscape" />
-                    </div>
 
-                    <div class="col-lg-4 mb-4 mb-lg-0">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain2.webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Mountains in the Clouds" />
 
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Boat on Calm Water" />
-                    </div>
-
-                    <div class="col-lg-4 mb-4 mb-lg-0">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(18).webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Waves at Sea" />
-
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain3.webp"
-                             class="w-100 shadow-1-strong rounded mb-4"
-                             alt="Yosemite National Park" />
-                    </div>
                 </div>
                 <!-- Gallery -->
             </div>
+
             <div class="modal-footer">
                 <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
             </div>
@@ -378,6 +355,7 @@
 
 
 </div>
+
 
 
 <!-- Modal Rechazo -->
@@ -443,15 +421,15 @@
             document.getElementById("longitud").value = longitudDB;
 
             document.getElementById("registration-form").submit();
-    }
-    function Editar() {
-        //pasar a binario
-        var hola = document.getElementById("latitud2")
-        hola.value = latitudDB;
-        document.getElementById("longitud2").value = longitudDB;
+        }
+        function Editar() {
+            //pasar a binario
+            var hola = document.getElementById("latitud2")
+            hola.value = latitudDB;
+            document.getElementById("longitud2").value = longitudDB;
 
-        document.getElementById("registration-form2").submit();
-    }
+            document.getElementById("registration-form2").submit();
+        }
     //validacion
         function esNumeroTelefonico(numero) {
             const regex = /^\d{8}$/;
