@@ -57,7 +57,8 @@ namespace SIPYME.Data
             }
             // trg_after_delete_usuarios(); //lama al trigger de delete
         }
-        public static void eliminarFotosProducto(int idPy)
+        // elimina por el id de la foto
+        public static void eliminarFotosProductoByID(int idPy)
         {
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
             {
@@ -69,7 +70,9 @@ namespace SIPYME.Data
                 }
             }
         }
-        public static void eliminarFotosPyme(int idPy)
+
+        // elimina por el id de la foto
+        public static void eliminarFotosPymeByID(int idPy)
         {
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
             {
@@ -82,6 +85,32 @@ namespace SIPYME.Data
                 }
             }
         }
+        public static void eliminarFotosPyme(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public static void eliminarFotosProducto(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
 
         public static Usuario read(Usuario usuario)
         {
