@@ -73,12 +73,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="text" id="estadoP" name="estadoP" style=" border: none;" class="form-control" readonly />
-                <label class="form-label" for="razonRechazo2">Motivo</label>
-                <textarea class="form-control" style=" border: none;" id="razonRechazo2" rows="4" name="razonRechazo2" readonly></textarea>
+                <input type="text" id="estadoP" name="estadoP" style=" border: none; background-color: #fff;" class="form-control" disabled />
+                <input type="text" id="Motivo" name="Motivo" value="Motivo" style=" border: none; background-color: #fff;" class="form-control" disabled />
+                <textarea class="form-control" style=" border: none; background-color: #fff;" id="razonRechazo2" rows="2" name="razonRechazo2" disabled></textarea>
             </div>
             <div class="modal-footer">
-                <button type="button" id="aceptar-pyme" onclick="cerrarModadEstado()" class="btn btn-primary">Aceptar</button>
+                <button type="button" id="aceptar-pyme" onclick="cerrarModalEstado()" class="btn btn-primary">Aceptar</button>
             </div>
         </div>
     </div>
