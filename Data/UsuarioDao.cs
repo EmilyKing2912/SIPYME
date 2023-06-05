@@ -23,7 +23,7 @@ namespace SIPYME.Data
                 cmd.Parameters.AddWithValue("numeroTelefono", u.NumeroTelefono);
                 cmd.Parameters.AddWithValue("correo1", u.Correo);
                 cmd.Parameters.AddWithValue("contraseña", u.Contrasena);
-               
+
 
                 cmd.Parameters.Add("registrado", MySqlDbType.Bit).Direction = ParameterDirection.Output;
                 cmd.Parameters.Add("mensaje", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
@@ -44,7 +44,7 @@ namespace SIPYME.Data
         public static void eliminarPyme(Pyme pyme)
         {
 
-            
+
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
             {
                 string sql = "DELETE FROM Pyme WHERE id = @id";
@@ -57,11 +57,23 @@ namespace SIPYME.Data
             }
             // trg_after_delete_usuarios(); //lama al trigger de delete
         }
+        public static void eliminaEstadoPyme(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  estado_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
         public static void eliminarFotosPyme(int idPy)
         {
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
             {
-                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme ="+idPy;
+                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme =" + idPy;
                 using (MySqlCommand command = new MySqlCommand(sql, cn))
                 {
                     cn.Open();
@@ -82,7 +94,6 @@ namespace SIPYME.Data
                 }
             }
         }
-
         public static Usuario read(Usuario usuario)
         {
             Usuario u1 = new Usuario();
@@ -134,7 +145,7 @@ namespace SIPYME.Data
 
 
                 registrado = Convert.ToBoolean(cmd.Parameters["resultado"].Value);
-               
+
 
 
             }
@@ -162,7 +173,7 @@ namespace SIPYME.Data
 
 
                 registrado = Convert.ToBoolean(cmd.Parameters["resultado"].Value);
-               
+
 
 
             }
@@ -316,15 +327,15 @@ namespace SIPYME.Data
             {
                 Pyme pyme = new Pyme();
                 pyme.Id = int.Parse(reader.GetString("id"));
-                pyme.Id_usuario= reader.GetString("id_Usuario"); 
+                pyme.Id_usuario = reader.GetString("id_Usuario");
                 pyme.Nombre = reader.GetString("nombre");
-                pyme.NumeroTelefono= int.Parse(reader.GetString("numeroTelefono"));
-                pyme.Correo= reader.GetString("correo");
-                pyme.Descripcion= reader.GetString("descripcion");
-                pyme.AreaTrabajo= reader.GetString("area_trabajo");
-                pyme.Longitud= reader.GetString("Longitud");
-                pyme.Latitud= reader.GetString("Latitud");
-                pyme.Estado_pyme= reader.GetString("estado");
+                pyme.NumeroTelefono = int.Parse(reader.GetString("numeroTelefono"));
+                pyme.Correo = reader.GetString("correo");
+                pyme.Descripcion = reader.GetString("descripcion");
+                pyme.AreaTrabajo = reader.GetString("area_trabajo");
+                pyme.Longitud = reader.GetString("Longitud");
+                pyme.Latitud = reader.GetString("Latitud");
+                pyme.Estado_pyme = reader.GetString("estado");
                 if (!reader.IsDBNull(reader.GetOrdinal("logo")))
                 {
                     byte[] longblobData = (byte[])reader["logo"];
@@ -397,8 +408,8 @@ namespace SIPYME.Data
             {
                 Foto foto = new Foto();
 
-                foto.ID= int.Parse(reader.GetString("id"));
-                foto.PymeId= int.Parse(reader.GetString("id_pyme"));
+                foto.ID = int.Parse(reader.GetString("id"));
+                foto.PymeId = int.Parse(reader.GetString("id_pyme"));
 
                 byte[] longblobData = (byte[])reader["foto"];
                 foto.CantidadByte = longblobData;

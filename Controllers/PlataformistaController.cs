@@ -76,8 +76,8 @@ namespace SIPYME.Controllers
             ////
         }
 
-        
-            [HttpPost]
+
+        [HttpPost]
         public JsonResult PlataformistaRazonRechazo(Estado_pyme objeto)
         {
             object resultado2;
@@ -126,7 +126,7 @@ namespace SIPYME.Controllers
                     }
                     objeto.Logo = imagenData;
                 }
-               
+
 
 
             }
@@ -250,9 +250,15 @@ namespace SIPYME.Controllers
         public JsonResult EliminarPyme(Pyme objeto)
         {
             object resultado;
+            bool result;
+            result = Service.Service.PlataformistaEliminaPyme(objeto);
             string mensaje = string.Empty;
             resultado = Service.Service.PlataformistaEliminaPyme(objeto);
-
+            if (result == false)
+            {
+                mensaje = "No se pudo eliminar la Pyme";
+            }
+            else { mensaje = "Pyme borrada correctamente"; }
             return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
         }

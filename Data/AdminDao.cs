@@ -110,6 +110,102 @@ namespace SIPYME.Data
             }
 
         }
+        public static void eliminarPyme(Pyme pyme)
+        {
+
+
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM Pyme WHERE id = @id";
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    command.Parameters.AddWithValue("@id", pyme.Id);
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            // trg_after_delete_usuarios(); //lama al trigger de delete
+        }
+        public static void eliminaEstadoPyme(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  estado_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public static void eliminarFotosPyme(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public static void eliminarFotosProducto(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public static bool RegistraRazonRechazo(Estado_pyme ep, out string Mensaje, out int Resultado)
+        {
+            Mensaje = string.Empty;
+            Resultado = 0;
+            try
+            {
+
+                using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+                {
+                    MySqlCommand cmd = new MySqlCommand("cambiarEstadoRechazo", cn);
+                    cmd.Parameters.AddWithValue("p_id_pyme", ep.IdPyme);
+                    cmd.Parameters.AddWithValue("p_razonRechazo", ep.Razon_rechazo);
+                    cmd.Parameters.Add("resultado", MySqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("mensaje", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cn.Open();
+
+                    cmd.ExecuteNonQuery();
+
+                    Mensaje = cmd.Parameters["mensaje"].Value.ToString();
+                    Resultado = Convert.ToInt32(cmd.Parameters["resultado"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Mensaje = ex.Message;
+            }
+            if (Resultado == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+
+
+
+            }
+        }
+
         public static void rechazarPyme(Pyme p)
         {
 
@@ -207,7 +303,7 @@ namespace SIPYME.Data
                 idautogenerado = 0;
                 Mensaje = ex.Message;
             }
-            if(idautogenerado == 0)
+            if (idautogenerado == 0)
             {
                 return false;
             }
@@ -217,7 +313,7 @@ namespace SIPYME.Data
                 return true;
             }
         }
-            
+
         public static List<Usuario> listarUsuarios()
         {
             MySqlConnection cn = new MySqlConnection(Conection.cn);
@@ -230,22 +326,22 @@ namespace SIPYME.Data
             List<Usuario> usuarios = new List<Usuario>();
             while (reader.Read())
             {
-                            Usuario usuario = new Usuario();
-                            usuario.Cedula = reader.GetString("cedula");
-                            usuario.Nombre = reader.GetString("nombre");
-                            usuario.Apellido1 = reader.GetString("apellido1");
-                            usuario.Apellido2 = reader.GetString("apellido2");
-                            usuario.NumeroTelefono = reader.GetInt32("numeroTelefono");
-                            usuario.Correo = reader.GetString("correo");
-                            usuario.Contrasena = reader.GetString("contraseña");
-                            usuario.Estado = reader.GetInt32("estado_usuario");
-                            usuario.Tipo = reader.GetInt32("tipo_usuario");
-                            usuarios.Add(usuario);
+                Usuario usuario = new Usuario();
+                usuario.Cedula = reader.GetString("cedula");
+                usuario.Nombre = reader.GetString("nombre");
+                usuario.Apellido1 = reader.GetString("apellido1");
+                usuario.Apellido2 = reader.GetString("apellido2");
+                usuario.NumeroTelefono = reader.GetInt32("numeroTelefono");
+                usuario.Correo = reader.GetString("correo");
+                usuario.Contrasena = reader.GetString("contraseña");
+                usuario.Estado = reader.GetInt32("estado_usuario");
+                usuario.Tipo = reader.GetInt32("tipo_usuario");
+                usuarios.Add(usuario);
             }
             cn.Close();
             return usuarios;
         }
-              
+
         public static void eliminarUsuario(Usuario usuario)
         {
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
@@ -258,7 +354,7 @@ namespace SIPYME.Data
                     command.ExecuteNonQuery();
                 }
             }
-           // trg_after_delete_usuarios(); //lama al trigger de delete
+            // trg_after_delete_usuarios(); //lama al trigger de delete
         }
         public static void desactivarUsuario(Usuario usuario)
         {
@@ -298,7 +394,7 @@ namespace SIPYME.Data
 
                 MySqlCommand cmd = new MySqlCommand("retornaUsuario", cn);
                 cmd.Parameters.AddWithValue("cedula1", usuario.Cedula);
-                
+
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cn.Open();

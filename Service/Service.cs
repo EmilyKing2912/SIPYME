@@ -62,21 +62,21 @@ namespace Service
             }
 
         }
-        public static bool PlataformistaRazonRechazo(Estado_pyme u,out string Mensaje, out int Resultado)
+        public static bool PlataformistaRazonRechazo(Estado_pyme u, out string Mensaje, out int Resultado)
         {
-                Mensaje = string.Empty;
+            Mensaje = string.Empty;
             Resultado = 0;
-                return PlataformistaDao.RegistraRazonRechazo(u, out Mensaje,out Resultado);
-        
+            return PlataformistaDao.RegistraRazonRechazo(u, out Mensaje, out Resultado);
+
         }
 
 
         public static bool adminEditaUsuario(Usuario u, out string Mensaje)
         {
             Mensaje = string.Empty;
-           
-              return  AdminDao.edit(u,out Mensaje);
-              
+
+            return AdminDao.edit(u, out Mensaje);
+
 
         }
         public static bool adminIngresaUsuario(Usuario u, out string Mensaje)
@@ -121,10 +121,11 @@ namespace Service
         {
             try
             {
+                UsuarioDao.eliminaEstadoPyme(p.Id);
                 UsuarioDao.eliminarFotosProducto(p.Id);
                 UsuarioDao.eliminarFotosPyme(p.Id);
                 UsuarioDao.eliminarPyme(p);
-               
+
                 return true;
             }
             catch (Exception e)
@@ -137,10 +138,10 @@ namespace Service
         {
             try
             {
+                PlataformistaDao.eliminaEstadoPyme(p.Id);
                 PlataformistaDao.eliminarFotosProducto(p.Id);
                 PlataformistaDao.eliminarFotosPyme(p.Id);
                 PlataformistaDao.eliminarPyme(p);
-
                 return true;
             }
             catch (Exception e)
@@ -149,7 +150,22 @@ namespace Service
             }
 
         }
+        public static bool AdministradorEliminaPyme(Pyme p)
+        {
+            try
+            {
+                AdminDao.eliminaEstadoPyme(p.Id);
+                AdminDao.eliminarFotosProducto(p.Id);
+                AdminDao.eliminarFotosPyme(p.Id);
+                AdminDao.eliminarPyme(p);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
 
+        }
         public static bool DesactivaUsuario(Usuario u)
         {
             try
@@ -194,7 +210,7 @@ namespace Service
             }
 
         }
-         public static int usuarioIngresaPyme(Pyme u, out string mensaje)
+        public static int usuarioIngresaPyme(Pyme u, out string mensaje)
         {
             mensaje = string.Empty;
             return UsuarioDao.UsuarioregistraPyme(u, out mensaje);
@@ -216,7 +232,8 @@ namespace Service
 
 
 
-        public static bool registrarFotosPyme(List<Foto> lista) {
+        public static bool registrarFotosPyme(List<Foto> lista)
+        {
 
             try
             {
@@ -226,7 +243,8 @@ namespace Service
                 }
                 return true;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
 
                 return false;
             }
@@ -258,9 +276,9 @@ namespace Service
 
         }
         public static List<Foto> listaFotosProductoPorPyme(int idpyme)
-        { 
-        
-                    try
+        {
+
+            try
             {
                 return UsuarioDao.listarFotosProducto(idpyme);
 
@@ -270,7 +288,7 @@ namespace Service
                 return null;
             }
 
-}
+        }
         public static List<Foto> listaFotosPymePorPyme(int idpyme)
         {
 

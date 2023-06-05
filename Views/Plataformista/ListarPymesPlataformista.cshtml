@@ -1,9 +1,7 @@
 ﻿
-@{
-    ViewBag.Title = "ListarPymesPlataformista";
-    Layout = "~/Views/Shared/_LayoutPlataformista.cshtml";
-    List<SelectListItem> lst = ViewBag.ComboBoxData;
-}
+@{ ViewBag.Title = "ListarPymesPlataformista";
+                Layout = "~/Views/Shared/_LayoutPlataformista.cshtml";
+                List<SelectListItem> lst = ViewBag.ComboBoxData; }
 
 @Scripts.Render("~/bundles/Register")
 
@@ -800,6 +798,7 @@
                     },
                 })
         }
+
         $("#tabla tbody").on("click", '.btn-borrar', function () {
 
 
@@ -957,6 +956,16 @@
             }
 
         };
+        $("#tabla tbody").on("click", '.btn-editar', function () {
+
+
+            filaSeleccionada = $(this).closest("tr");
+
+            var data = tabladata.row(filaSeleccionada).data();
+
+            AbrirModalEditar(data);
+
+        })
 
     </script>
 
@@ -965,9 +974,8 @@
 
     @if (ViewData["Mensaje"] != null)
     {
-        <script>
+<script>
         alert("@ViewData["Mensaje"]");
-        </script>
-    }
+</script>}
 }
 
