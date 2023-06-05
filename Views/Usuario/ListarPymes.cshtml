@@ -350,7 +350,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Ver Fotos</button>
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-producto">Ver Fotos Producto</button>
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-pyme">Ver Fotos Pyme</button>
                 <button type="button" class="btn btn-primary" id="edit-btn">Editar</button>
             </div>
         </div>
@@ -371,9 +372,32 @@
                 </div>
                 <!-- Gallery -->
             </div>
-
             <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
+                <button class="btn btn-primary" data-bs-target="#editar-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<div class="modal fade modal-xl" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel3">Fotos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="fotosPyme">
+
+
+
+                </div>
+                <!-- Gallery -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#editar-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
             </div>
         </div>
     </div>
@@ -383,12 +407,13 @@
 </div>
 
 
-
 @section scripts{
 
     <script>
         var latitudDB;
         var longitudDB;
+        let imgElement12;
+        let botonEliminar;
         function abrirModal() {
             $("#resgistro-modal").modal("show");
         }
@@ -765,23 +790,22 @@
                 imgElement.classList.add("d-none");
             }
 
-
-            if (json.fotosProducto != null) {
+            if (json.fotosProducto != null && json.fotosProducto.length > 0) {
                 const divFotosProducto = document.getElementById('fotosProducto');
 
                 divFotosProducto.innerHTML = '';
                 json.fotosProducto.forEach(function (foto) {
 
                     divFotosProducto.innerHTML += `
-                   <div class="col-sm-4 text-center justify-content-center">
-                         <img id="foto-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
-                         <button type="button" id="elimina-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
+                   <div class="col-sm-4 text-center justify-content-center" id="divproducto-${foto.ID}"">
+                         <img id="fotoproducto-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                         <button type="button" id="eliminafotoproducto-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
                  </div>
                     `;
 
 
-                    let imgElement12 = document.getElementById("foto-" + foto.ID)
-                    let botonEliminar = document.getElementById("elimina-" + foto.ID)
+                    imgElement12 = document.getElementById("fotoproducto-" + foto.ID)
+                    botonEliminar = document.getElementById("eliminafotoproducto-" + foto.ID)
 
 
                     botonEliminar.onclick = function () {
@@ -792,14 +816,17 @@
 
                         const parametros = { id: idFoto };
 
-                        // Ejemplo de uso de AJAX con jQuery
                         $.ajax({
-                            url: '@Url.Action("EliminarFoto", "Usuario")',
+                            url: '@Url.Action("EliminarFotoProducto", "Usuario")',
                             method: 'POST',
                             data: parametros,
                             success: function (response) {
                                 // Procesar la respuesta del backend si es necesario
-                                console.log(response);
+                                if (response.resultado == true) {
+                                    document.getElementById("divproducto-" + foto.ID).remove();
+
+
+                                }
                             },
                             error: function (xhr, status, error) {
                                 // Manejar el error de la llamada AJAX si es necesario
@@ -823,10 +850,77 @@
                 })
 
 
+                document.getElementById("btn-fotos-producto").classList.remove("d-none");
 
             } else {
-
+                document.getElementById("btn-fotos-producto").classList.add("d-none");
             }
+
+            if (json.fotosPyme != null && json.fotosPyme.length > 0) {
+                const divFotosProducto = document.getElementById('fotosPyme');
+
+                divFotosProducto.innerHTML = '';
+                json.fotosPyme.forEach(function (foto) {
+
+                    divFotosProducto.innerHTML += `
+                   <div class="col-sm-4 text-center justify-content-center" id="divpyme-${foto.ID}"">
+                         <img id="fotopyme-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                         <button type="button" id="eliminafotopyme-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
+                 </div>
+                    `;
+
+
+                    imgElement12 = document.getElementById("fotopyme-" + foto.ID)
+                    botonEliminar = document.getElementById("eliminafotopyme-" + foto.ID)
+
+
+                    botonEliminar.onclick = function () {
+                        const idFoto = foto.ID
+
+                        // Realizar llamada AJAX al backend
+                        // Ajusta la URL y los parámetros según tu configuración del backend
+
+                        const parametros = { id: idFoto };
+
+                        // Ejemplo de uso de AJAX con jQuery
+                        $.ajax({
+                            url: '@Url.Action("EliminarFotoPyme", "Usuario")',
+                            method: 'POST',
+                            data: parametros,
+                            success: function (response) {
+                              
+                                if (response.resultado == true) {
+                                    let element = document.getElementById("divpyme-" + foto.ID);
+                                    element.remove();
+                      
+
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                               
+                                console.error(error);
+                            }
+                        });
+                    };
+
+
+
+
+
+
+                    let arrayBuffer = new Uint8Array(foto.CantidadByte);
+                    let blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                    let imageUrl = URL.createObjectURL(blob);
+                    imgElement12.src = imageUrl;
+
+
+
+                })
+                document.getElementById("btn-fotos-pyme").classList.remove("d-none");
+            } else {
+                document.getElementById("btn-fotos-pyme").classList.add("d-none");
+            }
+
 
         }
 

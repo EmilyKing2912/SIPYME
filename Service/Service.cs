@@ -384,6 +384,34 @@ namespace Service
             }
 
         }
+        public static bool elimnaFotoProducto(int id)
+        {
+            try
+            {
+                UsuarioDao.eliminarFotosProducto(id);
+                //AdminDao.trg_after_update_usuarios();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+        public static bool elimnaFotoPyme(int id)
+        {
+            try
+            {
+                UsuarioDao.eliminarFotosPyme(id);
+                //AdminDao.trg_after_update_usuarios();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
 
         public static bool AdminApruebaPyme(Pyme u)
         {

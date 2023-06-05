@@ -152,6 +152,26 @@ namespace SIPYME.Controllers
             return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
         }
+        [HttpPost]
+        public JsonResult EliminarFotoProducto(int id)
+        {
+            object resultado;
+            string mensaje = string.Empty;
+            resultado = Service.Service.elimnaFotoProducto(id);
+
+            return Json(new { resultado = resultado }, JsonRequestBehavior.AllowGet);
+
+        }
+        [HttpPost]
+        public JsonResult EliminarFotoPyme(int id)
+        {
+            object resultado;
+            string mensaje = string.Empty;
+            resultado = Service.Service.elimnaFotoPyme(id);
+
+            return Json(new { resultado = resultado }, JsonRequestBehavior.AllowGet);
+
+        }
 
         [HttpPost]
         public ActionResult RegistraPyme(Pyme objeto, HttpPostedFileBase upload, HttpPostedFileBase[] producto, HttpPostedFileBase[] pyme)
