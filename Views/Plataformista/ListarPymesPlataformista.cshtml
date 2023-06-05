@@ -56,26 +56,6 @@
 </div>
 
 
-<!-- Modal de estado -->
-<div class="modal" id="confirm-modal" tabindex="-1" data-bs-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmacion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>¿Esta seguro de que desea eliminar esta Pyme? </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" id="eliminar-pyme" onclick="cerrarModadDeConfirmacion()" class="btn btn-primary">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- Modal de borrar -->
 <div class="modal" id="confirm-modal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog">
@@ -347,6 +327,7 @@
         </div>
     </div>
 </div>
+<!-- Modal fotos-->
 <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -398,58 +379,28 @@
 
 </div>
 
-<form action='@Url.Action("EliminarPyme", "Plataformista")' method="post" class="mx-1 mx-md-4 mb-4" id="registration-form55">
 
-    <input id="elimina" name="id" type="text" class="form-control" />
-
-</form>
-
-
+<!-- Modal Rechazo -->
 <div class="modal" id="rechazopyme-modal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmacion</h5>
+                <h5 class="modal-title">Rechazar Pyme</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action='@Url.Action("RegistraPyme", "Plataformista")' method="post" class="mx-1 mx-md-4 mb-4" id="estadopyme-form">
-
-                    <div class="row">
-
-                        <div class="col-sm-6 mt-2 form-floating">
-                            <input id="id_usuario3" name="Id_usuario" type="text" class="form-control" readonly />
-                            <label class="form-label" for="id">ID Usuario</label>
-                        </div>
-
-
-                        <div class="col-sm-6 mt-2 form-floating">
-                            <input type="text" name="id" id="id3" class="form-control" placeholder="id " readonly />
-                            <label class="form-label" for="id">ID</label>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Motivo del rechazo:</label>
-                            <textarea class="form-control" id="rechazo-text"></textarea>
-                        </div>
-
-
-                    </div>
-
-
-
-
-
-                
-                </form>
+                <p>Digite la razon de rechazo </p>
+                <textarea class="form-control" id="razonRechazo" rows="4" name="razonRechazo" required></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" id="eliminar-usuario" onclick="cerrarModadDeConfirmacion()" class="btn btn-primary">Enviar</button>
+                <button type="button" id="rechazar-pyme" onclick="cerrarModadDeRechazo()" class="btn btn-primary">Rechazar</button>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 
@@ -708,9 +659,16 @@
     //carga la tabla
 
     var filaSeleccionada;
-    var tabladata;
+        var tabladata;
+        var filaSeleccionadaActivar;
+        var filaSeleccionadaRechazar;
     var filaSeleccionadaEliminar;
-    var datas;
+        var datas;
+        var datasAcep;
+        var datasRech;
+        var datasTemp;
+        var tempRech;
+
     tabladata = $("#tabla").DataTable({
         responsive: true,
         ordering: false,
@@ -725,24 +683,8 @@
             { "data": "pyme.Correo" },
             { "data": "pyme.AreaTrabajo" },
             { "data": "pyme.NumeroTelefono" },
+            {"data": "pyme.Estado_pyme"},
             {
-                "data": "pyme.Estado_pyme", "render": function (valor) {
-                    if (valor === "Pendiente") {
-
-                        return '<button type="button" class="btn btn-warning">Pendiente</button>'
-                    } else if (valor === "Aprobada") {
-                        return '<button type="button" class="btn btn-success">Aprobada</button>'
-                    } else {
-                        return '<button type="button" class="btn btn-danger">Rechazada</button>'
-                    }
-                },
-
-                "width": "50px"
-            },
-
-
-            {
-
                 "defaultContent": "pyme.Estado_pyme",
                 "render": function (data, type, row, meta) {
                     if (row.pyme.Estado_pyme === "Pendiente") {
@@ -776,107 +718,51 @@
         }
     });
 
-    //modal de borrar
-    function cerrarModadDeConfirmacion() {
 
 
-        $("#confirm-modal").modal("hide");
+   //RECHAZAR PYME
+        function cerrarModadDeRechazo() {
+
+
+            $("#rechazopyme-modal").modal("hide");
     }
-    function abirModalDeConfirmacion() {
+    function abirModalDeRechazo() {
 
-        $("#confirm-modal").modal("show");
+        $("#rechazopyme-modal").modal("show");
     }
 
-    //metodo para borrar
-        function eliminar() {
-            document.getElementById("registration-form55").submit();
+          //abre ejecuta el rechazo
+        document.getElementById("rechazar-pyme").onclick = function () {
+           rechazar();
+           //razonRechazo();
+           cerrarModadDeRechazo();
         }
 
-
-    //abre modal de eliminar pyme
-       document.getElementById("eliminar-pyme").onclick = function () {
-                eliminar();
-                cerrarModadDeConfirmacion();
-    }
-
-
-    $("#tabla tbody").on("click", '.btn-editar',function () {
-
-
-                    filaSeleccionada = $(this).closest("tr");
-
-                    var data = tabladata.row(filaSeleccionada).data();
-
-                    AbrirModalEditar(data);
-
-                })
-
-
-            $("#tabla tbody").on("click", '.btn-borrar', function () {
-
-
-                filaSeleccionadaEliminar = $(this).closest("tr");
-
-                datas = tabladata.row(filaSeleccionadaEliminar).data();
-                $("#elimina").val(datas.Id);
-                abirModalDeConfirmacion()
-
-
-
-            })
-
-
+        //guarda la pyme a actualizar, se hace un temporal debido a que el logo es una cadena y eso hace que se corrompa el objeto.
         $("#tabla tbody").on("click", '.btn-rechazar', function () {
 
+            filaSeleccionadaRechazar = $(this).closest("tr");
+            datasRech = tabladata.row(filaSeleccionadaRechazar).data();
+            tempRech = datasRech.pyme;
+            tempRech.Logo = null;
+            abirModalDeRechazo()
 
-                filaSeleccionadaRechazar = $(this).closest("tr");
+        })
 
-            var datas = tabladata.row(filaSeleccionadaRechazar).data();
-
-                jQuery.ajax({
-                            url: '@Url.Action("RechazaPyme", "Plataformista")',
-                            type: "POST",
-                            data: JSON.stringify({ objeto: datas.pyme }),
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8",
-                            success: function (data) {
-
-                                if (data.resultado) {
-                                    datas.pyme.Estado_pyme = "Rechazada";
-                                    tabladata.row(filaSeleccionadaRechazar).data(datas).draw(false);
-
-                                } else {
-                                    alert(data.mensaje);
-                                }
-                            },
-                            error: function (error) {
-                                console.log(error)
-                            },
-                            beforeSend: function () {
-
-                            },
-                        })
-
-            })
-
-            $("#tabla tbody").on("click", '.btn-activar', function () {
-
-
-                filaSeleccionadaActivar = $(this).closest("tr");
-
-                var datas = tabladata.row(filaSeleccionadaActivar).data();
+        //metodo para actualizar estado de la pyme
+        function rechazar() {
 
                 jQuery.ajax({
-                    url: '@Url.Action("ActivaPyme", "Plataformista")',
+                    url: '@Url.Action("RechazaPyme", "Plataformista")',
                     type: "POST",
-                    data: JSON.stringify({ objeto: datas.pyme }),
+                    data: JSON.stringify({ objeto: tempRech }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
 
                         if (data.resultado) {
-                            datas.pyme.Estado_pyme = "Aprobada";
-                            tabladata.row(filaSeleccionadaActivar).data(datas).draw(false);
+                            datasRech.pyme.Estado_pyme = "Rechazada";
+                            tabladata.row(filaSeleccionadaRechazar).data(datasRech).draw(false);
 
                         } else {
                             alert(data.mensaje);
@@ -889,18 +775,108 @@
 
                     },
                 })
-
-            })
-
+        }
 
 
 
+        //BORRAR PYME
+    function cerrarModadDeConfirmacion() {
+
+
+        $("#confirm-modal").modal("hide");
+    }
+    function abirModalDeConfirmacion() {
+
+        $("#confirm-modal").modal("show");
+    }
 
 
 
+    //abre modal de eliminar pyme
+       document.getElementById("eliminar-pyme").onclick = function () {
+                eliminar();
+                cerrarModadDeConfirmacion();
+        }
+        function eliminar() {
+
+                jQuery.ajax({
+                    url: '@Url.Action("EliminarPyme", "Plataformista")',
+                    type: "POST",
+                    data: JSON.stringify({ objeto: datas}),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.resultado) {
+                            tabladata.row(filaSeleccionadaEliminar).remove().draw(false);
+
+                        } else {
+                            alert(data.mensaje);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                    beforeSend: function () {
+
+                    },
+                })
+        }
+        $("#tabla tbody").on("click", '.btn-borrar', function () {
+
+
+            filaSeleccionadaEliminar = $(this).closest("tr");
+
+            datas = tabladata.row(filaSeleccionadaEliminar).data().pyme;
+            datas.Logo = null;
+            console.log(datas)
+            abirModalDeConfirmacion()
+
+        })
+
+        //ACTIVAR PYME METODOS
+        $("#tabla tbody").on("click", '.btn-activar', function () {
+
+
+            filaSeleccionadaActivar = $(this).closest("tr");
+            datasAcep = tabladata.row(filaSeleccionadaActivar).data();
+            datasTemp = datasAcep.pyme;
+            datasTemp.Logo = null;
+            console.log(datasAcep);
+            console.log(datasTemp);
+            aprobarPyme();
+
+        })
+        function aprobarPyme() {
+
+                jQuery.ajax({
+                    url: '@Url.Action("ActivaPyme", "Plataformista")',
+                    type: "POST",
+                    data: JSON.stringify({ objeto: datasTemp}),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        if (data.resultado) {
+                            datasAcep.pyme.Estado_pyme = "Aprobada";
+                            tabladata.row(filaSeleccionadaActivar).data(datasAcep).draw(false);
+
+                        } else {
+                            alert(data.mensaje);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                    beforeSend: function () {
+
+                    },
+                })
+        }
 
 
 
+// editar pyme
 
         function AbrirModalEditar(json) {
 
@@ -929,7 +905,7 @@
                 $("#descripcion2").val(json.pyme.Descripcion);
                 $("#sitioWeb2").val(json.pyme.SitioWeb);
                 $("#webSocial2").val(json.pyme.WebSocial);
-        
+
 
                 latitudDB = json.pyme.Latitud
                 longitudDB = json.pyme.Longitud
