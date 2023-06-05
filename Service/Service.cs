@@ -127,6 +127,22 @@ namespace Service
             }
 
         }
+        public static bool PlataformistaEliminaPyme(Pyme p)
+        {
+            try
+            {
+                PlataformistaDao.eliminarFotosProducto(p.Id);
+                PlataformistaDao.eliminarFotosPyme(p.Id);
+                PlataformistaDao.eliminarPyme(p);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
 
         public static bool DesactivaUsuario(Usuario u)
         {
@@ -323,7 +339,7 @@ namespace Service
 
         }
 
-        public static bool RechazaPyme(Pyme u)
+        public static bool PlataformistaRechazaPyme(Pyme u)
         {
             try
             {
@@ -338,12 +354,43 @@ namespace Service
 
         }
 
-        public static bool ApruebaPyme(Pyme u)
+        public static bool PlataformistaApruebaPyme(Pyme u)
         {
             try
             {
 
                 PlataformistaDao.aprobarPyme(u);
+                //AdminDao.trg_after_update_usuarios();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public static bool AdminRechazaPyme(Pyme u)
+        {
+            try
+            {
+                AdminDao.rechazarPyme(u);
+                //AdminDao.trg_after_update_usuarios();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public static bool AdminApruebaPyme(Pyme u)
+        {
+            try
+            {
+
+                AdminDao.aprobarPyme(u);
                 //AdminDao.trg_after_update_usuarios();
                 return true;
             }

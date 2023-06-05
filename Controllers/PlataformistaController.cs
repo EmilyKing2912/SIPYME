@@ -96,16 +96,6 @@ namespace SIPYME.Controllers
 
 
         //}
-        [HttpPost]
-        public ActionResult EliminarPyme(Pyme objeto)
-        {
-            object resultado;
-            string mensaje = string.Empty;
-            resultado = Service.Service.UsuarioEliminaPyme(objeto);
-
-            return View("ListarPymes", lalista());
-
-        }
 
         [HttpPost]
         public ActionResult RegistraPyme(Pyme objeto, HttpPostedFileBase upload, HttpPostedFileBase[] producto, HttpPostedFileBase[] pyme)
@@ -229,7 +219,7 @@ namespace SIPYME.Controllers
             object resultado;
             string mensaje = string.Empty;
 
-            resultado = Service.Service.RechazaPyme(objeto);
+            resultado = Service.Service.PlataformistaRechazaPyme(objeto);
             return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
         }
@@ -239,11 +229,20 @@ namespace SIPYME.Controllers
             object resultado;
             string mensaje = string.Empty;
 
-            resultado = Service.Service.ApruebaPyme(objeto);
+            resultado = Service.Service.PlataformistaApruebaPyme(objeto);
             return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
         }
 
+        [HttpPost]
+        public JsonResult EliminarPyme(Pyme objeto)
+        {
+            object resultado;
+            string mensaje = string.Empty;
+            resultado = Service.Service.PlataformistaEliminaPyme(objeto);
 
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

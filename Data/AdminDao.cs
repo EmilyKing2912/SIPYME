@@ -110,7 +110,32 @@ namespace SIPYME.Data
             }
 
         }
-        
+        public static void rechazarPyme(Pyme p)
+        {
+
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "UPDATE Pyme SET  estado = 'Rechazada'  WHERE id=" + p.Id;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public static void aprobarPyme(Pyme p)
+        {
+
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "UPDATE Pyme SET  estado = 'Aprobada'  WHERE id=" + p.Id;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
         public static Usuario login(Usuario usuario)
         {
             Usuario u1 = new Usuario();

@@ -42,36 +42,63 @@ namespace SIPYME.Data
 
                 }
             }
-            public static void eliminarPyme(Pyme pyme)
-            {
-                using (MySqlConnection cn = new MySqlConnection(Conection.cn))
-                {
-                    string sql = "DELETE FROM Pyme WHERE id = @id";
-                    using (MySqlCommand command = new MySqlCommand(sql, cn))
-                    {
-                        command.Parameters.AddWithValue("@id", pyme.Id);
-                        cn.Open();
-                        command.ExecuteNonQuery();
-                    }
-                }
-                // trg_after_delete_usuarios(); //lama al trigger de delete
-            }
-            //public static void eliminarPymesSegunIdUsuario(String id)
-            //{
-            //    using (MySqlConnection cn = new MySqlConnection(Conection.cn))
-            //    {
-            //        string sql = "DELETE FROM Pyme WHERE id = @id";
-            //        using (MySqlCommand command = new MySqlCommand(sql, cn))
-            //        {
-            //            command.Parameters.AddWithValue("@id", pyme.Id);
-            //            cn.Open();
-            //            command.ExecuteNonQuery();
-            //        }
-            //    }
-            //    // trg_after_delete_usuarios(); //lama al trigger de delete
-            //}
+        public static void eliminarPyme(Pyme pyme)
+        {
 
-            public static Usuario read(Usuario usuario)
+
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM Pyme WHERE id = @id";
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    command.Parameters.AddWithValue("@id", pyme.Id);
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            // trg_after_delete_usuarios(); //lama al trigger de delete
+        }
+        public static void eliminarFotosPyme(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public static void eliminarFotosProducto(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        //public static void eliminarPymesSegunIdUsuario(String id)
+        //{
+        //    using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+        //    {
+        //        string sql = "DELETE FROM Pyme WHERE id = @id";
+        //        using (MySqlCommand command = new MySqlCommand(sql, cn))
+        //        {
+        //            command.Parameters.AddWithValue("@id", pyme.Id);
+        //            cn.Open();
+        //            command.ExecuteNonQuery();
+        //        }
+        //    }
+        //    // trg_after_delete_usuarios(); //lama al trigger de delete
+        //}
+
+        public static Usuario read(Usuario usuario)
             {
                 Usuario u1 = new Usuario();
                 using (MySqlConnection cn = new MySqlConnection(Conection.cn))
@@ -418,11 +445,9 @@ namespace SIPYME.Data
 
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
             {
-                string sql = "UPDATE Pyme SET  estado = 'Rechazada'  WHERE id=@id";
+                string sql = "UPDATE Pyme SET  estado = 'Rechazada'  WHERE id="+ p.Id;
                 using (MySqlCommand command = new MySqlCommand(sql, cn))
                 {
-                    command.Parameters.AddWithValue("@id", p.Id);
-                    command.Parameters.AddWithValue("@estado", p.Estado_pyme);
                     cn.Open();
                     command.ExecuteNonQuery();
                 }
@@ -433,11 +458,9 @@ namespace SIPYME.Data
 
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
             {
-                string sql = "UPDATE Pyme SET  estado = 'Aprobada'  WHERE id=@id";
+                string sql = "UPDATE Pyme SET  estado = 'Aprobada'  WHERE id=" + p.Id;
                 using (MySqlCommand command = new MySqlCommand(sql, cn))
                 {
-                    command.Parameters.AddWithValue("@id", p.Id);
-                    command.Parameters.AddWithValue("@estado", p.Estado_pyme);
                     cn.Open();
                     command.ExecuteNonQuery();
                 }
