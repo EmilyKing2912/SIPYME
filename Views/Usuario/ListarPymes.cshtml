@@ -384,8 +384,8 @@
 @section scripts{
 
     <script>
-
-
+        var latitudDB;
+        var longitudDB;
         function abrirModal() {
             $("#resgistro-modal").modal("show");
         }
@@ -426,53 +426,7 @@
             return regex.test(numero);
         }
 
-    document.getElementById("edit-btn").onclick = function () {
-        /*Obtener los valores de los campos del formulario*/
 
-        var name = document.getElementById("name2").value;
-        var phone = document.getElementById("phone2").value;
-        var email = document.getElementById("email2").value;
-        var descripcion = document.getElementById("descripcion2").value;
-        var areaTab = document.getElementById("comboboxAreaTrabajo2").value;
-        var latitu = latitudDB;
-        var longitu = longitudDB;
-
-        // Validar los campos requeridos
-        var errorMessage = "";
-        if (name == "") {
-            errorMessage += "Debe ingresar el nombre .\n";
-        }
-        if (areaTab == "") {
-            errorMessage += "Debe seleccionar el area de trabajo.\n";
-        }
-
-        if (phone == "") {
-            errorMessage += "Debe ingresar su número de teléfono.\n";
-        } else if (!esNumeroTelefonico(phone)) {
-            errorMessage += "Debe ingresar un número de teléfono valido.\n";
-        }
-        if (email == "") {
-            errorMessage += "Debe ingresar su correo electrónico.\n";
-        } else if (!esCorreo(email)) {
-            errorMessage += "Debe ingresar una dirección de correo valida.\n";
-        }
-        if (descripcion == "") {
-            errorMessage += "Debe ingresar la descripcion de la pyme.\n";
-        }
-        if (latitu == 0 && longitu == 0) {
-            errorMessage += "Debe marcar la ubicacion de la pyme.\n";
-        }
-
-
-
-        // Mostrar el mensaje de error o enviar el formulario
-        if (errorMessage != "") {
-            alert(errorMessage);
-        } else {
-            Editar();
-        }
-
-    };
 
         document.getElementById("registration-btn").onclick = function () {
             /*Obtener los valores de los campos del formulario*/
@@ -507,7 +461,7 @@
             if (descripcion == "") {
                 errorMessage += "Debe ingresar la descripcion de la pyme.\n";
             }
-            if (latitu == 0 && longitu==0) {
+            if (latitu == 0 && longitu == 0 || latitu == undefined || longitudDB == undefined) {
                 errorMessage += "Debe marcar la ubicacion de la pyme.\n";
             }
 
@@ -886,7 +840,53 @@
 
         $("#editar-modal").modal("show");
     }
+        document.getElementById("edit-btn").onclick = function () {
+            /*Obtener los valores de los campos del formulario*/
 
+            var name = document.getElementById("name2").value;
+            var phone = document.getElementById("phone2").value;
+            var email = document.getElementById("email2").value;
+            var descripcion = document.getElementById("descripcion2").value;
+            var areaTab = document.getElementById("comboboxAreaTrabajo2").value;
+            var latitu = latitudDB;
+            var longitu = longitudDB;
+
+            // Validar los campos requeridos
+            var errorMessage = "";
+            if (name == "") {
+                errorMessage += "Debe ingresar el nombre .\n";
+            }
+            if (areaTab == "") {
+                errorMessage += "Debe seleccionar el area de trabajo.\n";
+            }
+
+            if (phone == "") {
+                errorMessage += "Debe ingresar su número de teléfono.\n";
+            } else if (!esNumeroTelefonico(phone)) {
+                errorMessage += "Debe ingresar un número de teléfono valido.\n";
+            }
+            if (email == "") {
+                errorMessage += "Debe ingresar su correo electrónico.\n";
+            } else if (!esCorreo(email)) {
+                errorMessage += "Debe ingresar una dirección de correo valida.\n";
+            }
+            if (descripcion == "") {
+                errorMessage += "Debe ingresar la descripcion de la pyme.\n";
+            }
+            if (latitu == 0 && longitu == 0 || latitu == undefined || longitudDB == undefined) {
+                errorMessage += "Debe marcar la ubicacion de la pyme.\n";
+            }
+
+
+
+            // Mostrar el mensaje de error o enviar el formulario
+            if (errorMessage != "") {
+                alert(errorMessage);
+            } else {
+                Editar();
+            }
+
+        };
     </script>
 
 
