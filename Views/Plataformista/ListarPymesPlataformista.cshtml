@@ -253,6 +253,8 @@
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="tel" name="numeroTelefono" id="phone2" class="form-control" placeholder="Teléfono" required />
                             <label class="form-label" for="phone">Teléfono</label>
+                            <div class="invalid-feedback" id="invalid-numerl-tel2">
+                            </div>
 
                         </div>
 
@@ -260,7 +262,9 @@
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="email" id="email2" name="correo" class="form-control" placeholder="Correo Electrónico" required />
                             <label class="form-label" for="email">Correo Electrónico</label>
+                            <div class="invalid-feedback" id="invalid-email2">
 
+                            </div>
                         </div>
 
 
@@ -394,7 +398,10 @@
 
     <script>
 
-
+        var latitudDB;
+        var longitudDB;
+        var latitudDB1;
+        var longitudDB1;
         function abrirModal() {
             $("#resgistro-modal").modal("show");
         }
@@ -424,8 +431,8 @@
         function Editar() {
             //pasar a binario
             var hola = document.getElementById("latitud2")
-            hola.value = latitudDB;
-            document.getElementById("longitud2").value = longitudDB;
+            hola.value = latitudDB1;
+            document.getElementById("longitud2").value = longitudDB1;
 
             document.getElementById("registration-form2").submit();
         }
@@ -469,7 +476,7 @@
             if (descripcion == "") {
                 errorMessage += "Debe ingresar la descripcion de la pyme.\n";
             }
-            if (latitu == 0 && longitu == 0 || latitu == undefined || longitudDB == undefined) {
+            if (latitu == 0 && longitu == 0 || latitu === undefined || longitudDB === undefined) {
                 errorMessage += "Debe marcar la ubicacion de la pyme.\n";
             }
 
@@ -529,15 +536,67 @@
             }
         });
         const descripcion = document.getElementById("descripcion");
-        name.addEventListener("blur", function () {
-            if (!name.value) {
-                name.classList.add("is-invalid");
+        descripcion.addEventListener("blur", function () {
+            if (!descripcion.value) {
+                descripcion.classList.add("is-invalid");
             } else {
-                name.classList.remove("is-invalid");
+                descripcion.classList.remove("is-invalid");
             }
         });
 
+        // Validaciones del modal de editar
 
+        const name2 = document.getElementById("name2");
+        name2.addEventListener("blur", function () {
+            if (!name2.value) {
+                name2.classList.add("is-invalid");
+            } else {
+                name2.classList.remove("is-invalid");
+            }
+        });
+        const areaT2 = document.getElementById("comboboxAreaTrabajo2");
+        areaT2.addEventListener("blur", function () {
+            if (!areaT2.value) {
+                areaT2.classList.add("is-invalid");
+            } else {
+                areaT2.classList.remove("is-invalid");
+            }
+        });
+        const phone2 = document.getElementById("phone2");
+        const errorTelefono2 = document.getElementById("invalid-numerl-tel2");
+        phone2.addEventListener("blur", function () {
+            if (!phone2.value) {
+                phone2.classList.add("is-invalid");
+                errorTelefono2.textContent = "Por favor ingrese un número de teléfono"
+            } else if (!esNumeroTelefonico(phone2.value)) {
+                phone2.classList.add("is-invalid");
+                errorTelefono2.textContent = "Por favor ingrese un número de teléfono valido, formato: XXXXXXX)"
+            } else {
+                phone2.classList.remove("is-invalid");
+            }
+        });
+
+        const email2 = document.getElementById("email2");
+        const errorCorreo2 = document.getElementById("invalid-email2");
+        email2.addEventListener("blur", function () {
+            if (!email2.value) {
+                email2.classList.add("is-invalid");
+                errorCorreo2.textContent = "Por favor ingrese un correo electrónico valido"
+            } else if (!esCorreo(email2.value)) {
+                email2.classList.add("is-invalid");
+                errorCorreo2.textContent = "Por favor ingrese un correo electrónico valido"
+            } else {
+                email2.classList.remove("is-invalid");
+            }
+        });
+        const descripcion2 = document.getElementById("descripcion2");
+        descripcion2.addEventListener("blur", function () {
+            if (!descripcion2.value) {
+                descripcion2.classList.add("is-invalid");
+            } else {
+                descripcion2.classList.remove("is-invalid");
+            }
+        });
     //mapa
         function iniciarMapa() {
             var latitud = 9.996528099999999;
@@ -552,7 +611,7 @@
         }
 
 
-    //mapa
+    //mapa registrar
         function generarMapa(cordenadas,id) {
             var mapa = new google.maps.Map(document.getElementById(id), {
                 zoom: 15,
@@ -573,7 +632,30 @@
 
                 console.log('Latitud:', latitudDB, 'Longitud:', longitudDB);
             });
-    }
+        }
+        // mapa editar
+        function generarMapaEditar(cordenadas, id) {
+            var mapa = new google.maps.Map(document.getElementById(id), {
+                zoom: 15,
+                center: new google.maps.LatLng(cordenadas.lat, cordenadas.lng)
+            });
+
+            var marcador = new google.maps.Marker({
+                map: mapa,
+                draggable: true,
+                position: new google.maps.LatLng(cordenadas.lat, cordenadas.lng)
+            });
+
+            marcador.addListener('dragend', function (event) {
+                latitudDB1 = this.getPosition().lat();
+                longitudDB1 = this.getPosition().lng();
+                document.getElementById("latitud").value = latitudDB;
+                document.getElementById("longitud").value = longitudDB;
+
+                console.log('Latitud:', latitudDB, 'Longitud:', longitudDB);
+            });
+        }
+
 
 
         jQuery.ajax({
@@ -885,13 +967,13 @@
                 $("#webSocial2").val(json.pyme.WebSocial);
 
 
-                latitudDB = json.pyme.Latitud
-                longitudDB = json.pyme.Longitud
+                latitudDB1 = json.pyme.Latitud
+                longitudDB1 = json.pyme.Longitud
                 cordenadas = {
                     lng: new Decimal(json.pyme.Longitud),
                     lat: new Decimal(json.pyme.Latitud)
                 }
-                generarMapa(cordenadas, "mapa2")
+                generarMapaEditar(cordenadas, "mapa2")
                 var imgElement = document.getElementById("img-logo")
                 if (json.pyme.Logo != null) {
                     var arrayBuffer = new Uint8Array(json.pyme.Logo);
@@ -918,8 +1000,8 @@
             var email = document.getElementById("email2").value;
             var descripcion = document.getElementById("descripcion2").value;
             var areaTab = document.getElementById("comboboxAreaTrabajo2").value;
-            var latitu = latitudDB;
-            var longitu = longitudDB;
+            var latitu = latitudDB1;
+            var longitu = longitudDB1;
 
             // Validar los campos requeridos
             var errorMessage = "";
@@ -943,7 +1025,7 @@
             if (descripcion == "") {
                 errorMessage += "Debe ingresar la descripcion de la pyme.\n";
             }
-            if (latitu == 0 && longitu == 0) {
+            if (latitu == 0 && longitu == 0 || latitu === undefined || longitudDB === undefined) {
                 errorMessage += "Debe marcar la ubicacion de la pyme.\n";
             }
 
@@ -957,7 +1039,16 @@
             }
 
         };
+        $("#tabla tbody").on("click", '.btn-editar', function () {
 
+
+            filaSeleccionada = $(this).closest("tr");
+
+            var data = tabladata.row(filaSeleccionada).data();
+
+            AbrirModalEditar(data);
+
+        })
     </script>
 
 

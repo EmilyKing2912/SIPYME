@@ -65,24 +65,24 @@
 
 
 <!-- Modal de estado -->
-<div class="modal" id="confirm-modal" tabindex="-1" data-bs-backdrop="static">
+<div class="modal" id="estado-modal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmacion</h5>
+                <h5 class="modal-title">Estado Pyme</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>¿Esta seguro de que desea eliminar esta Pyme? </p>
+                <input type="text" id="estadoP" name="estadoP" style=" border: none;" class="form-control" readonly />
+                <label class="form-label" for="razonRechazo2">Motivo</label>
+                <textarea class="form-control" style=" border: none;" id="razonRechazo2" rows="4" name="razonRechazo2" readonly></textarea>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" id="eliminar-pyme" onclick="cerrarModadDeConfirmacion()" class="btn btn-primary">Eliminar</button>
+                <button type="button" id="aceptar-pyme" onclick="cerrarModadEstado()" class="btn btn-primary">Aceptar</button>
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- Modal de borrar -->
 <div class="modal" id="confirm-modal" tabindex="-1" data-bs-backdrop="static">
@@ -598,8 +598,29 @@
 
                 console.log('Latitud:', latitudDB, 'Longitud:', longitudDB);
             });
-    }
+        }
+        // mapa edit
+        function generarMapaEditar(cordenadas, id) {
+            var mapa = new google.maps.Map(document.getElementById(id), {
+                zoom: 15,
+                center: new google.maps.LatLng(cordenadas.lat, cordenadas.lng)
+            });
 
+            var marcador = new google.maps.Marker({
+                map: mapa,
+                draggable: true,
+                position: new google.maps.LatLng(cordenadas.lat, cordenadas.lng)
+            });
+
+            marcador.addListener('dragend', function (event) {
+                latitudDB1 = this.getPosition().lat();
+                longitudDB1 = this.getPosition().lng();
+                document.getElementById("latitud").value = latitudDB;
+                document.getElementById("longitud").value = longitudDB;
+
+                console.log('Latitud:', latitudDB, 'Longitud:', longitudDB);
+            });
+        }
 
         jQuery.ajax({
         url: '@Url.Action("MostrarPymes", "Usuario")',
@@ -612,7 +633,7 @@
         })
 
     //carga la tabla
-
+    var filaSeleccionadaEst;
     var filaSeleccionada;
     var tabladata;
     var filaSeleccionadaEliminar;
@@ -635,11 +656,11 @@
                 "data": "pyme.Estado_pyme", "render": function (valor) {
                     if (valor === "Pendiente") {
 
-                        return '<button type="button" class="btn btn-warning">Pendiente</button>'
+                        return '<button type="button" class="btn btn-warning btn-estado">Pendiente</button>'
                     } else if (valor === "Aprobado") {
-                        return '<button type="button" class="btn btn-success">Aprobado</button>'
+                        return '<button type="button" class="btn btn-success btn-estado">Aprobado</button>'
                     } else {
-                        return '<button type="button" class="btn btn-danger">Rechazado</button>'
+                        return '<button type="button" class="btn btn-danger btn-estado">Rechazado</button>'
                     }
                 },
 
@@ -747,6 +768,33 @@
 
 
             })
+        //modal de estado pyme
+        function cerrarModalEstado() {
+            $("#estado-modal").modal("hide");
+        }
+
+        $("#tabla tbody").on("click", '.btn-estado', function () {
+            filaSeleccionadaEst = $(this).closest("tr");
+            var data = tabladata.row(filaSeleccionadaEst).data();
+            console.log(data.pyme);
+            AbrirModalEstado(data);
+        });
+
+        function AbrirModalEstado(json) {
+            if (json != null) {
+                if (json.pyme.Estado_pyme === "Pendiente") {
+                    $("#estadoP").val(json.pyme.Estado_pyme);
+                    $("#razonRechazo2").val("En espera de su aprobación, le ofrecemos nuestras disculpas por las molestias ocasionadas.");
+                } else if (json.pyme.Estado_pyme === "Aprobada") {
+                    $("#estadoP").val(json.pyme.Estado_pyme);
+                    $("#razonRechazo2").val("La pyme fue aprobada, ahora es visible para los usuarios del sistema.");
+                } else if (json.pyme.Estado_pyme === "Rechazada") {
+                    $("#estadoP").val(json.pyme.Estado_pyme);
+                    $("#razonRechazo2").val("La pyme fue rechazada, lamentamos las molestias ocasionadas.");
+                }
+            }
+            $("#estado-modal").modal("show");
+        }
     function AbrirModalEditar(json) {
 
 
