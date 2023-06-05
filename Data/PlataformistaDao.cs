@@ -187,47 +187,53 @@ namespace SIPYME.Data
 
             }
 
-        public static bool guardaRazonRechazo(Estado_pyme ep)
+        public static bool RegistraRazonRechazo(Estado_pyme ep, out string Mensaje, out int Resultado)
         {
-            bool registrado = false;
-            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            Mensaje = string.Empty;
+            Resultado = 0;
+            try
             {
 
-                MySqlCommand cmd = new MySqlCommand("registrarEstadoPyme", cn);
+                using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+                {
+                    MySqlCommand cmd = new MySqlCommand("cambiarEstadoRechazo", cn);
+                    cmd.Parameters.AddWithValue("p_id_pyme", ep.IdPyme);
+                    cmd.Parameters.AddWithValue("p_razonRechazo", ep.Razon_rechazo);
+                    cmd.Parameters.Add("resultado", MySqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("mensaje", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
-                cmd.Parameters.AddWithValue("p_id_pyme", ep.IdPyme);
-                cmd.Parameters.AddWithValue("p_razon_rechazo", ep.Razon_rechazo);
-               
-                cmd.Parameters.Add("resultado", MySqlDbType.Bit).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("mensaje", MySqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-                cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                cn.Open();
-                cmd.ExecuteNonQuery();
+                    cn.Open();
 
+                    cmd.ExecuteNonQuery();
 
-                registrado = Convert.ToBoolean(cmd.Parameters["resultado"].Value);
+                    Mensaje = cmd.Parameters["mensaje"].Value.ToString();
+                    Resultado = Convert.ToInt32(cmd.Parameters["resultado"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Mensaje = ex.Message;
+            }
+            if (Resultado == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
 
 
 
             }
-            if (registrado)
-                return true;
-            return false;
-
         }
 
 
 
 
-
-
-
-
-
-
-
-        public static int MantenimientoRegistraPyme(Logic.Pyme u, out String Mensaje)
+            public static int MantenimientoRegistraPyme(Logic.Pyme u, out String Mensaje)
             {
                 int idautogenerado = 0;
                 Mensaje = string.Empty;

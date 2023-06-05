@@ -76,7 +76,18 @@ namespace SIPYME.Controllers
             ////
         }
 
+        
+            [HttpPost]
+        public JsonResult PlataformistaRazonRechazo(Estado_pyme objeto)
+        {
+            object resultado2;
+            int Resultado = 0;
+            string mensaje = string.Empty;
 
+            resultado2 = Service.Service.PlataformistaRazonRechazo(objeto, out mensaje, out Resultado);
+            return Json(new { resultado = resultado2, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+
+        }
 
         [HttpPost]
         public ActionResult EditaPyme(Pyme objeto)
@@ -84,6 +95,7 @@ namespace SIPYME.Controllers
             object resultado;
             string mensaje = string.Empty;
             objeto.Estado_pyme = "Pendiente";
+
             resultado = Service.Service.usuarioEditaPyme(objeto, out mensaje);
 
             ViewData["Mensaje"] = mensaje;

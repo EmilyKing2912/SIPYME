@@ -8,7 +8,7 @@ namespace SIPYME.Logic
     public class Estado_pyme
     {
         int id;
-        int id_pyme;
+        int idPyme;
         string razon_rechazo;
 
 
@@ -20,8 +20,8 @@ namespace SIPYME.Logic
 
         public int IdPyme
         {
-            get { return id_pyme; }
-            set { id_pyme = value; }
+            get { return idPyme; }
+            set { idPyme = value; }
         }
 
         public string Razon_rechazo
@@ -33,11 +33,13 @@ namespace SIPYME.Logic
         public Estado_pyme(int id, int id_pyme, string razon_rechazo)
         {
             this.id = id;
-            this.id_pyme = id_pyme;
+            this.idPyme = id_pyme;
             this.razon_rechazo = razon_rechazo;
         }
 
-
+        public Estado_pyme()
+        {
+        }
     }
 
 

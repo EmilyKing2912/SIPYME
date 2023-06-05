@@ -62,7 +62,13 @@ namespace Service
             }
 
         }
-
+        public static bool PlataformistaRazonRechazo(Estado_pyme u,out string Mensaje, out int Resultado)
+        {
+                Mensaje = string.Empty;
+            Resultado = 0;
+                return PlataformistaDao.RegistraRazonRechazo(u, out Mensaje,out Resultado);
+        
+        }
 
 
         public static bool adminEditaUsuario(Usuario u, out string Mensaje)
