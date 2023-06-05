@@ -412,6 +412,11 @@
     <script>
         var latitudDB;
         var longitudDB;
+
+
+        var latitudDB1;
+        var longitudDB1;
+
         let imgElement12;
         let botonEliminar;
         function abrirModal() {
@@ -443,8 +448,8 @@
     function Editar() {
         //pasar a binario
         var hola = document.getElementById("latitud2")
-        hola.value = latitudDB;
-        document.getElementById("longitud2").value = longitudDB;
+        hola.value = latitudDB1;
+        document.getElementById("longitud2").value = longitudDB1;
 
         document.getElementById("registration-form2").submit();
     }
@@ -771,8 +776,8 @@
             $("#id_usuario").val(json.pyme.Id_usuario);
 
 
-            latitudDB = json.pyme.Latitud
-            longitudDB = json.pyme.Longitud
+            latitudDB1 = json.pyme.Latitud
+            longitudDB1 = json.pyme.Longitud
             cordenadas = {
                 lng: new Decimal(json.pyme.Longitud),
                 lat: new Decimal(json.pyme.Latitud)
@@ -945,8 +950,8 @@
             var email = document.getElementById("email2").value;
             var descripcion = document.getElementById("descripcion2").value;
             var areaTab = document.getElementById("comboboxAreaTrabajo2").value;
-            var latitu = latitudDB;
-            var longitu = longitudDB;
+            var latitu = latitudDB1;
+            var longitu = longitudDB1;
 
             // Validar los campos requeridos
             var errorMessage = "";
@@ -970,7 +975,7 @@
             if (descripcion == "") {
                 errorMessage += "Debe ingresar la descripcion de la pyme.\n";
             }
-            if (latitu == 0 && longitu == 0 || latitu == undefined || longitudDB == undefined) {
+            if (latitu == 0 && longitu == 0 || latitu === undefined || longitudDB === undefined) {
                 errorMessage += "Debe marcar la ubicacion de la pyme.\n";
             }
 
