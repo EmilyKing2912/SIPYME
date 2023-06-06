@@ -793,7 +793,70 @@
                 }
             }
             $("#estado-modal").modal("show");
+            }
+
+
+
+
+
+
+             function eliminarPymeFoto(idenFot) {
+    // Realizar llamada AJAX al backend
+    // Ajusta la URL y los parámetros según tu configuración del backend
+                 var idenFotInt = parseInt(idenFot);
+        console.log(idenFot)
+                 var Foto = {
+                     ID: idenFotInt,
+                     PymeId: 0,
+                     CantidadByte: []
+                 };
+                 console.log(Foto)
+    // Ejemplo de uso de AJAX con jQuery
+                 jQuery.ajax({
+        url: '@Url.Action("EliminarFotoPyme", "Usuario")',
+        type: "POST",
+        data: JSON.stringify({ objeto: Foto }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            if (response.resultado == true) {
+                let element = document.getElementById("divpyme-" + idenFot);
+                element.remove();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
         }
+    });
+            }
+             function eliminarProducto(idenFot) {
+    // Realizar llamada AJAX al backend
+    // Ajusta la URL y los parámetros según tu configuración del backend
+                 console.log(idenFot)
+                 var idenFotInt = parseInt(idenFot);
+var Foto = {
+            ID: idenFotInt,
+            PymeId: 0,
+            CantidadByte: []
+        };
+    // Ejemplo de uso de AJAX con jQuery
+                 jQuery.ajax({
+        url: '@Url.Action("EliminarFotoProducto", "Usuario")',
+        type: "POST",
+        data: JSON.stringify({ objeto: Foto }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            if (response.resultado == true) {
+                let element = document.getElementById("divproducto-" + idenFot);
+                element.remove();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+        }
+    });
+            }
     function AbrirModalEditar(json) {
 
 
@@ -848,10 +911,11 @@
                 divFotosProducto.innerHTML = '';
                 json.fotosProducto.forEach(function (foto) {
 
+                    var temp = foto.ID;
                     divFotosProducto.innerHTML += `
                    <div class="col-sm-4 text-center justify-content-center" id="divproducto-${foto.ID}"">
                          <img id="fotoproducto-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
-                         <button type="button" id="eliminafotoproducto-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
+                         <button type="button" onclick="eliminarProducto(${foto.ID})" id="eliminafotoproducto-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
                  </div>
                     `;
 
@@ -860,44 +924,11 @@
                     botonEliminar = document.getElementById("eliminafotoproducto-" + foto.ID)
 
 
-                    botonEliminar.onclick = function () {
-                        const idFoto = foto.ID
-
-                        // Realizar llamada AJAX al backend
-                        // Ajusta la URL y los parámetros según tu configuración del backend
-
-                        const parametros = { id: idFoto };
-
-                        $.ajax({
-                            url: '@Url.Action("EliminarFotoProducto", "Usuario")',
-                            method: 'POST',
-                            data: parametros,
-                            success: function (response) {
-                                // Procesar la respuesta del backend si es necesario
-                                if (response.resultado == true) {
-                                    document.getElementById("divproducto-" + foto.ID).remove();
-
-
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                // Manejar el error de la llamada AJAX si es necesario
-                                console.error(error);
-                            }
-                        });
-                    };
-
-
-
-
-
 
                     let arrayBuffer = new Uint8Array(foto.CantidadByte);
                     let blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
                     let imageUrl = URL.createObjectURL(blob);
                     imgElement12.src = imageUrl;
-
-
 
                 })
 
@@ -913,48 +944,16 @@
 
                 divFotosProducto.innerHTML = '';
                 json.fotosPyme.forEach(function (foto) {
-
                     divFotosProducto.innerHTML += `
                    <div class="col-sm-4 text-center justify-content-center" id="divpyme-${foto.ID}"">
                          <img id="fotopyme-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
-                         <button type="button" id="eliminafotopyme-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
+                         <button type="button" onclick="eliminarPymeFoto(${foto.ID})" id="eliminafotopyme-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
                  </div>
                     `;
 
 
                     imgElement12 = document.getElementById("fotopyme-" + foto.ID)
                     botonEliminar = document.getElementById("eliminafotopyme-" + foto.ID)
-
-
-                    botonEliminar.onclick = function () {
-                        const idFoto = foto.ID
-
-                        // Realizar llamada AJAX al backend
-                        // Ajusta la URL y los parámetros según tu configuración del backend
-
-                        const parametros = { id: idFoto };
-
-                        // Ejemplo de uso de AJAX con jQuery
-                        $.ajax({
-                            url: '@Url.Action("EliminarFotoPyme", "Usuario")',
-                            method: 'POST',
-                            data: parametros,
-                            success: function (response) {
-
-                                if (response.resultado == true) {
-                                    let element = document.getElementById("divpyme-" + foto.ID);
-                                    element.remove();
-
-
-                                }
-                            },
-                            error: function (xhr, status, error) {
-
-                                console.error(error);
-                            }
-                        });
-                    };
-
 
 
 
@@ -975,16 +974,6 @@
 
 
         }
-
-
-
-
-
-
-
-
-
-
 
 
         $("#editar-modal").modal("show");

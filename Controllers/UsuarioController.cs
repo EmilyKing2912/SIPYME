@@ -153,21 +153,21 @@ namespace SIPYME.Controllers
 
         }
         [HttpPost]
-        public JsonResult EliminarFotoProducto(int id)
+        public JsonResult EliminarFotoProducto(Foto objeto)
         {
             object resultado;
             string mensaje = string.Empty;
-            resultado = Service.Service.elimnaFotoProducto(id);
+            resultado = Service.Service.elimnaFotoProducto(objeto.ID);
 
             return Json(new { resultado = resultado }, JsonRequestBehavior.AllowGet);
 
         }
         [HttpPost]
-        public JsonResult EliminarFotoPyme(int id)
+        public JsonResult EliminarFotoPyme(Foto objeto)
         {
             object resultado;
             string mensaje = string.Empty;
-            resultado = Service.Service.elimnaFotoPyme(id);
+            resultado = Service.Service.elimnaFotoPyme(objeto.ID);
 
             return Json(new { resultado = resultado }, JsonRequestBehavior.AllowGet);
 

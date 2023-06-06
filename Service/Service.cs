@@ -394,7 +394,7 @@ namespace Service
         {
             try
             {
-                UsuarioDao.eliminarFotosPymeByID(id);
+                UsuarioDao.eliminarFotosProductoByID(id);
                 //AdminDao.trg_after_update_usuarios();
                 return true;
             }
