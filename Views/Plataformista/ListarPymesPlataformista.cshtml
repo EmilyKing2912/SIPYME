@@ -187,15 +187,15 @@
                     </div>
 
                     <div class="col-sm-4 mt-2 form-floating">
-                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
+                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="Rlogo" name="upload">
                     </div>
 
                     <div class="col-sm-4 mt-2 form-floating">
-                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="producto" multiple>
+                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="Rlogo2" name="producto" multiple>
                     </div>
 
                     <div class="col-sm-4 mt-2 form-floating">
-                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="pyme" multiple>
+                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="Rlogo3" name="pyme" multiple>
                     </div>
 
                     <div class="modal-footer">
@@ -322,15 +322,15 @@
 
                         <div class="col-sm-4 form-floating">
 
-                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
+                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="Elogo" name="upload">
                         </div>
 
                         <div class="col-sm-4 mt-2 form-floating">
-                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo2" name="producto" multiple>
+                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="Elogo2" name="producto" multiple>
                         </div>
 
                         <div class="col-sm-4 mt-2 form-floating">
-                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo3" name="pyme" multiple>
+                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="Elogo3" name="pyme" multiple>
                         </div>
 
 
@@ -500,8 +500,42 @@
             var latitu = latitudDB;
             var longitu = longitudDB;
 
+            var logo = document.getElementById("Rlogo");
+            var logo2 = document.getElementById("Rlogo2");
+            var logo3 = document.getElementById("Rlogo3");
             // Validar los campos requeridos
+
+
+
+
             var errorMessage = "";
+
+            if (logo2.value) {
+                for (var i = 0; i < logo2.files.length; i++) {
+                    var fileSize = logo2.files[i].size; // Obtener el tamaño del archivo en bytes
+
+                    if (fileSize >= 416000) {
+                        errorMessage += "La imagen " + logo2.files[i].name + " exede el peso permitido (416000 bites) .\n";
+                    }
+                }
+            }
+            if (logo3.value) {
+                for (var i = 0; i < logo3.files.length; i++) {
+                    var fileSize2 = logo3.files[i].size; // Obtener el tamaño del archivo en bytes
+
+                    if (fileSize2 >= 416000) {
+                        errorMessage += "La imagen " + logo3.files[i].name + " exede el peso permitido (416000 bites) .\n";
+                    }
+                }
+            }
+
+            if (logo.value) {
+                if (logo.files[0].size >= 416000) {
+                    errorMessage += "Debe ingresar un logo de menor cantidad de bytes maximo (416000 bites) .\n";
+                }
+            }
+            // Validar los campos requeridos
+
             if (name == "") {
                 errorMessage += "Debe ingresar el nombre .\n";
             }
@@ -1195,8 +1229,42 @@ var Foto = {
             var latitu = latitudDB1;
             var longitu = longitudDB1;
 
+            var logo = document.getElementById("Elogo");
+            var logo2 = document.getElementById("Elogo2");
+            var logo3 = document.getElementById("Elogo3");
             // Validar los campos requeridos
+
+
+
+
             var errorMessage = "";
+
+            if (logo2.value) {
+                for (var i = 0; i < logo2.files.length; i++) {
+                    var fileSize = logo2.files[i].size; // Obtener el tamaño del archivo en bytes
+
+                    if (fileSize >= 416000) {
+                        errorMessage += "La imagen " + logo2.files[i].name + " exede el peso permitido (416000 bites) .\n";
+                    }
+                }
+            }
+            if (logo3.value) {
+                for (var i = 0; i < logo3.files.length; i++) {
+                    var fileSize2 = logo3.files[i].size; // Obtener el tamaño del archivo en bytes
+
+                    if (fileSize2 >= 416000) {
+                        errorMessage += "La imagen " + logo3.files[i].name + " exede el peso permitido (416000 bites) .\n";
+                    }
+                }
+            }
+
+            if (logo.value) {
+                if (logo.files[0].size >= 416000) {
+                    errorMessage += "Debe ingresar un logo de menor cantidad de bytes maximo (416000 bites) .\n";
+                }
+            }
+            // Validar los campos requeridos
+
             if (name == "") {
                 errorMessage += "Debe ingresar el nombre .\n";
             }
