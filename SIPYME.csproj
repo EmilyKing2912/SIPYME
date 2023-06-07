@@ -784,6 +784,7 @@
     <Content Include="Views\Home\IframeLimpio.cshtml" />
     <Content Include="Views\Shared\_LayoutIframeLimpio.cshtml" />
     <Content Include="Views\Home\SinPermiso.cshtml" />
+    <Content Include="Views\Administrador\ListarPymesAdministrador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
