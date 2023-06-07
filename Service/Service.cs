@@ -332,6 +332,19 @@ namespace Service
             }
 
         }
+        public static List<Pyme> ListaPymeAprobada()
+        {
+            try
+            {
+                return UsuarioDao.listarPymesAprobadas();
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
 
         public static List<Pyme> ListaTodasLasPymes()
         {

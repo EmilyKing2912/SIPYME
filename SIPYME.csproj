@@ -773,7 +773,7 @@
     <Content Include="Views\Administrador\EditarUsuario.cshtml" />
     <Content Include="Views\Administrador\Listausuarios.cshtml" />
     <Content Include="Views\Shared\_LayoutPlataformista.cshtml" />
-    <Content Include="Views\Home\Iframe.cshtml" />
+    <Content Include="Views\Administrador\Iframe.cshtml" />
     <Content Include="Views\Administrador\Bitacora.cshtml" />
     <Content Include="Views\Usuario\ListarPymes.cshtml" />
     <Content Include="Views\Usuario\ViewUsuarioExterno.cshtml" />

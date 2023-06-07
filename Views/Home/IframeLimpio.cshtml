@@ -8,14 +8,14 @@
     <body>
         <div id="linkiframe" class="container">
             <div class="row mt-5">
-                <div class="col-md-4">
+                <div class="col-md-4 mb-3">
                     <input id="filtro-nombre" class="form-control" type="text" placeholder="Filtrar por nombre">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 mb-3">
                     @Html.DropDownList("areaTrabajo", lst, new { @class = "form-control input_user", id = "filtro-area-trabajo" })
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 mb-3">
                     <button id="btn-filtrar" class="btn btn-primary">Filtrar</button>
                 </div>
             </div>
@@ -37,16 +37,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <h5 class="modal-title" id="exampleModalLabel">Link:</h5>
-                            <textarea class="form-control" id="message-text"><iframe src="https://localhost:44335/Home/IframeLimpio" width="100%" height="500" frameborder="0" allowfullscreen></iframe></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <p><iframe src="https://localhost:44335/Home/IframeLimpio" width="100%" height="500" frameborder="0" allowfullscreen></iframe></p>
-                        </div>
-                    </form>
-                </div>
+                   
+                                <form>
+                                    <div class="mb-3">
+                                        <h5 class="modal-title" id="exampleModalLabel">Link:</h5>
+                                        <textarea class="form-control" id="message-text"><iframe src="@Url.Action("IframeLimpio", "Home")" width="100%" height="500" frameborder="0" allowfullscreen></iframe></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p><iframe src="@Url.Action("IframeLimpio", "Home")" width="100%" height="500" frameborder="0" allowfullscreen></iframe></p>
+                                    </div>
+                                </form>
+                            </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 
@@ -374,7 +375,7 @@
             });
 
             jQuery.ajax({
-                url: '@Url.Action("MostrarTodasLasPymes", "Home")',
+                url: '@Url.Action("MostrarTodasLasPymesAprobadas", "Home")',
                 type: "GET",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",

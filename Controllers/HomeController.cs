@@ -48,12 +48,6 @@ namespace SIPYME.Controllers
 
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
         [HttpGet]
         public JsonResult MostrarTodasLasPymes()
         {
@@ -75,12 +69,30 @@ namespace SIPYME.Controllers
             return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
 
         }
-        public ActionResult Contact()
+        [HttpGet]
+        public JsonResult MostrarTodasLasPymesAprobadas()
         {
-            ViewBag.Message = "Your contact page.";
+            //PARA mostrar pymes
+            List<PymeModel> pLista = new List<PymeModel>();
 
-            return View();
+
+            List<Pyme> pymes = Service.Service.ListaPymeAprobada();
+            if (pymes != null)
+            {
+                foreach (Pyme pyme in pymes)
+                {
+                    PymeModel unitmodelo = new PymeModel();
+                    unitmodelo.pyme = pyme;
+                    unitmodelo.fotosProducto = Service.Service.listaFotosProductoPorPyme(pyme.Id);
+                    unitmodelo.fotosPyme = Service.Service.listaFotosPymePorPyme(pyme.Id);
+                    pLista.Add(unitmodelo);
+                }
+            }
+
+            return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
+
         }
+
         public ActionResult Register()
         {
 
@@ -129,15 +141,32 @@ namespace SIPYME.Controllers
                     return RedirectToAction("ViewAdmin", "Administrador");
                 }
 
-                if (uFinal.Tipo.Equals(2)) // usuario externo
-                {
 
-                    return RedirectToAction("ViewUsuario", "Usuario");
-                }
-                
-                if (uFinal.Tipo.Equals(3)) // plataformista
+                if (uFinal.Tipo.Equals(2))
                 {
-                    return RedirectToAction("ViewPlataformista", "Plataformista");
+                    if (uFinal.Estado.Equals(1))
+                    {
+                        return RedirectToAction("ViewUsuario", "Usuario");
+                    }
+                    else
+                    {
+                        ViewData["Mensaje"] = "Usuario inactivo";
+                        return View("Index");
+                    }
+                }
+  
+
+                if (uFinal.Tipo.Equals(3))
+                {
+                    if (uFinal.Estado.Equals(1))
+                    {
+                        return RedirectToAction("ViewPlataformista", "Plataformista");
+                    }
+                    else
+                    {
+                        ViewData["Mensaje"] = "Plataformista inactivo";
+                        return View("Index");
+                    }
                 }
                 return View("index");
             }
