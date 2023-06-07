@@ -82,77 +82,211 @@
             </div>
         </div>
     </div>
-    </div>
-    <!-- Modal de borrar -->
-    <div class="modal" id="confirm-modal" tabindex="-1" data-bs-backdrop="static">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmacion</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>¿Esta seguro de que desea eliminar esta Pyme? </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" id="eliminar-pyme" onclick="cerrarModadDeConfirmacion()" class="btn btn-primary">Eliminar</button>
-                </div>
+</div>
+<!-- Modal de borrar -->
+<div class="modal" id="confirm-modal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de que desea eliminar esta Pyme? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="eliminar-pyme" onclick="cerrarModadDeConfirmacion()" class="btn btn-primary">Eliminar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal  de registrar-->
-    <div class="modal fade modal-xl" id="resgistro-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title" id="exampleModalLabel">Creacion de Pyme</h5>
-                    <button type="button" onclick="cerrarModal()" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<!-- Modal  de registrar-->
+<div class="modal fade modal-xl" id="resgistro-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Creacion de Pyme</h5>
+                <button type="button" onclick="cerrarModal()" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+
+            <form action='@Url.Action("RegistraPyme", "Usuario")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form">
+                <input id="editsave" type="hidden" value="0" />
+
+
+
+                <div class="row">
+                    <input id="latitud" name="Latitud" type="hidden" class="form-control" />
+                    <input id="longitud" name="Longitud" type="hidden" class="form-control" />
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="number" name="id" id="id" class="form-control" placeholder="id " required title="Se asigna automaticamente luego de registrar la Pyme" disabled />
+                        <label class="form-label" for="id">ID</label>
+                    </div>
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="text" name="estado_pyme" id="estado" class="form-control" placeholder="estado " value="Pendiente" disabled />
+                        <label class="form-label" for="estado">Estado</label>
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="text" name="nombre" id="name" class="form-control" placeholder="Nombre " required />
+                        <label class="form-label" for="name">Nombre</label>
+                        <div class="invalid-feedback">
+                            Por favor Ingrese el Nombre.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="tel" required title="Sin guiones ni espacios." name="numeroTelefono" id="phone" class="form-control" placeholder="Teléfono" required />
+                        <label class="form-label" for="phone">Teléfono</label>
+                        <div class="invalid-feedback" id="invalid-numerl-tel">
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="email" id="email" name="correo" class="form-control" placeholder="Correo Electrónico" required />
+                        <label class="form-label" for="email">Correo Electrónico</label>
+                        <div class="invalid-feedback" id="invalid-email">
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6 mt-2 form-floating">
+
+                        @Html.DropDownList("areaTrabajo", lst, new { @class = "form-control input_user", id = "comboboxAreaTrabajo" })
+
+                        <div class="invalid-feedback">
+                            Favor Seleccione el Area de Trabajo
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-12 mt-2 form-floating">
+                        <div class="mb-3">
+                            <label class="form-label" for="descripcion">Descripcion</label>
+                            <textarea class="form-control" id="descripcion" rows="4" name="descripcion" required></textarea>
+                        </div>
+                        <div class="invalid-feedback" id="invalid-descrip">
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-12 mt-2 form-floating">
+                        <h6 class="form-label">Favor Indique donde esta su negocio por medio del marcador</h6>
+                    </div>
+
+                    <div class="col-sm-12 mt-2 form-floating">
+                        <div id="mapa" style="width: 100%; height:500px;"></div>
+                    </div>
+
+
+                    <div class="col-sm-12 mt-3 form-floating">
+                        <h5 class="form-label">Informacion Adicional</h5>
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="url" id="webSocial" name="webSocial" class="form-control" placeholder="Web Social" />
+                        <label class="form-label" for="webSocial"> Web Social</label>
+                    </div>
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input type="url" id="sitioWeb" name="sitioWeb" class="form-control" placeholder="Sitio Web" />
+                        <label class="form-label" for="sitioWeb">Sitio Web</label>
+                    </div>
+
+                    <div class="col-sm-4 mt-3 form-floating">
+                        <h7 class="form-label">Logo </h7>
+                    </div>
+                    <div class="col-sm-4 mt-3 form-floating">
+                        <h7 class="form-label">Fotos del producto </h7>
+                    </div>
+                    <div class="col-sm-4 mt-3 form-floating">
+                        <h7 class="form-label">Fotos de la pyme </h7>
+                    </div>
+
+                    <div class="col-sm-4 mt-2 form-floating">
+                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
+                    </div>
+
+                    <div class="col-sm-4 mt-2 form-floating">
+                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="producto" multiple>
+                    </div>
+
+                    <div class="col-sm-4 mt-2 form-floating">
+                        <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="pyme" multiple>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal()" id="btn_cerrar_modal" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="registration-btn">Registrar</button>
+                    </div>
                 </div>
+            </form>
+        </div>
 
-
-
-                <form action='@Url.Action("RegistraPyme", "Usuario")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form">
+    </div>
+</div>
+<!-- Modal Editar-->
+<div class="modal fade modal-xl" id="editar-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Editar Pyme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form action='@Url.Action("EditaPyme", "Usuario")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form2">
                     <input id="editsave" type="hidden" value="0" />
 
 
 
                     <div class="row">
-                        <input id="latitud" name="Latitud" type="hidden" class="form-control" />
-                        <input id="longitud" name="Longitud" type="hidden" class="form-control" />
+
+                        <input id="latitud2" name="Latitud" type="hidden" class="form-control" />
+                        <input id="longitud2" name="Longitud" type="hidden" class="form-control" />
+
+
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input type="number" name="id" id="id" class="form-control" placeholder="id " required title="Se asigna automaticamente luego de registrar la Pyme" disabled />
+                            <input id="id_usuario" name="Id_usuario" type="text" class="form-control" readonly />
+                            <label class="form-label" for="id">ID Usuario</label>
+                        </div>
+
+
+                        <div class="col-sm-6 mt-2 form-floating">
+                            <input type="text" name="id" id="id2" class="form-control" placeholder="id " readonly />
                             <label class="form-label" for="id">ID</label>
                         </div>
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input type="text" name="estado_pyme" id="estado" class="form-control" placeholder="estado " value="Pendiente" disabled />
+                            <input type="text" name="Estado_pyme" value="Pendiente" id="estado2" class="form-control" placeholder="estado " disabled />
                             <label class="form-label" for="estado">Estado</label>
                         </div>
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input type="text" name="nombre" id="name" class="form-control" placeholder="Nombre " required />
+                            <input type="text" name="nombre" id="name2" class="form-control" placeholder="Nombre " required />
                             <label class="form-label" for="name">Nombre</label>
-                            <div class="invalid-feedback">
-                                Por favor Ingrese el Nombre.
-                            </div>
+
                         </div>
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input type="tel" required title="Sin guiones ni espacios." name="numeroTelefono" id="phone" class="form-control" placeholder="Teléfono" required />
+                            <input type="tel" name="numeroTelefono" id="phone2" class="form-control" placeholder="Teléfono" required />
                             <label class="form-label" for="phone">Teléfono</label>
-                            <div class="invalid-feedback" id="invalid-numerl-tel">
+                            <div class="invalid-feedback" id="invalid-numerl-tel2">
                             </div>
                         </div>
 
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input type="email" id="email" name="correo" class="form-control" placeholder="Correo Electrónico" required />
+                            <input type="email" id="email2" name="correo" class="form-control" placeholder="Correo Electrónico" required />
                             <label class="form-label" for="email">Correo Electrónico</label>
-                            <div class="invalid-feedback" id="invalid-email">
+                            <div class="invalid-feedback" id="invalid-email2">
 
                             </div>
                         </div>
@@ -160,7 +294,7 @@
 
                         <div class="col-sm-6 mt-2 form-floating">
 
-                            @Html.DropDownList("areaTrabajo", lst, new { @class = "form-control input_user", id = "comboboxAreaTrabajo" })
+                            @Html.DropDownList("areaTrabajo", lst, new { @class = "form-control input_user", id = "comboboxAreaTrabajo2" })
 
                             <div class="invalid-feedback">
                                 Favor Seleccione el Area de Trabajo
@@ -171,10 +305,9 @@
                         <div class="col-sm-12 mt-2 form-floating">
                             <div class="mb-3">
                                 <label class="form-label" for="descripcion">Descripcion</label>
-                                <textarea class="form-control" id="descripcion" rows="4" name="descripcion" required></textarea>
+                                <textarea class="form-control" id="descripcion2" rows="4" name="descripcion" required></textarea>
                             </div>
-                            <div class="invalid-feedback" id="invalid-descrip">
-                            </div>
+
                         </div>
 
 
@@ -183,7 +316,7 @@
                         </div>
 
                         <div class="col-sm-12 mt-2 form-floating">
-                            <div id="mapa" style="width: 100%; height:500px;"></div>
+                            <div id="mapa2" style="width: 100%; height:500px;"></div>
                         </div>
 
 
@@ -192,233 +325,108 @@
                         </div>
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input type="url" id="webSocial" name="webSocial" class="form-control" placeholder="Web Social" />
+                            <input type="url" id="webSocial2" name="webSocial" class="form-control" placeholder="Web Social" />
                             <label class="form-label" for="webSocial"> Web Social</label>
                         </div>
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input type="url" id="sitioWeb" name="sitioWeb" class="form-control" placeholder="Sitio Web" />
+                            <input type="url" id="sitioWeb2" name="sitioWeb" class="form-control" placeholder="Sitio Web" />
                             <label class="form-label" for="sitioWeb">Sitio Web</label>
                         </div>
 
-                        <div class="col-sm-4 mt-3 form-floating">
-                            <h7 class="form-label">Logo </h7>
+                        <div class="col-sm-12">
+                            <img id="img-logo" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
                         </div>
-                        <div class="col-sm-4 mt-3 form-floating">
-                            <h7 class="form-label">Fotos del producto </h7>
-                        </div>
-                        <div class="col-sm-4 mt-3 form-floating">
-                            <h7 class="form-label">Fotos de la pyme </h7>
-                        </div>
-
-                        <div class="col-sm-4 mt-2 form-floating">
+                        <div class="col-sm-12 ">
+                            <label for="logo" class="form-label">Editar Logo:</label>
                             <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
                         </div>
 
-                        <div class="col-sm-4 mt-2 form-floating">
-                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="producto" multiple>
-                        </div>
 
-                        <div class="col-sm-4 mt-2 form-floating">
-                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="pyme" multiple>
-                        </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" onclick="cerrarModal()" id="btn_cerrar_modal" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" id="registration-btn">Registrar</button>
-                        </div>
+
                     </div>
+
+
+
                 </form>
             </div>
-
-        </div>
-    </div>
-    <!-- Modal Editar-->
-    <div class="modal fade modal-xl" id="editar-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel">Editar Pyme</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <form action='@Url.Action("EditaPyme", "Usuario")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form2">
-                        <input id="editsave" type="hidden" value="0" />
-
-
-
-                        <div class="row">
-
-                            <input id="latitud2" name="Latitud" type="hidden" class="form-control" />
-                            <input id="longitud2" name="Longitud" type="hidden" class="form-control" />
-
-
-
-                            <div class="col-sm-6 mt-2 form-floating">
-                                <input id="id_usuario" name="Id_usuario" type="text" class="form-control" readonly />
-                                <label class="form-label" for="id">ID Usuario</label>
-                            </div>
-
-
-                            <div class="col-sm-6 mt-2 form-floating">
-                                <input type="text" name="id" id="id2" class="form-control" placeholder="id " readonly />
-                                <label class="form-label" for="id">ID</label>
-                            </div>
-                            <div class="col-sm-6 mt-2 form-floating">
-                                <input type="text" name="Estado_pyme" value="Pendiente" id="estado2" class="form-control" placeholder="estado " disabled />
-                                <label class="form-label" for="estado">Estado</label>
-                            </div>
-
-                            <div class="col-sm-6 mt-2 form-floating">
-                                <input type="text" name="nombre" id="name2" class="form-control" placeholder="Nombre " required />
-                                <label class="form-label" for="name">Nombre</label>
-
-                            </div>
-
-                            <div class="col-sm-6 mt-2 form-floating">
-                                <input type="tel" name="numeroTelefono" id="phone2" class="form-control" placeholder="Teléfono" required />
-                                <label class="form-label" for="phone">Teléfono</label>
-
-                            </div>
-
-
-                            <div class="col-sm-6 mt-2 form-floating">
-                                <input type="email" id="email2" name="correo" class="form-control" placeholder="Correo Electrónico" required />
-                                <label class="form-label" for="email">Correo Electrónico</label>
-
-                            </div>
-
-
-                            <div class="col-sm-6 mt-2 form-floating">
-
-                                @Html.DropDownList("areaTrabajo", lst, new { @class = "form-control input_user", id = "comboboxAreaTrabajo2" })
-
-                                <div class="invalid-feedback">
-                                    Favor Seleccione el Area de Trabajo
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-12 mt-2 form-floating">
-                                <div class="mb-3">
-                                    <label class="form-label" for="descripcion">Descripcion</label>
-                                    <textarea class="form-control" id="descripcion2" rows="4" name="descripcion" required></textarea>
-                                </div>
-
-                            </div>
-
-
-                            <div class="col-sm-12 mt-2 form-floating">
-                                <h6 class="form-label">Favor Indique donde esta su negocio por medio del marcador</h6>
-                            </div>
-
-                            <div class="col-sm-12 mt-2 form-floating">
-                                <div id="mapa2" style="width: 100%; height:500px;"></div>
-                            </div>
-
-
-                            <div class="col-sm-12 mt-3 form-floating">
-                                <h5 class="form-label">Informacion Adicional</h5>
-                            </div>
-
-                            <div class="col-sm-6 mt-2 form-floating">
-                                <input type="url" id="webSocial2" name="webSocial" class="form-control" placeholder="Web Social" />
-                                <label class="form-label" for="webSocial"> Web Social</label>
-                            </div>
-
-                            <div class="col-sm-6 mt-2 form-floating">
-                                <input type="url" id="sitioWeb2" name="sitioWeb" class="form-control" placeholder="Sitio Web" />
-                                <label class="form-label" for="sitioWeb">Sitio Web</label>
-                            </div>
-
-                            <div class="col-sm-12">
-                                <img id="img-logo" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
-                            </div>
-                            <div class="col-sm-12 ">
-                                <label for="logo" class="form-label">Editar Logo:</label>
-                                <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
-                            </div>
-
-
-
-
-                        </div>
-
-
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-producto">Ver Fotos Producto</button>
-                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-pyme">Ver Fotos Pyme</button>
-                    <button type="button" class="btn btn-primary" id="edit-btn">Editar</button>
-                </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-producto">Ver Fotos Producto</button>
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-pyme">Ver Fotos Pyme</button>
+                <button type="button" class="btn btn-primary" id="edit-btn">Editar</button>
             </div>
         </div>
     </div>
-    <div class="modal fade modal-xl" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel2">Fotos</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row" id="fotosProducto">
+</div>
+<div class="modal fade modal-xl" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Fotos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="fotosProducto">
 
 
 
-                    </div>
-                    <!-- Gallery -->
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#editar-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
-                </div>
+                <!-- Gallery -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#editar-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
             </div>
         </div>
-
-
-
-    </div>
-    <div class="modal fade modal-xl" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel3">Fotos</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row" id="fotosPyme">
-
-
-
-                    </div>
-                    <!-- Gallery -->
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#editar-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
-                </div>
-            </div>
-        </div>
-
-
-
     </div>
 
 
-    @section scripts{
 
-        <script>
+</div>
+<div class="modal fade modal-xl" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel3">Fotos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="fotosPyme">
+
+
+
+                </div>
+                <!-- Gallery -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#editar-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+@section scripts{
+
+    <script>
         var latitudDB;
         var longitudDB;
-
-
+        
+        var dataprint;
         var latitudDB1;
         var longitudDB1;
 
         let imgElement12;
         let botonEliminar;
+
         function abrirModal() {
+
+            longitudDB = 0;
+            latitudDB = 0;
+            iniciarMapa();
             $("#resgistro-modal").modal("show");
         }
 
@@ -493,7 +501,7 @@
             if (descripcion == "") {
                 errorMessage += "Debe ingresar la descripcion de la pyme.\n";
             }
-            if (latitu == 0 && longitu == 0 || latitu == undefined || longitudDB == undefined) {
+            if (latitu == 0 && longitu == 0 || latitu === undefined || longitudDB === undefined) {
                 errorMessage += "Debe marcar la ubicacion de la pyme.\n";
             }
 
@@ -553,15 +561,65 @@
             }
         });
         const descripcion = document.getElementById("descripcion");
-        name.addEventListener("blur", function () {
-            if (!name.value) {
-                name.classList.add("is-invalid");
+        descripcion.addEventListener("blur", function () {
+            if (!descripcion.value) {
+                descripcion.classList.add("is-invalid");
             } else {
-                name.classList.remove("is-invalid");
+                descripcion.classList.remove("is-invalid");
             }
         });
 
-
+        // validaciones edit
+        const name2 = document.getElementById("name2");
+        name2.addEventListener("blur", function () {
+            if (!name2.value) {
+                name2.classList.add("is-invalid");
+            } else {
+                name2.classList.remove("is-invalid");
+            }
+        });
+        const areaT2 = document.getElementById("comboboxAreaTrabajo2");
+        areaT2.addEventListener("blur", function () {
+            if (!areaT2.value) {
+                areaT2.classList.add("is-invalid");
+            } else {
+                areaT2.classList.remove("is-invalid");
+            }
+        });
+        const phone2 = document.getElementById("phone2");
+        const errorTelefono2 = document.getElementById("invalid-numerl-tel2");
+        phone2.addEventListener("blur", function () {
+            if (!phone2.value) {
+                phone2.classList.add("is-invalid");
+                errorTelefono2.textContent = "Por favor ingrese un número de teléfono"
+            } else if (!esNumeroTelefonico(phone2.value)) {
+                phone2.classList.add("is-invalid");
+                errorTelefono2.textContent = "Por favor ingrese un número de teléfono valido, formato: XXXXXXX)"
+            } else {
+                phone2.classList.remove("is-invalid");
+            }
+        });
+        const email2 = document.getElementById("email2");
+        const errorCorreo2 = document.getElementById("invalid-email2");
+        email2.addEventListener("blur", function () {
+            if (!email2.value) {
+                email2.classList.add("is-invalid");
+                errorCorreo2.textContent = "Por favor ingrese un correo electrónico valido"
+            } else if (!esCorreo(email2.value)) {
+                email2.classList.add("is-invalid");
+                errorCorreo2.textContent = "Por favor ingrese un correo electrónico valido"
+            } else {
+                email2.classList.remove("is-invalid");
+            }
+        });
+        const descripcion2 = document.getElementById("descripcion2");
+        descripcion2.addEventListener("blur", function () {
+            if (!descripcion2.value) {
+                descripcion2.classList.add("is-invalid");
+            } else {
+                descripcion2.classList.remove("is-invalid");
+            }
+        });
     //mapa
         function iniciarMapa() {
             var latitud = 9.996528099999999;
@@ -614,10 +672,6 @@
             marcador.addListener('dragend', function (event) {
                 latitudDB1 = this.getPosition().lat();
                 longitudDB1 = this.getPosition().lng();
-                document.getElementById("latitud").value = latitudDB;
-                document.getElementById("longitud").value = longitudDB;
-
-                console.log('Latitud:', latitudDB, 'Longitud:', longitudDB);
             });
         }
 
@@ -747,8 +801,8 @@
 
                     filaSeleccionada = $(this).closest("tr");
 
-                    var data = tabladata.row(filaSeleccionada).data();
-
+        var data = tabladata.row(filaSeleccionada).data();
+        dataprint = data;
                     AbrirModalEditar(data);
 
                 })
@@ -822,6 +876,15 @@
             if (response.resultado == true) {
                 let element = document.getElementById("divpyme-" + idenFot);
                 element.remove();
+                var fotos = dataprint.fotosPyme;
+                for (var i = 0; i < fotos.length; i++) {
+                    if (fotos[i].ID === idenFot) {
+                        fotos.splice(i, 1);
+                        break;
+                    }
+                }
+                tabladata.row(filaSeleccionada).data(dataprint).draw();
+
             }
         },
         error: function (xhr, status, error) {
@@ -850,6 +913,15 @@ var Foto = {
             if (response.resultado == true) {
                 let element = document.getElementById("divproducto-" + idenFot);
                 element.remove();
+                var fotos = dataprint.fotosProducto;
+                for (var i = 0; i < fotos.length; i++) {
+                    if (fotos[i].ID === idenFot) {
+                        fotos.splice(i, 1);
+                        break;
+                    }
+                }
+                tabladata.row(filaSeleccionada).data(dataprint).draw();
+
             }
         },
         error: function (xhr, status, error) {
@@ -1011,7 +1083,7 @@ var Foto = {
             if (descripcion == "") {
                 errorMessage += "Debe ingresar la descripcion de la pyme.\n";
             }
-            if (latitu == 0 && longitu == 0 || latitu === undefined || longitudDB === undefined) {
+            if (latitu == 0 && longitu == 0 || latitu === undefined || longitu === undefined) {
                 errorMessage += "Debe marcar la ubicacion de la pyme.\n";
             }
 
@@ -1025,15 +1097,15 @@ var Foto = {
             }
 
         };
-        </script>
+    </script>
 
 
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=&callback=iniciarMapa"></script>
-        @if (ViewData["Mensaje"] != null)
-        {
-            <script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=iniciarMapa"></script>
+    @if (ViewData["Mensaje"] != null)
+    {
+        <script>
         alert("@ViewData["Mensaje"]");
-            </script>
-        }
+        </script>
     }
+}

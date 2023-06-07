@@ -328,7 +328,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Ver Fotos</button>
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-producto">Ver Fotos Producto</button>
+                <button class="btn btn-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" data-bs-dismiss="modal" id="btn-fotos-pyme">Ver Fotos Pyme</button>
                 <button type="button" class="btn btn-primary" id="edit-btn">Editar</button>
             </div>
         </div>
@@ -359,7 +360,30 @@
 
 
 </div>
+<div class="modal fade modal-xl" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel3">Fotos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="fotosPyme">
 
+
+
+                </div>
+                <!-- Gallery -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#editar-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
 
 
 <!-- Modal Rechazo -->
@@ -402,7 +426,13 @@
         var longitudDB;
         var latitudDB1;
         var longitudDB1;
+        var dataprint;
+        let imgElement12;
+        let botonEliminar;
         function abrirModal() {
+            longitudDB = 0;
+            latitudDB = 0;
+            iniciarMapa();
             $("#resgistro-modal").modal("show");
         }
 
@@ -418,6 +448,7 @@
     function cerrarModalEditar() {
         $("#form-modalEdit").modal("hide");
     }
+
 
 
         function Guardar() {
@@ -476,7 +507,7 @@
             if (descripcion == "") {
                 errorMessage += "Debe ingresar la descripcion de la pyme.\n";
             }
-            if (latitu == 0 && longitu == 0 || latitu === undefined || longitudDB === undefined) {
+            if (latitu == 0 && longitu == 0 || latitu === undefined || longitu === undefined) {
                 errorMessage += "Debe marcar la ubicacion de la pyme.\n";
             }
 
@@ -491,7 +522,7 @@
 
         };
 
-    //validaciones
+        //validaciones
         const name = document.getElementById("name");
         name.addEventListener("blur", function () {
             if (!name.value) {
@@ -544,8 +575,7 @@
             }
         });
 
-        // Validaciones del modal de editar
-
+        // validaciones edit
         const name2 = document.getElementById("name2");
         name2.addEventListener("blur", function () {
             if (!name2.value) {
@@ -575,7 +605,6 @@
                 phone2.classList.remove("is-invalid");
             }
         });
-
         const email2 = document.getElementById("email2");
         const errorCorreo2 = document.getElementById("invalid-email2");
         email2.addEventListener("blur", function () {
@@ -809,6 +838,85 @@
                             },
                         })
         }
+        // ajax de eliminar fotos
+
+                     function eliminarPymeFoto(idenFot) {
+    // Realizar llamada AJAX al backend
+    // Ajusta la URL y los parámetros según tu configuración del backend
+                 var idenFotInt = parseInt(idenFot);
+        console.log(idenFot)
+                 var Foto = {
+                     ID: idenFotInt,
+                     PymeId: 0,
+                     CantidadByte: []
+                 };
+                 console.log(Foto)
+    // Ejemplo de uso de AJAX con jQuery
+                 jQuery.ajax({
+        url: '@Url.Action("EliminarFotoPyme", "Usuario")',
+        type: "POST",
+        data: JSON.stringify({ objeto: Foto }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            if (response.resultado == true) {
+                let element = document.getElementById("divpyme-" + idenFot);
+                element.remove();
+                var fotos = dataprint.fotosPyme;
+                for (var i = 0; i < fotos.length; i++) {
+                    if (fotos[i].ID === idenFot) {
+                        fotos.splice(i, 1);
+                        break;
+                    }
+                }
+                tabladata.row(filaSeleccionada).data(dataprint).draw();
+
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+        }
+    });
+            }
+             function eliminarProducto(idenFot) {
+    // Realizar llamada AJAX al backend
+    // Ajusta la URL y los parámetros según tu configuración del backend
+                 console.log(idenFot)
+                 var idenFotInt = parseInt(idenFot);
+var Foto = {
+            ID: idenFotInt,
+            PymeId: 0,
+            CantidadByte: []
+        };
+    // Ejemplo de uso de AJAX con jQuery
+                 jQuery.ajax({
+        url: '@Url.Action("EliminarFotoProducto", "Usuario")',
+        type: "POST",
+        data: JSON.stringify({ objeto: Foto }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            if (response.resultado == true) {
+                let element = document.getElementById("divproducto-" + idenFot);
+                element.remove();
+                var fotos = dataprint.fotosProducto;
+                for (var i = 0; i < fotos.length; i++) {
+                    if (fotos[i].ID === idenFot) {
+                        fotos.splice(i, 1);
+                        break;
+                    }
+                }
+                tabladata.row(filaSeleccionada).data(dataprint).draw();
+
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+        }
+    });
+        }
+
+
 
         //metodo para actualizar estado de la pyme
         function rechazar() {
@@ -954,10 +1062,10 @@
                 //$("#ced").val(json.Cedula);
                 //$("#cboactivo").val(json.Estado == 1 ? 1 : 2);
                 //$("#cbtipo").val(json.Tipo == 2 ? 2 : 3);\
-
+                
                 $("#id2").val(json.pyme.Id);
-                $("#id_usuario2").val(json.pyme.Id_usuario);
                 $("#estado2").val();
+                $("#id_usuario").val(json.pyme.Id_usuario);
                 $("#name2").val(json.pyme.Nombre);
                 $("#phone2").val(json.pyme.NumeroTelefono);
                 $("#email2").val(json.pyme.Correo);
@@ -965,6 +1073,7 @@
                 $("#descripcion2").val(json.pyme.Descripcion);
                 $("#sitioWeb2").val(json.pyme.SitioWeb);
                 $("#webSocial2").val(json.pyme.WebSocial);
+                $("#id_usuario").val(json.pyme.Id_usuario);
 
 
                 latitudDB1 = json.pyme.Latitud
@@ -973,12 +1082,12 @@
                     lng: new Decimal(json.pyme.Longitud),
                     lat: new Decimal(json.pyme.Latitud)
                 }
-                generarMapaEditar(cordenadas, "mapa2")
+                generarMapa(cordenadas, "mapa2")
                 var imgElement = document.getElementById("img-logo")
                 if (json.pyme.Logo != null) {
-                    var arrayBuffer = new Uint8Array(json.pyme.Logo);
-                    var blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
-                    var imageUrl = URL.createObjectURL(blob);
+                    let arrayBuffer = new Uint8Array(json.pyme.Logo);
+                    let blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // Ajusta el tipo MIME según el formato de la imagen
+                    let imageUrl = URL.createObjectURL(blob);
 
                     imgElement.classList.remove("d-none");
                     imgElement.src = imageUrl;
@@ -986,8 +1095,76 @@
                     imgElement.classList.add("d-none");
                 }
 
+                if (json.fotosProducto != null && json.fotosProducto.length > 0) {
+                    const divFotosProducto = document.getElementById('fotosProducto');
+
+                    divFotosProducto.innerHTML = '';
+                    json.fotosProducto.forEach(function (foto) {
+
+                        var temp = foto.ID;
+                        divFotosProducto.innerHTML += `
+                   <div class="col-sm-4 text-center justify-content-center" id="divproducto-${foto.ID}"">
+                         <img id="fotoproducto-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                         <button type="button" onclick="eliminarProducto(${foto.ID})" id="eliminafotoproducto-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
+                 </div>
+                    `;
+
+
+                        imgElement12 = document.getElementById("fotoproducto-" + foto.ID)
+                        botonEliminar = document.getElementById("eliminafotoproducto-" + foto.ID)
+
+
+
+                        let arrayBuffer = new Uint8Array(foto.CantidadByte);
+                        let blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                        let imageUrl = URL.createObjectURL(blob);
+                        imgElement12.src = imageUrl;
+
+                    })
+
+
+                    document.getElementById("btn-fotos-producto").classList.remove("d-none");
+
+                } else {
+                    document.getElementById("btn-fotos-producto").classList.add("d-none");
+                }
+
+                if (json.fotosPyme != null && json.fotosPyme.length > 0) {
+                    const divFotosProducto = document.getElementById('fotosPyme');
+
+                    divFotosProducto.innerHTML = '';
+                    json.fotosPyme.forEach(function (foto) {
+                        divFotosProducto.innerHTML += `
+                   <div class="col-sm-4 text-center justify-content-center" id="divpyme-${foto.ID}"">
+                         <img id="fotopyme-${foto.ID}" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                         <button type="button" onclick="eliminarPymeFoto(${foto.ID})" id="eliminafotopyme-${foto.ID}" title="Borrar Foto" class="btn btn-danger btn-sm ms-2 btn-borrar"><i class="fas fa-times"></i></i> </button>
+                 </div>
+                    `;
+
+
+                        imgElement12 = document.getElementById("fotopyme-" + foto.ID)
+                        botonEliminar = document.getElementById("eliminafotopyme-" + foto.ID)
+
+
+
+
+
+                        let arrayBuffer = new Uint8Array(foto.CantidadByte);
+                        let blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                        let imageUrl = URL.createObjectURL(blob);
+                        imgElement12.src = imageUrl;
+
+
+
+                    })
+                    document.getElementById("btn-fotos-pyme").classList.remove("d-none");
+                } else {
+                    document.getElementById("btn-fotos-pyme").classList.add("d-none");
+                }
+
 
             }
+
 
             $("#editar-modal").modal("show");
         }
@@ -1025,7 +1202,7 @@
             if (descripcion == "") {
                 errorMessage += "Debe ingresar la descripcion de la pyme.\n";
             }
-            if (latitu == 0 && longitu == 0 || latitu === undefined || longitudDB === undefined) {
+            if (latitu == 0 && longitu == 0 || latitu === undefined || longitu === undefined) {
                 errorMessage += "Debe marcar la ubicacion de la pyme.\n";
             }
 
@@ -1039,13 +1216,14 @@
             }
 
         };
+
         $("#tabla tbody").on("click", '.btn-editar', function () {
 
 
             filaSeleccionada = $(this).closest("tr");
 
             var data = tabladata.row(filaSeleccionada).data();
-
+            dataprint = data;
             AbrirModalEditar(data);
 
         })
