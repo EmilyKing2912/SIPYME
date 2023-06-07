@@ -13,6 +13,12 @@ namespace SIPYME.Controllers
     [PermisosRol(1)]
     public class AdministradorController : Controller
     {
+        public ActionResult Iframe()
+        {
+
+            return View("Iframe", lalista());
+        }
+
         public ActionResult ViewAdmin()
         {
             return View();

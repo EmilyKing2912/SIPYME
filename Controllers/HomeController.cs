@@ -15,10 +15,6 @@ namespace SIPYME.Controllers
         {
             return View();
         }
-        public ActionResult Iframe() {
-        
-            return View("Iframe", lalista());
-        }
 
         private List<SelectListItem> lalista()
         {
