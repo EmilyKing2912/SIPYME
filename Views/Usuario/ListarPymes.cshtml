@@ -431,7 +431,7 @@
     <script>
         var latitudDB;
         var longitudDB;
-        
+
         var dataprint;
         var latitudDB1;
         var longitudDB1;
@@ -891,8 +891,27 @@
                     $("#estadoP").val(json.pyme.Estado_pyme);
                     $("#razonRechazo2").val("La pyme fue aprobada, ahora es visible para los usuarios del sistema.");
                 } else if (json.pyme.Estado_pyme === "Rechazada") {
-                    $("#estadoP").val(json.pyme.Estado_pyme);
-                    $("#razonRechazo2").val("La pyme fue rechazada, lamentamos las molestias ocasionadas.");
+
+                    var pym = json.pyme;
+                    pym.Logo = null;
+                    console.log(pym);
+        jQuery.ajax({
+        url: '@Url.Action("obtenerEstado", "Usuario")',
+            type: "POST",
+            data: JSON.stringify({ objeto: pym }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            if (response.resultado == true) {
+                $("#estadoP").val(json.pyme.Estado_pyme);
+                $("#razonRechazo2").val(response.mensaje);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+        }
+    });
+                   
                 }
             }
             $("#estado-modal").modal("show");

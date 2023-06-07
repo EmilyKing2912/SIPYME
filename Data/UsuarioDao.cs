@@ -41,6 +41,33 @@ namespace SIPYME.Data
 
             }
         }
+          public static void obtenerEstado(int idPyme,out string mensaje)
+        {
+            MySqlConnection cn = new MySqlConnection(Conection.cn);
+            MySqlCommand cmd = new MySqlCommand();
+            MySqlDataReader reader;
+            cn.Open();
+            cmd.Connection = cn;
+            cmd.CommandText = "SELECT * FROM estado_pyme WHERE id_pyme= " + idPyme;
+            reader = cmd.ExecuteReader();
+            String estado = "";
+            while (reader.Read())
+            {
+               estado=reader.GetString("razonRechazo");
+            
+            }
+
+            if (estado != "")
+            {
+                mensaje = estado;
+            }
+            else
+            {
+                mensaje = "No se pudo recuperar la razon de rechazo";
+            }
+
+            cn.Close();
+        }
         public static void eliminarPyme(Pyme pyme)
         {
 

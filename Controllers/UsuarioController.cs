@@ -79,9 +79,18 @@ namespace SIPYME.Controllers
         }
 
 
+        [HttpPost]
+        public JsonResult obtenerEstado(Pyme objeto)
+        {
+            bool resultado;
+            string mensaje = string.Empty;
+            resultado = Service.Service.ObtenerEstado(objeto,out mensaje);
 
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
+        }
 
+        
 
 
 

@@ -134,6 +134,22 @@ namespace Service
             }
 
         }
+
+        public static bool ObtenerEstado(Pyme p,out string mensaje)
+        {
+            try
+            {
+                UsuarioDao.obtenerEstado(p.Id,out mensaje);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                mensaje = "Ocurrio algo inesperado, intentelo luego";
+                return false;
+            }
+        }
+
         public static bool PlataformistaEliminaPyme(Pyme p)
         {
             try
