@@ -1,41 +1,52 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - SIPYME</title>
-    @Styles.Render("~/Content/css")
-    
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/Admin")
+
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <img src="~/Imagenes/logoMuni.jpg" alt="Sistema de Patentes San Pablo" style="width: 300px; height: auto;">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <form class="d-none d-md-inline-block form-inline ms-5 me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <img src="~/imagenes/sipymelogo.jpg" style="width: 180px; height: auto;">
             </div>
+        </form>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <a class="navbar-brand ps-3" href="@Url.Action("IframeLimpio", "Home")">Visualizar Mapa</a>
+                <a class="navbar-brand ps-3" href="@Url.Action("Index", "Home")">Iniciar Sesion</a>
+            </div>
+        </form>
 
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                </ul>
-            </div>
+
+    </nav>
+   
+        <div id="layoutSidenav_content">
+            <main>
+                @RenderBody()
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Municipalidad San Pablo Heredia</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr class="d-none d-xxl-block">
-        <footer class=" d-none d-xxl-block">
-            <p>&copy; @DateTime.Now.Year - Municipalidad de San Pablo de Heredia</p>
-        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/Home")
+    @Scripts.Render("~/bundles/AdminScript")
     @RenderSection("scripts", required: false)
 </body>
 </html>

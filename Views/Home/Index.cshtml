@@ -1,9 +1,11 @@
 ﻿@{
     ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @Scripts.Render("~/bundles/Register")
 <link href="~/Content/Home.css" rel="stylesheet">
-<div id="main-wrapper" class="container">
+<div style="margin-top: 30px" id="main-wrapper" class="container">
     <div class="row justify-content-center">
         <div class="col-xl-10">
             <div class="card border-2">
@@ -60,7 +62,6 @@
             <!-- end card -->
 
             <p class="text-muted text-center mt-3 mb-0">No tienes una cuenta? <a href='@Url.Action("RegistrarUsuarioExterno", "Home")' class="text-primary ml-1">Regístrate</a></p>
-            <p class="text-muted text-center mt-3 mb-0">Ver  <a href='@Url.Action("IframeLimpio", "Home")' class="text-primary ml-1">Mapa de Pymes</a></p>
             <!-- end row -->
 
         </div>
@@ -83,53 +84,53 @@
 
         if (email == "") {
             errorMessage += "Debe ingresar su correo electrónico.\n";
-       
-
-        if (password == "") {
-            errorMessage += "Debe ingresar una contraseña.\n";
-       
-
-        // Mostrar el mensaje de error o enviar el formulario
-        if (errorMessage != "") {
-            alert(errorMessage);
-        } else {
-            document.getElementById("registration-form").submit();
-        }
-    };
 
 
-  /*
-    const email = document.getElementById("correo");
-    const errorCorreo = document.getElementById("invalid-email");
-    email.addEventListener("blur", function () {
-        if (!email.value) {
-            email.classList.add("is-invalid");
-            errorCorreo.textContent = "Por favor ingrese un correo electrónico valido"
-        } else if (!esCorreo(email.value)) {
-            email.classList.add("is-invalid");
-            errorCorreo.textContent = "Por favor ingrese un correo electrónico valido"
-        } else {
-            email.classList.remove("is-invalid");
-        }
-    });
+            if (password == "") {
+                errorMessage += "Debe ingresar una contraseña.\n";
 
-   
 
-    const password = document.getElementById("password");
-    const errorPassword = document.getElementById("invalid-password");
-    password.addEventListener("blur", function () {
-        if (!password.value) {
-            errorPassword.textContent = "Por favor digite su contraseña"
-            password.classList.add("is-invalid");
-        } else if (!esContrasena(password.value)) {
-            password.classList.add("is-invalid");
-            errorPassword.textContent = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número"
-        } else {
-            password.classList.remove("is-invalid");
-        }
-    });
+                // Mostrar el mensaje de error o enviar el formulario
+                if (errorMessage != "") {
+                    alert(errorMessage);
+                } else {
+                    document.getElementById("registration-form").submit();
+                }
+            };
 
-*/
+
+    /*
+      const email = document.getElementById("correo");
+      const errorCorreo = document.getElementById("invalid-email");
+      email.addEventListener("blur", function () {
+          if (!email.value) {
+              email.classList.add("is-invalid");
+              errorCorreo.textContent = "Por favor ingrese un correo electrónico valido"
+          } else if (!esCorreo(email.value)) {
+              email.classList.add("is-invalid");
+              errorCorreo.textContent = "Por favor ingrese un correo electrónico valido"
+          } else {
+              email.classList.remove("is-invalid");
+          }
+      });
+
+
+
+      const password = document.getElementById("password");
+      const errorPassword = document.getElementById("invalid-password");
+      password.addEventListener("blur", function () {
+          if (!password.value) {
+              errorPassword.textContent = "Por favor digite su contraseña"
+              password.classList.add("is-invalid");
+          } else if (!esContrasena(password.value)) {
+              password.classList.add("is-invalid");
+              errorPassword.textContent = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número"
+          } else {
+              password.classList.remove("is-invalid");
+          }
+      });
+
+  */
 
 
 </script>
