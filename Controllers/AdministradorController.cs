@@ -362,6 +362,15 @@ namespace SIPYME.Controllers
             object resultado;
             string mensaje = string.Empty;
             resultado = Service.Service.PlataformistaEliminaPyme(objeto);
+            if (resultado !=null)
+            {
+                mensaje = "Se elimino la pyme de manera correcta.";
+            }
+            else
+            {
+                mensaje = "Ocurrio un error al intentar eliminar la pyme";
+            }
+           
 
             return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 

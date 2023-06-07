@@ -613,7 +613,7 @@
         ced.addEventListener("blur", function () {
             if (!ced.value) {
                 ced.classList.add("is-invalid");
-                errorCed.textContent = "Por favor su cedula de identidad"
+                errorCed.textContent = "Por favor la cedula de identidad"
             } else if (!esCedula(ced.value)) {
                 ced.classList.add("is-invalid");
                 errorCed.textContent = "Por favor ingrese una cedula de identidad valida, sin espacios ni guiones"
