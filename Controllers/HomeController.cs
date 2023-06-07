@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using SIPYME.Logic;
+using SIPYME.Models;
 using System.Web.Security;
 namespace SIPYME.Controllers
 {
@@ -57,7 +58,27 @@ namespace SIPYME.Controllers
 
             return View();
         }
+        [HttpGet]
+        public JsonResult MostrarTodasLasPymes()
+        {
+            //PARA mostrar pymes
+            List<PymeModel> pLista = new List<PymeModel>();
 
+
+            List<Pyme> pymes = Service.Service.ListaPyme();
+
+            foreach (Pyme pyme in pymes)
+            {
+                PymeModel unitmodelo = new PymeModel();
+                unitmodelo.pyme = pyme;
+                unitmodelo.fotosProducto = Service.Service.listaFotosProductoPorPyme(pyme.Id);
+                unitmodelo.fotosPyme = Service.Service.listaFotosPymePorPyme(pyme.Id);
+                pLista.Add(unitmodelo);
+            }
+
+            return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
+
+        }
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

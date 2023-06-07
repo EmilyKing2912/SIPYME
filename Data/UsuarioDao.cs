@@ -101,7 +101,7 @@ namespace SIPYME.Data
         {
             using (MySqlConnection cn = new MySqlConnection(Conection.cn))
             {
-                string sql = "DELETE FROM  fotos_pyme WHERE id_Pyme =" + idPy;
+                string sql = "DELETE FROM  fotos_producto WHERE id_Pyme =" + idPy;
                 using (MySqlCommand command = new MySqlCommand(sql, cn))
                 {
 

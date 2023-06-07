@@ -217,13 +217,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <form action='@Url.Action("EditaPyme", "Plataformista")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form2">
+                <form action='@Url.Action("EditaPyme", "Usuario")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form2">
                     <input id="editsave" type="hidden" value="0" />
 
 
 
                     <div class="row">
-
+                        <div class="col-sm-12 text-center justify-content-center align-items-center">
+                            <img id="img-logo" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                        </div>
                         <input id="latitud2" name="Latitud" type="hidden" class="form-control" />
                         <input id="longitud2" name="Longitud" type="hidden" class="form-control" />
 
@@ -255,7 +257,6 @@
                             <label class="form-label" for="phone">Teléfono</label>
                             <div class="invalid-feedback" id="invalid-numerl-tel2">
                             </div>
-
                         </div>
 
 
@@ -309,13 +310,27 @@
                             <input type="url" id="sitioWeb2" name="sitioWeb" class="form-control" placeholder="Sitio Web" />
                             <label class="form-label" for="sitioWeb">Sitio Web</label>
                         </div>
-
-                        <div class="col-sm-12">
-                            <img id="img-logo" class="img-fluid rounded-circle mt-2 mb-2" alt="Imagen" style="max-width: 200px;">
+                        <div class="col-sm-4 mt-3 form-floating">
+                            <h7 class="form-label">Editar Logo:  </h7>
                         </div>
-                        <div class="col-sm-12 ">
-                            <label for="logo" class="form-label">Editar Logo:</label>
+                        <div class="col-sm-4 mt-3 form-floating">
+                            <h7 class="form-label">Subir mas fotos del producto </h7>
+                        </div>
+                        <div class="col-sm-4 mt-3 form-floating">
+                            <h7 class="form-label">Subir mas fotos de Pyme </h7>
+                        </div>
+
+                        <div class="col-sm-4 form-floating">
+
                             <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo" name="upload">
+                        </div>
+
+                        <div class="col-sm-4 mt-2 form-floating">
+                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo2" name="producto" multiple>
+                        </div>
+
+                        <div class="col-sm-4 mt-2 form-floating">
+                            <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="logo3" name="pyme" multiple>
                         </div>
 
 
@@ -853,7 +868,7 @@
                  console.log(Foto)
     // Ejemplo de uso de AJAX con jQuery
                  jQuery.ajax({
-        url: '@Url.Action("EliminarFotoPyme", "Usuario")',
+        url: '@Url.Action("EliminarFotoPyme", "Plataformista")',
         type: "POST",
         data: JSON.stringify({ objeto: Foto }),
         dataType: "json",
@@ -890,7 +905,7 @@ var Foto = {
         };
     // Ejemplo de uso de AJAX con jQuery
                  jQuery.ajax({
-        url: '@Url.Action("EliminarFotoProducto", "Usuario")',
+        url: '@Url.Action("EliminarFotoProducto", "Plataformista")',
         type: "POST",
         data: JSON.stringify({ objeto: Foto }),
         dataType: "json",

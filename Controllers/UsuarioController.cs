@@ -78,27 +78,7 @@ namespace SIPYME.Controllers
 
         }
 
-        [HttpGet]
-        public JsonResult MostrarTodasLasPymes()
-        {
-            //PARA mostrar pymes
-            List<PymeModel> pLista = new List<PymeModel>();
 
-
-            List<Pyme> pymes = Service.Service.ListaPyme();
-
-            foreach (Pyme pyme in pymes)
-            {
-                PymeModel unitmodelo = new PymeModel();
-                unitmodelo.pyme = pyme;
-                unitmodelo.fotosProducto = Service.Service.listaFotosProductoPorPyme(pyme.Id);
-                unitmodelo.fotosPyme = Service.Service.listaFotosPymePorPyme(pyme.Id);
-                pLista.Add(unitmodelo);
-            }
-
-            return Json(new { data = pLista }, JsonRequestBehavior.AllowGet);
-
-        }
 
 
 
@@ -107,12 +87,14 @@ namespace SIPYME.Controllers
 
 
         [HttpPost]
-        public ActionResult EditaPyme(Pyme objeto, HttpPostedFileBase upload)
+        public ActionResult EditaPyme(Pyme objeto, HttpPostedFileBase upload, HttpPostedFileBase[] producto, HttpPostedFileBase[] pyme)
         {
             object resultado;
             string mensaje = string.Empty;
 
-
+            List<Foto> fotospyme = new List<Foto>();
+           
+            List<Foto> fotosproducto = new List<Foto>();
 
             objeto.Estado_pyme = "Pendiente";
 
@@ -125,8 +107,77 @@ namespace SIPYME.Controllers
                 }
                 objeto.Logo = imagenData;
             }
- 
 
+            try
+            {
+                if (producto != null && producto.Length > 0)
+                {
+
+
+                    foreach (var archivo in producto)
+                    {
+                        if (archivo != null && archivo.ContentLength > 0)
+                        {
+                            byte[] imagenData = null;
+                            using (var imagen = new BinaryReader(archivo.InputStream))
+                            {
+                                imagenData = imagen.ReadBytes(archivo.ContentLength);
+                            }
+
+                            Foto fotos = new Foto();
+                            fotos.CantidadByte = imagenData;
+                            fotos.PymeId = objeto.Id;
+
+                            fotosproducto.Add(fotos);
+                        }
+                    }
+
+                    // Ahora puedes asignar la lista "fotosproducto" a tu objeto o hacer cualquier otra operación necesaria
+                }
+
+                if (fotosproducto.Count != 0)
+                    Service.Service.registrarFotosProducto(fotosproducto);
+
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                if (pyme != null && pyme.Length > 0)
+                {
+
+
+                    foreach (var archivo in pyme)
+                    {
+                        if (archivo != null && archivo.ContentLength > 0)
+                        {
+                            byte[] imagenData = null;
+                            using (var imagen = new BinaryReader(archivo.InputStream))
+                            {
+                                imagenData = imagen.ReadBytes(archivo.ContentLength);
+                            }
+
+                            Foto fotos = new Foto();
+                            fotos.CantidadByte = imagenData;
+                            fotos.PymeId = objeto.Id;
+                            fotospyme.Add(fotos);
+                        }
+                    }
+
+                    // Ahora puedes asignar la lista "fotosproducto" a tu objeto o hacer cualquier otra operación necesaria
+                }
+                if (fotospyme.Count != 0)
+                    Service.Service.registrarFotosPyme(fotospyme);
+
+
+            }
+            catch (Exception e)
+            {
+
+            }
 
 
             resultado = Service.Service.usuarioEditaPyme(objeto, out mensaje);

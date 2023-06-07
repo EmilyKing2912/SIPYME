@@ -123,6 +123,7 @@ namespace Service
             {
                 UsuarioDao.eliminarFotosProducto(p.Id);
                 UsuarioDao.eliminarFotosPyme(p.Id);
+                PlataformistaDao.eliminarEstadoPyme(p.Id);
                 UsuarioDao.eliminarPyme(p);
                
                 return true;
@@ -139,6 +140,7 @@ namespace Service
             {
                 PlataformistaDao.eliminarFotosProducto(p.Id);
                 PlataformistaDao.eliminarFotosPyme(p.Id);
+                PlataformistaDao.eliminarEstadoPyme(p.Id);
                 PlataformistaDao.eliminarPyme(p);
 
                 return true;
@@ -350,7 +352,7 @@ namespace Service
             try
             {
                 PlataformistaDao.rechazarPyme(u);
-                //AdminDao.trg_after_updestado_pymes();
+                AdminDao.trg_after_updestado_pymes();
                 return true;
             }
             catch (Exception e)
@@ -366,7 +368,7 @@ namespace Service
             {
 
                 PlataformistaDao.aprobarPyme(u);
-                //AdminDao.trg_after_updestado_pymes();
+                AdminDao.trg_after_updestado_pymes();
                 return true;
             }
             catch (Exception e)
@@ -381,7 +383,7 @@ namespace Service
             try
             {
                 AdminDao.rechazarPyme(u);
-                //AdminDao.trg_after_updestado_pymes();
+                AdminDao.trg_after_updestado_pymes();
                 return true;
             }
             catch (Exception e)
@@ -395,7 +397,7 @@ namespace Service
             try
             {
                 UsuarioDao.eliminarFotosProductoByID(id);
-                //AdminDao.trg_after_update_usuarios();
+           
                 return true;
             }
             catch (Exception e)
@@ -409,7 +411,7 @@ namespace Service
             try
             {
                 UsuarioDao.eliminarFotosPymeByID(id);
-                //AdminDao.trg_after_update_usuarios();
+             
                 return true;
             }
             catch (Exception e)
@@ -425,7 +427,7 @@ namespace Service
             {
 
                 AdminDao.aprobarPyme(u);
-                //AdminDao.trg_after_updestado_pymes();
+                AdminDao.trg_after_updestado_pymes();
                 return true;
             }
             catch (Exception e)

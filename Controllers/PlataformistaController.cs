@@ -15,6 +15,7 @@ using SIPYME.Permisos;
 namespace SIPYME.Controllers
 {
     [PermisosRol(3)]
+    
     public class PlataformistaController : Controller
     {
         // GET: Plataformista
@@ -28,7 +29,26 @@ namespace SIPYME.Controllers
         {
             return View("ListarPymesPlataformista", lalista());
         }
+        [HttpPost]
+        public JsonResult EliminarFotoProducto(Foto objeto)
+        {
+            object resultado;
+            string mensaje = string.Empty;
+            resultado = Service.Service.elimnaFotoProducto(objeto.ID);
 
+            return Json(new { resultado = resultado }, JsonRequestBehavior.AllowGet);
+
+        }
+        [HttpPost]
+        public JsonResult EliminarFotoPyme(Foto objeto)
+        {
+            object resultado;
+            string mensaje = string.Empty;
+            resultado = Service.Service.elimnaFotoPyme(objeto.ID);
+
+            return Json(new { resultado = resultado }, JsonRequestBehavior.AllowGet);
+
+        }
         private List<SelectListItem> lalista()
         {
 
@@ -90,16 +110,107 @@ namespace SIPYME.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditaPyme(Pyme objeto)
+        public ActionResult EditaPyme(Pyme objeto, HttpPostedFileBase upload, HttpPostedFileBase[] producto, HttpPostedFileBase[] pyme)
         {
             object resultado;
             string mensaje = string.Empty;
+
+            List<Foto> fotospyme = new List<Foto>();
+
+            List<Foto> fotosproducto = new List<Foto>();
+
             objeto.Estado_pyme = "Pendiente";
+
+            if (upload != null && upload.ContentLength > 0)
+            {
+                byte[] imagenData = null;
+                using (var imagen = new BinaryReader(upload.InputStream))
+                {
+                    imagenData = imagen.ReadBytes(upload.ContentLength);
+                }
+                objeto.Logo = imagenData;
+            }
+
+            try
+            {
+                if (producto != null && producto.Length > 0)
+                {
+
+
+                    foreach (var archivo in producto)
+                    {
+                        if (archivo != null && archivo.ContentLength > 0)
+                        {
+                            byte[] imagenData = null;
+                            using (var imagen = new BinaryReader(archivo.InputStream))
+                            {
+                                imagenData = imagen.ReadBytes(archivo.ContentLength);
+                            }
+
+                            Foto fotos = new Foto();
+                            fotos.CantidadByte = imagenData;
+                            fotos.PymeId = objeto.Id;
+
+                            fotosproducto.Add(fotos);
+                        }
+                    }
+
+                    // Ahora puedes asignar la lista "fotosproducto" a tu objeto o hacer cualquier otra operación necesaria
+                }
+
+                if (fotosproducto.Count != 0)
+                    Service.Service.registrarFotosProducto(fotosproducto);
+
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            try
+            {
+                if (pyme != null && pyme.Length > 0)
+                {
+
+
+                    foreach (var archivo in pyme)
+                    {
+                        if (archivo != null && archivo.ContentLength > 0)
+                        {
+                            byte[] imagenData = null;
+                            using (var imagen = new BinaryReader(archivo.InputStream))
+                            {
+                                imagenData = imagen.ReadBytes(archivo.ContentLength);
+                            }
+
+                            Foto fotos = new Foto();
+                            fotos.CantidadByte = imagenData;
+                            fotos.PymeId = objeto.Id;
+                            fotospyme.Add(fotos);
+                        }
+                    }
+
+                    // Ahora puedes asignar la lista "fotosproducto" a tu objeto o hacer cualquier otra operación necesaria
+                }
+                if (fotospyme.Count != 0)
+                    Service.Service.registrarFotosPyme(fotospyme);
+
+
+            }
+            catch (Exception e)
+            {
+
+            }
+
 
             resultado = Service.Service.usuarioEditaPyme(objeto, out mensaje);
 
+
+
+
+
             ViewData["Mensaje"] = mensaje;
-            return View("ListarPymesPlataformista", lalista());
+            return View("ListarPymes", lalista());
 
 
 

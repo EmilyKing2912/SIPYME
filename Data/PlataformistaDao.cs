@@ -83,6 +83,24 @@ namespace SIPYME.Data
                 }
             }
         }
+
+
+        // elimina todos los estados que ha tenido la pyme
+        public static void eliminarEstadoPyme(int idPy)
+        {
+            using (MySqlConnection cn = new MySqlConnection(Conection.cn))
+            {
+                string sql = "DELETE FROM  estado_pyme WHERE id_Pyme =" + idPy;
+                using (MySqlCommand command = new MySqlCommand(sql, cn))
+                {
+
+                    cn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
         //public static void eliminarPymesSegunIdUsuario(String id)
         //{
         //    using (MySqlConnection cn = new MySqlConnection(Conection.cn))

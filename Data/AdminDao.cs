@@ -19,6 +19,9 @@ namespace SIPYME.Data
             List<Pyme> pymes = UsuarioDao.listarPymesUsuario(usuario.Cedula);
             for (int i = 0; i < pymes.Count; i++)
             {
+                PlataformistaDao.eliminarEstadoPyme(pymes[i].Id);
+                UsuarioDao.eliminarFotosPyme(pymes[i].Id);
+                UsuarioDao.eliminarFotosProducto(pymes[i].Id);
                 UsuarioDao.eliminarPyme(pymes[i]);
             }
 

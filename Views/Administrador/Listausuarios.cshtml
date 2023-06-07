@@ -61,7 +61,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button"id="eliminar-usuario" onclick="cerrarModadDeConfirmacion()" class="btn btn-primary">Eliminar</button>
+                <button type="button"id="eliminar-usuario" class="btn btn-primary">Eliminar</button>
             </div>
         </div>
     </div>
@@ -336,7 +336,7 @@
 
                         if (data.resultado) {
                             datas.Estado = 1;
-                            tabladata.row(filaSeleccionada).remove().draw(false);
+                            tabladata.row(filaSeleccionadaEliminar).remove().draw(false);
 
                         } else {
                             alert(data.mensaje);
@@ -668,7 +668,7 @@
 
                 filaSeleccionadaEliminar = $(this).closest("tr");
 
-                datas = tabladata.row(filaSeleccionada).data();
+                datas = tabladata.row(filaSeleccionadaEliminar).data();
                 abirModalDeConfirmacion()
 
 
