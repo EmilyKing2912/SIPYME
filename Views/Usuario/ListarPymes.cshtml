@@ -719,6 +719,8 @@
             marcador.addListener('dragend', function (event) {
                 latitudDB1 = this.getPosition().lat();
                 longitudDB1 = this.getPosition().lng();
+                console.log("latitud :", latitudDB1);
+                console.log("latitud :", longitudDB1);
             });
         }
 
@@ -1011,7 +1013,7 @@ var Foto = {
                 lng: new Decimal(json.pyme.Longitud),
                 lat: new Decimal(json.pyme.Latitud)
             }
-            generarMapa(cordenadas, "mapa2")
+            generarMapaEditar(cordenadas, "mapa2")
             var imgElement = document.getElementById("img-logo")
             if (json.pyme.Logo != null) {
                 let arrayBuffer = new Uint8Array(json.pyme.Logo);
