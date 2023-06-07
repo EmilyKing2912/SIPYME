@@ -350,7 +350,7 @@ namespace Service
             try
             {
                 PlataformistaDao.rechazarPyme(u);
-                //AdminDao.trg_after_update_usuarios();
+                //AdminDao.trg_after_updestado_pymes();
                 return true;
             }
             catch (Exception e)
@@ -366,7 +366,7 @@ namespace Service
             {
 
                 PlataformistaDao.aprobarPyme(u);
-                //AdminDao.trg_after_update_usuarios();
+                //AdminDao.trg_after_updestado_pymes();
                 return true;
             }
             catch (Exception e)
@@ -381,7 +381,7 @@ namespace Service
             try
             {
                 AdminDao.rechazarPyme(u);
-                //AdminDao.trg_after_update_usuarios();
+                //AdminDao.trg_after_updestado_pymes();
                 return true;
             }
             catch (Exception e)
@@ -425,7 +425,7 @@ namespace Service
             {
 
                 AdminDao.aprobarPyme(u);
-                //AdminDao.trg_after_update_usuarios();
+                //AdminDao.trg_after_updestado_pymes();
                 return true;
             }
             catch (Exception e)

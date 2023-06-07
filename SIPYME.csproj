@@ -291,7 +291,7 @@
     <Compile Include="Controllers\AdministradorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlataformistaController.cs" />
-    <Compile Include="Controllers\UsuarioContoller.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Data\AdminDao.cs" />
     <Compile Include="Data\Conection.cs" />
     <Compile Include="Data\PlataformistaDao.cs" />
@@ -307,6 +307,7 @@
     <Compile Include="Logic\Usuario.cs" />
     <Compile Include="Models\PymeModel.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Include="Permisos\PermisosRolAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
@@ -782,6 +783,7 @@
     <Content Include="Views\Plataformista\ListarPymesPlataformista.cshtml" />
     <Content Include="Views\Home\IframeLimpio.cshtml" />
     <Content Include="Views\Shared\_LayoutIframeLimpio.cshtml" />
+    <Content Include="Views\Home\SinPermiso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

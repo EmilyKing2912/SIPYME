@@ -10,11 +10,11 @@ using System.Web.Mvc;
 using System.IO;
 using System.Collections;
 using SIPYME.Models;
-
-
+using SIPYME.Permisos;
 
 namespace SIPYME.Controllers
 {
+    [PermisosRol(3)]
     public class PlataformistaController : Controller
     {
         // GET: Plataformista

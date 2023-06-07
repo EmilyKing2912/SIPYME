@@ -75,7 +75,12 @@ namespace SIPYME.Controllers
             return View();
         }
 
+        public ActionResult SinPermiso()
+        {
+            ViewBag.Message = "No cuenta con permisos para ver esta página";
 
+            return View();
+        }
 
 
         [HttpPost]
@@ -160,6 +165,7 @@ namespace SIPYME.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session["usuario"] = null;
             return RedirectToAction("index", "Home");
         }
 

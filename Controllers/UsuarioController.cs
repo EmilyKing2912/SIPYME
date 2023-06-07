@@ -10,8 +10,11 @@ using SIPYME.Models;
 using System.Web.Mvc;
 using System.IO;
 using System.Collections;
+using SIPYME.Permisos;
+
 namespace SIPYME.Controllers
 {
+    [PermisosRol(2)]
     public class UsuarioController : Controller
     {
 

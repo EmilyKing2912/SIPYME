@@ -4,8 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SIPYME.Logic;
+using SIPYME.Permisos;
+
 namespace SIPYME.Controllers
 {
+    [PermisosRol(1)]
     public class AdministradorController : Controller
     {
         public ActionResult ViewAdmin()
