@@ -209,7 +209,7 @@ namespace SIPYME.Controllers
 
 
             ViewData["Mensaje"] = mensaje;
-            return View("ListarPymes", lalista());
+            return View("ListarPymesAdministrador", lalista());
 
 
 
