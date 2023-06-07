@@ -104,11 +104,24 @@
                         <label class="form-label" for="id">ID</label>
                     </div>
 
+
                     <div class="col-sm-6 mt-2 form-floating">
-                        <input type="number" name="Id_usuario" id="id_usuario" class="form-control" placeholder="id " required title="Se asigna automaticamente luego de registrar la Pyme"  />
-                        <label class="form-label" for="id">ID Usuario</label>
+                        <input type="text" name="estado_pyme" id="estado" class="form-control" placeholder="estado " value="Pendiente" disabled />
+                        <label class="form-label" for="estado">Estado</label>
                     </div>
 
+
+
+                    <div class="col-sm-6 mt-2 form-floating">
+                        <input id="id_usuario2" name="Id_usuario" type="text" class="form-control" placeholder="Id Usuario " required />
+                        <label class="form-label" for="id">ID Usuario</label>
+
+                        <div class="invalid-feedback" id="invalid-ced">
+
+                        </div>
+
+
+                    </div>
 
 
 
@@ -508,12 +521,21 @@
             var areaTab = document.getElementById("comboboxAreaTrabajo").value;
             var latitu = latitudDB;
             var longitu = longitudDB;
+            var idusuario = document.getElementById("id_usuario2").value;
 
             // Validar los campos requeridos
             var errorMessage = "";
             if (name == "") {
                 errorMessage += "Debe ingresar el nombre .\n";
             }
+
+            if (idusuario == "") {
+                errorMessage += "Debe ingresar la cédula del usuario .\n";
+            }
+
+
+
+
             if (areaTab == "") {
                 errorMessage += "Debe seleccionar el area de trabajo.\n";
             }
@@ -555,6 +577,23 @@
                 name.classList.remove("is-invalid");
             }
         });
+
+        const ced = document.getElementById("id_usuario2");
+        const errorCed = document.getElementById("invalid-ced");
+        ced.addEventListener("blur", function () {
+            if (!ced.value) {
+                ced.classList.add("is-invalid");
+                errorCed.textContent = "Por favor su cedula de identidad"
+            } else if (!esCedula(ced.value)) {
+                ced.classList.add("is-invalid");
+                errorCed.textContent = "Por favor ingrese una cedula de identidad valida, sin espacios ni guiones"
+            } else {
+                ced.classList.remove("is-invalid");
+            }
+        });
+
+
+
         const areaT = document.getElementById("comboboxAreaTrabajo");
         areaT.addEventListener("blur", function () {
             if (!areaT.value) {
