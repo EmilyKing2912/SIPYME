@@ -40,20 +40,22 @@ namespace SIPYME.Data
         public static void trg_after_updestado_pymes()
         {
             string createTriggerQuery = @"
-                DROP TRIGGER IF EXISTS after_updestado_pymes;
-                CREATE TRIGGER after_updestado_pymes
-                AFTER UPDATE ON Pyme
-                FOR EACH ROW
-             IF OLD.estado <> NEW.estado THEN
-                    INSERT INTO Bitacora(fecha, descripcion, usuario_editor)
-                    VALUES(
-                    now(),
-                    CONCAT('La pyme con el ID: ', NEW.id, ' ha sido editado en su estado, anterior: ', OLD.estado, ', nuevo estado:', NEW.estado),
-                    @sessionValue
-                    );
-                    END IF;
-             END;
-            ";
+    DROP TRIGGER IF EXISTS after_updestado_pymes;
+    CREATE TRIGGER after_updestado_pymes
+    AFTER UPDATE ON Pyme
+    FOR EACH ROW
+    BEGIN
+        IF OLD.estado <> NEW.estado THEN
+            INSERT INTO Bitacora(fecha, descripcion, usuario_editor)
+            VALUES(
+                NOW(),
+                CONCAT('La pyme con el ID: ', NEW.id, ' ha sido editado en su estado, anterior: ', OLD.estado, ', nuevo estado:', NEW.estado),
+                @sessionValue
+            );
+        END IF;
+    END;
+";
+
 
             using (MySqlConnection connection = new MySqlConnection(Conection.cn))
             {

@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "ListarPymesPlataformista";
-    Layout = "~/Views/Shared/_LayoutPlataformista.cshtml";
+    ViewBag.Title = "ListarPymesAdministrador";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     List<SelectListItem> lst = ViewBag.ComboBoxData;
 }
 
@@ -34,7 +34,7 @@
 
 
             <hr />
-            <table id="tabla" class="display cell-border" style="width: 100%">
+            <table id="tablaAdmin" class="display cell-border" style="width: 100%">
                 <thead>
                 <th>ID</th>
                 <th>Nombre</th>
@@ -90,7 +90,7 @@
 
 
 
-            <form action='@Url.Action("RegistraPyme", "Plataformista")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form">
+            <form action='@Url.Action("RegistraPyme", "Administrador")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form">
                 <input id="editsave" type="hidden" value="0" />
 
 
@@ -105,27 +105,17 @@
                     </div>
 
                     <div class="col-sm-6 mt-2 form-floating">
-                        <input type="text" name="estado_pyme" id="estado" class="form-control" placeholder="estado " value="Pendiente" disabled />
-                        <label class="form-label" for="estado">Estado</label>
+                        <input type="number" name="Id_usuario" id="id_usuario" class="form-control" placeholder="id " required title="Se asigna automaticamente luego de registrar la Pyme"  />
+                        <label class="form-label" for="id">ID Usuario</label>
                     </div>
+
+
 
 
                     <div class="col-sm-6 mt-2 form-floating">
-                        <input id="id_usuario2" name="Id_usuario" type="text" class="form-control" placeholder="Id Usuario " required />
-                        <label class="form-label" for="id">ID Usuario</label>
-
-                        <div class="invalid-feedback" id="invalid-ced">
-
-                        </div>
-
-
+                        <input type="text" name="estado_pyme" id="estado" class="form-control" placeholder="estado " value="Pendiente" disabled />
+                        <label class="form-label" for="estado">Estado</label>
                     </div>
-
-
-
-
-
-
 
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="text" name="nombre" id="name" class="form-control" placeholder="Nombre " required />
@@ -236,7 +226,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <form action='@Url.Action("EditaPyme", "Usuario")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form2">
+                <form action='@Url.Action("EditaPyme", "Administrador")' enctype="multipart/form-data" method="post" class="mx-1 mx-md-4 mb-4" id="registration-form2">
                     <input id="editsave" type="hidden" value="0" />
 
 
@@ -251,7 +241,7 @@
 
 
                         <div class="col-sm-6 mt-2 form-floating">
-                            <input id="id_usuario" name="Id_usuario" type="text" class="form-control" readonly />
+                            <input id="id_usuario" name="Id_usuario" type="text" class="form-control" required />
                             <label class="form-label" for="id">ID Usuario</label>
                         </div>
 
@@ -519,22 +509,11 @@
             var latitu = latitudDB;
             var longitu = longitudDB;
 
-            var idusuario = document.getElementById("id_usuario2").value;
-
-
-
-
             // Validar los campos requeridos
             var errorMessage = "";
             if (name == "") {
                 errorMessage += "Debe ingresar el nombre .\n";
             }
-            if (idusuario == "") {
-                errorMessage += "Debe ingresar la cédula del usuario .\n";
-            }
-
-
-
             if (areaTab == "") {
                 errorMessage += "Debe seleccionar el area de trabajo.\n";
             }
@@ -576,28 +555,6 @@
                 name.classList.remove("is-invalid");
             }
         });
-
-        const ced = document.getElementById("id_usuario2");
-        const errorCed = document.getElementById("invalid-ced");
-        ced.addEventListener("blur", function () {
-            if (!ced.value) {
-                ced.classList.add("is-invalid");
-                errorCed.textContent = "Por favor su cedula de identidad"
-            } else if (!esCedula(ced.value)) {
-                ced.classList.add("is-invalid");
-                errorCed.textContent = "Por favor ingrese una cedula de identidad valida, sin espacios ni guiones"
-            } else {
-                ced.classList.remove("is-invalid");
-            }
-        });
-
-
-
-
-
-
-
-
         const areaT = document.getElementById("comboboxAreaTrabajo");
         areaT.addEventListener("blur", function () {
             if (!areaT.value) {
@@ -755,7 +712,7 @@
 
 
         jQuery.ajax({
-        url: '@Url.Action("MostrarTodasLasPymes", "Plataformista")',
+        url: '@Url.Action("MostrarTodasLasPymes", "Administrador")',
         type: "GET",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -777,11 +734,11 @@
         var datasTemp;
         var tempRech;
 
-    tabladata = $("#tabla").DataTable({
+        tabladata = $("#tablaAdmin").DataTable({
         responsive: true,
         ordering: false,
         "ajax": {
-            url: '@Url.Action("MostrarTodasLasPymes", "Plataformista")',
+            url: '@Url.Action("MostrarTodasLasPymes", "Administrador")',
             type: "GET",
             dataType: "json",
         },
@@ -862,7 +819,7 @@
 
 
         //guarda la pyme a actualizar, se hace un temporal debido a que el logo es una cadena y eso hace que se corrompa el objeto.
-        $("#tabla tbody").on("click", '.btn-rechazar', function () {
+        $("#tablaAdmin tbody").on("click", '.btn-rechazar', function () {
 
             filaSeleccionadaRechazar = $(this).closest("tr");
             datasRech = tabladata.row(filaSeleccionadaRechazar).data();
@@ -882,7 +839,7 @@
             razonRech.Id = null;
             console.log(razonRech);
             jQuery.ajax({
-                            url: '@Url.Action("PlataformistaRazonRechazo", "Plataformista")',
+                            url: '@Url.Action("PlataformistaRazonRechazo", "Administrador")',
                             type: "POST",
                             data: JSON.stringify({ objeto: razonRech }),
                             dataType: "json",
@@ -920,7 +877,7 @@
                  console.log(Foto)
     // Ejemplo de uso de AJAX con jQuery
                  jQuery.ajax({
-        url: '@Url.Action("EliminarFotoPyme", "Plataformista")',
+        url: '@Url.Action("EliminarFotoPyme", "Administrador")',
         type: "POST",
         data: JSON.stringify({ objeto: Foto }),
         dataType: "json",
@@ -957,7 +914,7 @@ var Foto = {
         };
     // Ejemplo de uso de AJAX con jQuery
                  jQuery.ajax({
-        url: '@Url.Action("EliminarFotoProducto", "Plataformista")',
+        url: '@Url.Action("EliminarFotoProducto", "Administrador")',
         type: "POST",
         data: JSON.stringify({ objeto: Foto }),
         dataType: "json",
@@ -989,7 +946,7 @@ var Foto = {
         function rechazar() {
 
                 jQuery.ajax({
-                    url: '@Url.Action("RechazaPyme", "Plataformista")',
+                    url: '@Url.Action("RechazaPyme", "Administrador")',
                     type: "POST",
                     data: JSON.stringify({ objeto: tempRech }),
                     dataType: "json",
@@ -1035,7 +992,7 @@ var Foto = {
         function eliminar() {
 
                 jQuery.ajax({
-                    url: '@Url.Action("EliminarPyme", "Plataformista")',
+                    url: '@Url.Action("EliminarPyme", "Administrador")',
                     type: "POST",
                     data: JSON.stringify({ objeto: datas}),
                     dataType: "json",
@@ -1057,7 +1014,7 @@ var Foto = {
                     },
                 })
         }
-        $("#tabla tbody").on("click", '.btn-borrar', function () {
+        $("#tablaAdmin tbody").on("click", '.btn-borrar', function () {
 
 
             filaSeleccionadaEliminar = $(this).closest("tr");
@@ -1070,7 +1027,7 @@ var Foto = {
         })
 
         //ACTIVAR PYME METODOS
-        $("#tabla tbody").on("click", '.btn-activar', function () {
+        $("#tablaAdmin tbody").on("click", '.btn-activar', function () {
 
 
             filaSeleccionadaActivar = $(this).closest("tr");
@@ -1085,7 +1042,7 @@ var Foto = {
         function aprobarPyme() {
 
                 jQuery.ajax({
-                    url: '@Url.Action("ActivaPyme", "Plataformista")',
+                    url: '@Url.Action("ActivaPyme", "Administrador")',
                     type: "POST",
                     data: JSON.stringify({ objeto: datasTemp}),
                     dataType: "json",
@@ -1129,7 +1086,7 @@ var Foto = {
                 //$("#ced").val(json.Cedula);
                 //$("#cboactivo").val(json.Estado == 1 ? 1 : 2);
                 //$("#cbtipo").val(json.Tipo == 2 ? 2 : 3);\
-                
+
                 $("#id2").val(json.pyme.Id);
                 $("#estado2").val();
                 $("#id_usuario").val(json.pyme.Id_usuario);
@@ -1284,7 +1241,7 @@ var Foto = {
 
         };
 
-        $("#tabla tbody").on("click", '.btn-editar', function () {
+        $("#tablaAdmin tbody").on("click", '.btn-editar', function () {
 
 
             filaSeleccionada = $(this).closest("tr");

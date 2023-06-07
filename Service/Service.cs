@@ -262,7 +262,7 @@ namespace Service
         public static List<Foto> listaFotosProductoPorPyme(int idpyme)
         { 
         
-                    try
+            try
             {
                 return UsuarioDao.listarFotosProducto(idpyme);
 
