@@ -103,41 +103,22 @@
                         <input type="number" name="id" id="id" class="form-control" placeholder="id " required title="Se asigna automaticamente luego de registrar la Pyme" disabled />
                         <label class="form-label" for="id">ID</label>
                     </div>
-
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="text" name="estado_pyme" id="estado" class="form-control" placeholder="estado " value="Pendiente" disabled />
                         <label class="form-label" for="estado">Estado</label>
                     </div>
 
-
-                    <div class="col-sm-6 mt-2 form-floating">
-                        <input id="id_usuario2" name="Id_usuario" type="text" class="form-control" placeholder="Id Usuario " required />
-                        <label class="form-label" for="id">ID Usuario</label>
-
-                        <div class="invalid-feedback" id="invalid-ced">
-
-                        </div>
-
-
-                    </div>
-
-
-
-
-
-
-
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="text" name="nombre" id="name" class="form-control" placeholder="Nombre " required />
-                        <label class="form-label" for="name">Nombre</label>
+                        <label class="form-label" for="name">Nombre de la Pyme.</label>
                         <div class="invalid-feedback">
-                            Por favor Ingrese el Nombre.
+                            Por favor Ingrese el Nombre de la Pyme.
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="tel" required title="Sin guiones ni espacios." name="numeroTelefono" id="phone" class="form-control" placeholder="Teléfono" required />
-                        <label class="form-label" for="phone">Teléfono</label>
+                        <label class="form-label" for="phone">Teléfono  de la Pyme. </label>
                         <div class="invalid-feedback" id="invalid-numerl-tel">
                         </div>
                     </div>
@@ -145,7 +126,7 @@
 
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="email" id="email" name="correo" class="form-control" placeholder="Correo Electrónico" required />
-                        <label class="form-label" for="email">Correo Electrónico</label>
+                        <label class="form-label" for="email">Correo Electrónico  de la Pyme.</label>
                         <div class="invalid-feedback" id="invalid-email">
 
                         </div>
@@ -157,14 +138,14 @@
                         @Html.DropDownList("areaTrabajo", lst, new { @class = "form-control input_user", id = "comboboxAreaTrabajo" })
 
                         <div class="invalid-feedback">
-                            Favor Seleccione el Area de Trabajo
+                            Favor Seleccione el Area de Trabajo  de la Pyme.
                         </div>
                     </div>
 
 
                     <div class="col-sm-12 mt-2 form-floating">
                         <div class="mb-3">
-                            <label class="form-label" for="descripcion">Descripcion</label>
+                            <label class="form-label" for="descripcion">Descripción de la Pyme.</label>
                             <textarea class="form-control" id="descripcion" rows="4" name="descripcion" required></textarea>
                         </div>
                         <div class="invalid-feedback" id="invalid-descrip">
@@ -173,7 +154,7 @@
 
 
                     <div class="col-sm-12 mt-2 form-floating">
-                        <h6 class="form-label">Favor Indique donde esta su negocio por medio del marcador</h6>
+                        <h6 class="form-label">Favor arrastre el marcador hasta la ubicación de la Pyme</h6>
                     </div>
 
                     <div class="col-sm-12 mt-2 form-floating">
@@ -187,12 +168,12 @@
 
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="url" id="webSocial" name="webSocial" class="form-control" placeholder="Web Social" />
-                        <label class="form-label" for="webSocial"> Web Social</label>
+                        <label class="form-label" for="webSocial"> Web Social de la Pyme</label>
                     </div>
 
                     <div class="col-sm-6 mt-2 form-floating">
                         <input type="url" id="sitioWeb" name="sitioWeb" class="form-control" placeholder="Sitio Web" />
-                        <label class="form-label" for="sitioWeb">Sitio Web</label>
+                        <label class="form-label" for="sitioWeb">Sitio Web de la Pyme</label>
                     </div>
 
                     <div class="col-sm-4 mt-3 form-floating">
@@ -207,6 +188,7 @@
 
                     <div class="col-sm-4 mt-2 form-floating">
                         <input required title="Solo se aceptan archivos png o jpeg" type="file" accept="image/png,image/jpeg" class="form-control-file" id="Rlogo" name="upload">
+                        <div class="invalid-feedback" id="invalid-logo">Las imágenes seleccionadas exceden el tamaño máximo permitido (416000 Bytes).</div>
                     </div>
 
                     <div class="col-sm-4 mt-2 form-floating">
@@ -258,22 +240,22 @@
 
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="text" name="id" id="id2" class="form-control" placeholder="id " readonly />
-                            <label class="form-label" for="id">ID</label>
+                            <label class="form-label" for="id">ID de la Pyme</label>
                         </div>
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="text" name="Estado_pyme" value="Pendiente" id="estado2" class="form-control" placeholder="estado " disabled />
-                            <label class="form-label" for="estado">Estado</label>
+                            <label class="form-label" for="estado">Estado de la Pyme</label>
                         </div>
 
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="text" name="nombre" id="name2" class="form-control" placeholder="Nombre " required />
-                            <label class="form-label" for="name">Nombre</label>
+                            <label class="form-label" for="name">Nombre de la Pyme.</label>
 
                         </div>
 
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="tel" name="numeroTelefono" id="phone2" class="form-control" placeholder="Teléfono" required />
-                            <label class="form-label" for="phone">Teléfono</label>
+                            <label class="form-label" for="phone">Teléfono de la Pyme.</label>
                             <div class="invalid-feedback" id="invalid-numerl-tel2">
                             </div>
                         </div>
@@ -281,7 +263,7 @@
 
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="email" id="email2" name="correo" class="form-control" placeholder="Correo Electrónico" required />
-                            <label class="form-label" for="email">Correo Electrónico</label>
+                            <label class="form-label" for="email">Correo Electrónico de la Pyme.</label>
                             <div class="invalid-feedback" id="invalid-email2">
 
                             </div>
@@ -300,7 +282,7 @@
 
                         <div class="col-sm-12 mt-2 form-floating">
                             <div class="mb-3">
-                                <label class="form-label" for="descripcion">Descripcion</label>
+                                <label class="form-label" for="descripcion">Descripción de la Pyme.</label>
                                 <textarea class="form-control" id="descripcion2" rows="4" name="descripcion" required></textarea>
                             </div>
 
@@ -308,7 +290,7 @@
 
 
                         <div class="col-sm-12 mt-2 form-floating">
-                            <h6 class="form-label">Favor Indique donde esta su negocio por medio del marcador</h6>
+                            <h6 class="form-label">Favor arrastre el marcador hasta la ubicación de la Pyme</h6>
                         </div>
 
                         <div class="col-sm-12 mt-2 form-floating">
@@ -322,12 +304,12 @@
 
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="url" id="webSocial2" name="webSocial" class="form-control" placeholder="Web Social" />
-                            <label class="form-label" for="webSocial"> Web Social</label>
+                            <label class="form-label" for="webSocial"> Web Social de la Pyme</label>
                         </div>
 
                         <div class="col-sm-6 mt-2 form-floating">
                             <input type="url" id="sitioWeb2" name="sitioWeb" class="form-control" placeholder="Sitio Web" />
-                            <label class="form-label" for="sitioWeb">Sitio Web</label>
+                            <label class="form-label" for="sitioWeb">Sitio Web de la Pyme</label>
                         </div>
                         <div class="col-sm-4 mt-3 form-floating">
                             <h7 class="form-label">Editar Logo:  </h7>
@@ -384,9 +366,8 @@
                 </div>
                 <!-- Gallery -->
             </div>
-
             <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
+                <button class="btn btn-primary" data-bs-target="#editar-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
             </div>
         </div>
     </div>
@@ -1160,7 +1141,7 @@ var Foto = {
                 //$("#ced").val(json.Cedula);
                 //$("#cboactivo").val(json.Estado == 1 ? 1 : 2);
                 //$("#cbtipo").val(json.Tipo == 2 ? 2 : 3);\
-                
+
                 $("#id2").val(json.pyme.Id);
                 $("#estado2").val();
                 $("#id_usuario").val(json.pyme.Id_usuario);

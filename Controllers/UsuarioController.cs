@@ -39,7 +39,7 @@ namespace SIPYME.Controllers
             lst.Add(new SelectListItem
             {
                 Value = "",
-                Text = "Seleccionar...",
+                Text = "Seleccionar  Area de Trabajo  de la Pyme",
             });
 
             foreach (AreaTrabajo d in Lista)
